@@ -16,10 +16,9 @@
 | Student Name | Student Email | GitHub Username |
 |    :---:     |     :---:     |     :---:       |
 | jooyoung kim      |   jkim56@mail.sfsu.edu            |     mmecoco            |
-| member2      |               |                 |
-| member3      |               |                 |
-| member4      |               |                 |
-| member5      |               |                 |
-| member6      |               |                 |
+| Jeffrey Ye      | jye4@mail.sfsu.edu              |     jye20             |
+| Bera H. Coskun      |    hasanberacoskun           |    hcoskun@mail.sfsu.edu             |
+| Peter Ijeoma     |    pijeoma@mail.sfsu.edu           |  peterhnijeoma                |
+| Maria Caravez      |    mcaravez@mail.sfsu.edu           |    mariacaravez              |
 
 ## NO code needs to be stored in the root of your repository. You may rename the application folder if you like to your team's application name. But all source code related to your team's application should be stored inside the application folder.
