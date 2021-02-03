@@ -15,7 +15,7 @@
 
 | Student Name | Student Email | GitHub Username |
 |    :---:     |     :---:     |     :---:       |
-| member1      |               |                 |
+| jooyoung kim      |   jkim56@mail.sfsu.edu            |     mmecoco            |
 | member2      |               |                 |
 | member3      |               |                 |
 | member4      |               |                 |
