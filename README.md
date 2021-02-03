@@ -17,7 +17,7 @@
 |    :---:     |     :---:     |     :---:       |
 | jooyoung kim      |   jkim56@mail.sfsu.edu            |     mmecoco            |
 | Jeffrey Ye      | jye4@mail.sfsu.edu              |     jye20             |
-| Bera H. Coskun      |    hasanberacoskun           |    hcoskun@mail.sfsu.edu             |
+| Bera H. Coskun      |    hcoskun@mail.sfsu.edu           |    hasanberacoskun           |
 | Peter Ijeoma     |    pijeoma@mail.sfsu.edu           |  peterhnijeoma                |
 | Maria Caravez      |    mcaravez@mail.sfsu.edu           |    mariacaravez              |
 
