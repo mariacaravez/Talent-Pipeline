@@ -21,7 +21,7 @@
 ============How to connect to the ssh server============
 1. Use SSH Client tool (we used Putty)
 2. Download key and locate it.
-3. Connect with DNS using this command: ssh -i ~/.ssh/whatever-your-key-name-is.pem ubuntu@ec2-52-214-64-31.eu-west-1.compute.amazonaws.com
+3. Connect with DNS using this command: ssh -i ~/.ssh/csc.pem ubuntu@ec2-18-188-8-216.us-east-2.compute.amazonaws.com
 
 ========================================================
 
