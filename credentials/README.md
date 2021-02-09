@@ -13,13 +13,16 @@
     <br> If a ssh key is used please upload the key to the credentials folder.
 4. Database URL or IP and port used.
     <br><strong> NOTE THIS DOES NOT MEAN YOUR DATABASE NEEDS A PUBLIC FACING PORT.</strong> But knowing the IP and port number will help with SSH tunneling into the database. The default port is more than sufficient for this class.
-5. Database username
-6. Database password
-7. Database name (basically the name that contains all your tables)
+5. Database username : csc648848sp21t6
+6. Database password : theWayitWorks@SP21
+7. Database name (basically the name that contains all your tables) : csc648848db
 8. Instructions on how to use the above information.
 
 ============How to connect to the ssh server============
-1. 
+1. Use SSH Client tool (we used Putty)
+2. Download key and locate it.
+3. Connect with DNS using this command: ssh -i ~/.ssh/whatever-your-key-name-is.pem ubuntu@ec2-52-214-64-31.eu-west-1.compute.amazonaws.com
+
 ========================================================
 
 # Most important things to Remember
