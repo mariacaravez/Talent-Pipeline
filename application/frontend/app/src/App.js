@@ -86,13 +86,13 @@ return (
     {studentList.map((val, key) => {
       return (
        <Card centered>
-         <Card.Content header={val.name} />
-    <Card.Content description={val.major} />
-    <Card.Content extra>
-    Graduation Date: {val.graduationDate} 
-    <br></br>
-    Academic Standing: {val.academicStanding}
-    </Card.Content>
+        <Card.Content header={val.name} />
+        <Card.Content description={val.major} />
+        <Card.Content extra>
+        Graduation Date: {val.graduationDate} 
+        <br></br>
+        Academic Standing: {val.academicStanding}
+        </Card.Content>
         </Card>
       );
     })}
