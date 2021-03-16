@@ -3,9 +3,9 @@ name: Nodejs CI
 on:
   push:
     #branches: [ $default-branch ]
-    branches: [ master ]
+    branches: [ backend ]
   pull_request:
-    branches: [ master ]
+    branches: [ backend ]
 
 jobs:
   build:
