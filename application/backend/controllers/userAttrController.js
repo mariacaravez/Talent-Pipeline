@@ -35,16 +35,16 @@ exports.findAll = (req, res) => {
 };
 
 exports.findOne = (req, res) => {
-  UserAttr.findById(req.params.userId, (err, data) => {
+  UserAttr.findByFilter(req.query.optionsValue, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Could not find userAttributes with id ${req.params.userId}.`
+          message: `Could not find userAttributes with id ${req.query.optionsValue}.`
         });
       }
       else {
         res.status(500).send({
-          message: "Error retrieving userAttributes with id " + req.params.userId
+          message: "Error retrieving userAttributes with id " + req.query.optionsValue
         });
       }
     }

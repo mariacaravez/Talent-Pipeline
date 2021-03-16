@@ -1,12 +1,8 @@
 import React from 'react';
-
 import { useState } from 'react';
-import { Dropdown, Input, Button, Card, Container} from 'semantic-ui-react';
+import { Dropdown, Input, Button, Card, Container, Image} from 'semantic-ui-react';
 import Axios from 'axios';
-
 import './App.css'
-// import CardExampleGroups from './search-results.js';
-
 
 const options = [
   { key: 'site', text: 'Entire Site', value: 'site' },
@@ -26,7 +22,6 @@ const [optionsValue, setOptionsValue] = useState("*");
 // };
 
 
-
 const getSearch = () => {
   Axios.get("http://localhost:6480/search", {params: {textValue: textValue, optionsValue: optionsValue}}).then((response) => {
     console.log(response.data);
@@ -41,14 +36,14 @@ const getSearch = () => {
 function getSearch() {
   let config = {
     method: 'get',
-    // ROUTE IN BACKEND
     url: '/search/getByFilter',
+    params: {textValue}, {optionsValue}
   };
 
   axios(config)
     .then(function (response) {
       console.log(JSON.stringify(response.data));
-      setListings(response.data);
+      setStudentList(response.data);
     })
     .catch(function (error) {
       console.log(error);
@@ -64,11 +59,11 @@ const handleSelect=(e, data)=>{
 }
 
 return (
-  <Container fluid className='App' text-align='center' >
+  <Container  className='App' >
     <h1>CSC 648 Section 02</h1>
     <h2>Team 06</h2>
 
-    <div className='search'>
+    <div className='search' text-align='center'>
       <Input type= 'text' placeholder='Search Student...'
         value = {textValue}
         onChange={(e) => {
@@ -82,20 +77,30 @@ return (
         <Button type='submit' onClick={getSearch}>Search</Button>
       </Input>
     </div>
-
+ <Card.Group itemsPerRow={4}>
     {studentList.map((val, key) => {
       return (
-       <Card centered>
-        <Card.Content header={val.name} />
-        <Card.Content description={val.major} />
-        <Card.Content extra>
-        Graduation Date: {val.graduationDate} 
-        <br></br>
-        Academic Standing: {val.academicStanding}
+       <Card >
+         <Card.Content textAlign='left'>
+         <Image circular
+          floated='right'
+          size='mini'
+          src={'http://localhost:6480/images/' + val.imageName}
+          // `some text ${somevariable}` or "some text" + somevariable
+        />
+          <Card.Header>{val.name}</Card.Header>
+          <Card.Meta>{val.major}</Card.Meta>
+          <Card.Description>
+          Graduation Date: {val.graduationDate} 
+          <br></br>
+          Academic Standing: {val.academicStanding}
+          </Card.Description>
         </Card.Content>
+              
         </Card>
       );
     })}
+    </Card.Group>
   </Container>
 );
 }

@@ -23,8 +23,8 @@ UserAttr.create = (newUserAttr, result) => {
 }
 
 // Finds a user's attributes via userID **NOT BY userAttrID**
-UserAttr.findById = (userId, result) => {
-  db.query(`SELECT * FROM userAttributes WHERE userID = ${userId}`, (err, res) => {
+UserAttr.findByFilter = (optionsValue, result) => {
+  db.query(`SELECT * FROM users WHERE ? LIKE '%?%  ${optionsValue}`, (err, res) => {
     if (err) {
       console.log("ERROR: ", err);
       result(err, null);
