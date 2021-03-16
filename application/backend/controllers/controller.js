@@ -11,7 +11,7 @@ const stModel = require("../models/student.js");
 
 // retrieve all students for a criteria
 exports.findAllStudents = (req, res) => {
-  student.findAll((err, data) => {
+  stModel.findAll((err, data) => {
     if (err)
       res.status(500).send({
         message:
