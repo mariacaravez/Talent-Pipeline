@@ -1,32 +1,31 @@
-import React from 'react'; 
-
+import React from 'react';
 import { useState } from 'react';
-import { Dropdown, Input, Button} from 'semantic-ui-react';
+import { Dropdown, Input, Button, Card, Container, Image} from 'semantic-ui-react';
 import Axios from 'axios';
-
 import './App.css'
-// import CardExampleGroups from './search-results.js';
-
 
 const options = [
   { key: 'site', text: 'Entire Site', value: 'site' },
   { key: 'major', text: 'Major', value: 'major' },
-  { key: 'studentYear', text: 'Student Year', value: 'studentYear' },
-  { key: 'gender', text: 'Gender', value: 'gender' },
+  { key: 'standing', text: 'Academic Standing', value: 'standing' },
+  { key: 'gradDate', text: 'Graduation Date', value: 'gradDate' },
 ]
 
 function App() {
 
 const [textValue, setTextValue] = useState("");
 const [studentList, setStudentList] = useState([]);
+const [optionsValue, setOptionsValue] = useState("*");
 
 // const displayInfo = () => {
 //   console.log(textValue);
 // };
 
+
 const getSearch = () => {
-  Axios.get("http://localhost:6480/search").then((response) => {
-    console.log(response);
+  Axios.get("http://localhost:6480/search", {params: {textValue: textValue, optionsValue: optionsValue}}).then((response) => {
+    console.log(response.data);
+    console.log(textValue);
     setStudentList(response.data);
     // Figure out how to get to next component
   });
@@ -37,14 +36,14 @@ const getSearch = () => {
 function getSearch() {
   let config = {
     method: 'get',
-    // ROUTE IN BACKEND 
     url: '/search/getByFilter',
+    params: {textValue}, {optionsValue}
   };
 
   axios(config)
     .then(function (response) {
       console.log(JSON.stringify(response.data));
-      setListings(response.data);
+      setStudentList(response.data);
     })
     .catch(function (error) {
       console.log(error);
@@ -52,53 +51,57 @@ function getSearch() {
 }
 */
 
-/* IN CONTROLLER JS FILE */
-/*
-exports.getAllListings = function (req, res) {
-  Listing.getAllListings(req.visitorId).then(function (listings) {
-      console.log(listings)
-      res.send(listings)
-  })
-  .catch(function (err) {
-      res.send(err)
-  })
-}
-*/
 
-/* IN ROUTER JS FILE */
-/*
-const controller = require('/controller');
-router.get('/search/getByFilter', controller.getByFilter);
-*/
+const handleSelect=(e, data)=>{
+  console.log(data.value);
+  setOptionsValue(data.value);
+  console.log(optionsValue);
+}
 
 return (
-  <div className='App' text-align='center'>
+  <Container  className='App' >
     <h1>CSC 648 Section 02</h1>
     <h2>Team 06</h2>
-  
-    <div className='search'>
-      <Input type= 'text' placeholder='Search...'
+
+    <div className='search' text-align='center'>
+      <Input type= 'text' placeholder='Search Student...'
         value = {textValue}
         onChange={(e) => {
         setTextValue(e.target.value);
-        }} 
+        }}
         action>
         <input />
-        <Dropdown compact button basic floating options={options} defaultValue='site' />
+        <Dropdown compact button basic floating options={options} defaultValue='site'
+          onChange={handleSelect} />
         {/* <Link to="/search-results" className="btn btn-primary">Sign up</Link> */}
         <Button type='submit' onClick={getSearch}>Search</Button>
       </Input>
     </div>
-    
+ <Card.Group itemsPerRow={4}>
     {studentList.map((val, key) => {
       return (
-        <div>
-          <h1>{val.name}</h1>
-        <p>{val.major}</p>
-        </div>
+       <Card >
+         <Card.Content textAlign='left'>
+         <Image circular
+          floated='right'
+          size='mini'
+          src={'http://localhost:6480/images/' + val.imageName}
+          // `some text ${somevariable}` or "some text" + somevariable
+        />
+          <Card.Header>{val.name}</Card.Header>
+          <Card.Meta>{val.major}</Card.Meta>
+          <Card.Description>
+          Graduation Date: {val.graduationDate} 
+          <br></br>
+          Academic Standing: {val.academicStanding}
+          </Card.Description>
+        </Card.Content>
+              
+        </Card>
       );
     })}
-  </div>
+    </Card.Group>
+  </Container>
 );
 }
 export default App;
