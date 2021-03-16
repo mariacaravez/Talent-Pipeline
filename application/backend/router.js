@@ -5,7 +5,13 @@ const jobPostController = require('../controllers/jobPostController');
 
 router.get('/', (req, res) => {res.send('Welcome to Milestone!')});
 
+// User related routes
+router.get('/search', jobPostController.findAll, userController.findAll);
 
+// Route to search Students
+// router.get('/search/user/:userType) // NOT SURE OF THIS EXAMPLE
 
+// Route to search Job Postings
+// router.get('/search/jobPost/:salary) // NOT SURE OF THIS EXAMPLE
 
 module.exports = router;

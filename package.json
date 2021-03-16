@@ -18,5 +18,8 @@
   "homepage": "https://github.com/CSC-648-SFSU/csc648-02-sp21-Team06#readme",
   "devDependencies": {
     "express": "^4.17.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0"
   }
 }
