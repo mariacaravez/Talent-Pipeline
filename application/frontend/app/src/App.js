@@ -2,6 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import { Dropdown, Input, Button} from 'semantic-ui-react';
 import Axios from 'axios';
+
+import './App.css'
 // import CardExampleGroups from './search-results.js';
 
 
@@ -29,8 +31,47 @@ const getSearch = () => {
   });
 }
 
+/* WHAT WE EVENTUALLY WANT IT TO LOOK LIKE: */
+/*
+function getSearch() {
+  let config = {
+    method: 'get',
+    // ROUTE IN BACKEND 
+    url: '/search/getByFilter',
+  };
+
+  axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+      setListings(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+*/
+
+/* IN CONTROLLER JS FILE */
+/*
+exports.getAllListings = function (req, res) {
+  Listing.getAllListings(req.visitorId).then(function (listings) {
+      console.log(listings)
+      res.send(listings)
+  })
+  .catch(function (err) {
+      res.send(err)
+  })
+}
+*/
+
+/* IN ROUTER JS FILE */
+/*
+const controller = require('/controller');
+router.get('/search/getByFilter', controller.getByFilter);
+*/
+
 return (
-  <div className='App' textalign ='center'>
+  <div className='App' text-align='center'>
     <h1>CSC 648 Section 02</h1>
     <h2>Team 06</h2>
   
