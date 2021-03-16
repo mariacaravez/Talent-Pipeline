@@ -17,17 +17,11 @@ const [textValue, setTextValue] = useState("");
 const [studentList, setStudentList] = useState([]);
 const [optionsValue, setOptionsValue] = useState("*");
 
-// const displayInfo = () => {
-//   console.log(textValue);
-// };
-
-
 const getSearch = () => {
   Axios.get("http://localhost:6480/search", {params: {textValue: textValue, optionsValue: optionsValue}}).then((response) => {
     console.log(response.data);
     console.log(textValue);
     setStudentList(response.data);
-    // Figure out how to get to next component
   });
 }
 
