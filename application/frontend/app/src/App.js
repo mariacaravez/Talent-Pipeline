@@ -18,7 +18,7 @@ const [studentList, setStudentList] = useState([]);
 const [optionsValue, setOptionsValue] = useState("*");
 
 const getSearch = () => {
-  Axios.get("/search", {params: {textValue: textValue, optionsValue: optionsValue}}).then((response) => {
+  Axios.get("ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/search", {params: {textValue: textValue, optionsValue: optionsValue}}).then((response) => {
     console.log(response.data);
     console.log(textValue);
     setStudentList(response.data);
@@ -76,21 +76,15 @@ return (
       return (
        <Card >
          <Card.Content textAlign='left'>
-         <Image circular
-          floated='right'
-          size='mini'
-          src={'http://localhost:6480/images/' + val.imageName}
-          // `some text ${somevariable}` or "some text" + somevariable
-        />
-          <Card.Header>{val.name}</Card.Header>
+          <Card.Header>{val.firstName}</Card.Header>
           <Card.Meta>{val.major}</Card.Meta>
           <Card.Description>
-          Graduation Date: {val.graduationDate} 
+          Graduation Date: {val.gradDate}
           <br></br>
           Academic Standing: {val.academicStanding}
           </Card.Description>
         </Card.Content>
-              
+
         </Card>
       );
     })}

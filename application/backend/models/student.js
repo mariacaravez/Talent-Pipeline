@@ -24,16 +24,12 @@ const student = (student) => {
 
 // retrieve all students who match - textvalue and have attribute optiotsvalue
 student.findAll = result => {
-  db.query("SELECT * FROM user us, userAttributes uaWHERE us.userTypeID = 1 
-               AND us.userID = ua.userID
-			   AND us.lastName LIKE ?
-			   AND ua.major = ? OR ua.academicStanding = ?",[textvalue, major, acastanding], (err, res) => {
+  db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID AND us.lastName LIKE ? AND ua.major = ? OR ua.academicStanding = ? ",[textvalue, major, acastanding], (err, res) => {
     if (err) {
       console.log("error: ", err);
       //result(null, err);
       return;
     }
-
     //console.log("student: ", res);
     result(null, res);
   });
