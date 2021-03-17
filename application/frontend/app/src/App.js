@@ -7,8 +7,8 @@ import './App.css'
 const options = [
   { key: 'site', text: 'Entire Site', value: 'site' },
   { key: 'major', text: 'Major', value: 'major' },
-  { key: 'academicStanding', text: 'Academic Standing', value: 'academicStanding' },
-  { key: 'GraduationDate', text: 'Graduation Date', value: 'graduationDate' },
+  { key: 'standing', text: 'Academic Standing', value: 'standing' },
+  { key: 'gradDate', text: 'Graduation Date', value: 'gradDate' },
 ]
 
 function App() {
