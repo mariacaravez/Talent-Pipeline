@@ -1,4 +1,3 @@
-cd ..
 timeout 10s npm run build
 status="$?"
 if (( status == 124 )); then
