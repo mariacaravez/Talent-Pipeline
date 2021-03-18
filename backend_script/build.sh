@@ -1,1 +1,2 @@
+cd application
 npm install
