@@ -74,7 +74,7 @@ app.get("/test", (req, res) => {
    	 this.ethnicity = req.query.ethnicity;
    	 this.skills = req.query.skills;
    };
-   console.log(req.query.optionsValue);
+   console.log("Searching by: "+req.query.optionsValue);
    if (req.query.textValue == "") {
      db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID", (error, result) => {
        if (error) {
@@ -88,7 +88,7 @@ app.get("/test", (req, res) => {
       });
    }
    else if (req.query.optionsValue == "major") {
-	  db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID AND ua.major = ?",[req.query.textValue], (error, result) => {
+	  db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID AND ua.major LIKE ?",["%" + req.query.textValue + "%"], (error, result) => {
       if (error) {
          //console.log("error: ", error);
           res.sendStatus(500);
@@ -100,7 +100,7 @@ app.get("/test", (req, res) => {
      });
   }
   else if (req.query.optionsValue == "gradDate") {
-   db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID AND ua.gradDate = ?",[req.query.textValue], (error, result) => {
+   db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID AND ua.gradDate LIKE ?",["%" + req.query.textValue + "%"], (error, result) => {
      if (error) {
         //console.log("error: ", error);
          res.sendStatus(500);
@@ -112,8 +112,7 @@ app.get("/test", (req, res) => {
     });
  }
  else if (req.query.optionsValue == "standing") {
-   console.log("I'm in standing");
-  db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID AND +ua.academicStanding = ?",[req.query.textValue], (error, result) => {
+  db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID AND +ua.academicStanding LIKE ?",["%" + req.query.textValue + "%"], (error, result) => {
     if (error) {
        //console.log("error: ", error);
         res.sendStatus(500);

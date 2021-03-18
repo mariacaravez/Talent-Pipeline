@@ -18,7 +18,7 @@ const [studentList, setStudentList] = useState([]);
 const [optionsValue, setOptionsValue] = useState("*");
 
 const getSearch = () => {
-  Axios.get("http://localhost:6480/search", {params: {textValue: textValue, optionsValue: optionsValue}}).then((response) => {
+  Axios.get("http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com/search", {params: {textValue: textValue, optionsValue: optionsValue}}).then((response) => {
     console.log(response.data);
     console.log(textValue);
     setStudentList(response.data);
