@@ -1,2 +1,0 @@
-cd application
-npm install
