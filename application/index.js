@@ -123,8 +123,8 @@ app.get("/test", (req, res) => {
     res.send(result);
    });
 }
-else if (req.query.optionsValue == "site") {
- db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID AND (us.lastName = ? OR us.middleName = ? Or us.firstName = ?)",[req.query.textValue,req.query.textValue,req.query.textValue], (error, result) => {
+else if (req.query.optionsValue == "site" || req.query.optionsValue == "*") {
+ db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID AND (us.lastName LIKE ? OR us.middleName LIKE ? OR us.firstName LIKE ? OR ua.academicStanding LIKE ? OR ua.gradDate LIKE ? OR AND ua.major LIKE ?)",["%" + req.query.textValue + "%", "%" + req.query.textValue + "%", "%" + req.query.textValue + "%", "%" + req.query.textValue + "%", "%" + req.query.textValue + "%", "%" + req.query.textValue + "%"], (error, result) => {
    if (error) {
       //console.log("error: ", error);
      res.sendStatus(500);
