@@ -76,7 +76,7 @@ return (
       return (
        <Card >
          <Card.Content textAlign='left'>
-          <Card.Header>{val.firstName}</Card.Header>
+          <Card.Header>{val.firstName + " " + val.lastName}</Card.Header>
           <Card.Meta>{val.major}</Card.Meta>
           <Card.Description>
           Graduation Date: {val.gradDate}
