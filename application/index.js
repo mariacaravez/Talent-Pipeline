@@ -2,8 +2,9 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const db = require('../application/backend/models/dbaccess.js');
+const path = require('path');
 //const routes = require("../application/backend/routes/routes.js");
-
+app.use('/', express.static(path.join(__dirname, 'frontend/app/build/')))
 // app.use("/");
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -27,7 +28,7 @@ placeholderJson = [
     imageName: 'jeffrey-cropped.jpg'
   },
   {
-    id: 1,
+    id: 2,
     name: 'Jeffrey Ye',
     major: 'computer science',
     academicStanding: 'Senior',
@@ -35,7 +36,7 @@ placeholderJson = [
     imageName: 'jeffrey-cropped.jpg'
   },
   {
-    id: 1,
+    id: 3,
     name: 'Jeffrey Ye',
     major: 'computer science',
     academicStanding: 'Senior',
@@ -51,6 +52,11 @@ placeholderJson = [
 //
 //   res.send(placeholderJson);
 // })
+
+app.get("/test", (req, res) => {
+  console.log(path.join(__dirname, 'frontend/app/public/', 'index.html'));
+  res.sendFile(path.join(__dirname, 'frontend/app/build/', 'index.html'));
+})
 
  app.get("/search", (req, res) => {
    const student = (student) => {
@@ -68,7 +74,7 @@ placeholderJson = [
    	 this.ethnicity = req.query.ethnicity;
    	 this.skills = req.query.skills;
    };
-   console.log(req.query.optionsValue);
+   console.log("Searching by: "+req.query.optionsValue);
    if (req.query.textValue == "") {
      db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID", (error, result) => {
        if (error) {
@@ -82,7 +88,7 @@ placeholderJson = [
       });
    }
    else if (req.query.optionsValue == "major") {
-	  db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID AND ua.major = ?",[req.query.textValue], (error, result) => {
+	  db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID AND ua.major LIKE ?",["%" + req.query.textValue + "%"], (error, result) => {
       if (error) {
          //console.log("error: ", error);
           res.sendStatus(500);
@@ -94,7 +100,7 @@ placeholderJson = [
      });
   }
   else if (req.query.optionsValue == "gradDate") {
-   db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID AND ua.gradDate = ?",[req.query.textValue], (error, result) => {
+   db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID AND ua.gradDate LIKE ?",["%" + req.query.textValue + "%"], (error, result) => {
      if (error) {
         //console.log("error: ", error);
          res.sendStatus(500);
@@ -106,8 +112,7 @@ placeholderJson = [
     });
  }
  else if (req.query.optionsValue == "standing") {
-   console.log("I'm in standing");
-  db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID AND +ua.academicStanding = ?",[req.query.textValue], (error, result) => {
+  db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID AND +ua.academicStanding LIKE ?",["%" + req.query.textValue + "%"], (error, result) => {
     if (error) {
        //console.log("error: ", error);
         res.sendStatus(500);
@@ -133,14 +138,14 @@ else if (req.query.optionsValue == "site") {
 })
 
 /* ORIGINAL CODE */
-app.use(express.static('frontend/static'));
+
 //app.use(express.router);
 
 
 // application landing - root page
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to Milestone Application. The home for direct employment help" });
-});
+// app.get("/", (req, res) => {
+//   res.json({ message: "Welcome to Milestone Application. The home for direct employment help" });
+// });
 
 // make our server application use the routes in routes.js
 //require("../application/backend/routes/routes.js")(app);

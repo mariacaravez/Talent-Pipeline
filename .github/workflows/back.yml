@@ -1,11 +1,10 @@
-name: Nodejs CI
+name: Check build Backend
 
 on:
   push:
-    #branches: [ $default-branch ]
-    branches: [ backend ]
+    branches: [ milestone2 ]
   pull_request:
-    branches: [ backend ]
+    branches: [ milestone2 ]
 
 jobs:
   build:
@@ -22,4 +21,4 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm run build-app
+    - run: ./backend_script/build.sh && ./backend_script/test.sh
