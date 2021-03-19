@@ -1,14 +1,14 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: check build frontend
 
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+    branches: [ milestone2 ]
   pull_request:
-    branches: [ master ]
+    branches: [ milestone2 ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -25,17 +25,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: installing dependencies
-        run: echo Hello, world!
 
-      # Runs a set of commands using the runners shell
-      - name: building the frontend
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
-          
-      - name: building the backend
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      - name: install npm
+        run: npm install
+        
+      # Runs a single command using the runners shell
+      - name: build react
+        run: npm run build
