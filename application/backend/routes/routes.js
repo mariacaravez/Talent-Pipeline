@@ -13,6 +13,7 @@
   });
 
   // Retrieve all students; like search text and major or graduation date
-  router.get("/search", controller.findStudents);
+  router.get('/search', controller.findStudents);
+
 
   module.exports = router;

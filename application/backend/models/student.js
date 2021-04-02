@@ -6,12 +6,27 @@
 const db = require('./dbaccess.js');
 const StudentModel = {}
 
+/* PROMISES */ 
+//async was here
+StudentModel.find = (student, textValue, optionsValue) => {
+	console.log("I'M IN STUDENT MODEL");
+  let baseSQL = 'SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID';
+  return db.promise().query(baseSQL)
+  .then(([results, fields]) => {
+		console.log(results);
+    return Promise.resolve(results);
+  })
+  .catch((err) => Promise.reject(err));
+}
+/* PROMISES END*/
+
+
 // OLD: student.find(student) = result =>
 // retrieve all students who match - textvalue and have attribute optiotsvalue
-StudentModel.find = (student, textValue, optionsValue) => {
-	setTimeout(function(){
-		return('sup');
-	}, 50000);
+// StudentModel.find = (student, textValue, optionsValue) => {
+// 	setTimeout(function(){
+// 		return('sup');
+// 	}, 50000);
 // try{
 //   if (textValue == "") {
 // 		db.query("SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID", (error, result) => {
@@ -77,6 +92,6 @@ StudentModel.find = (student, textValue, optionsValue) => {
 // 	 console.log(err);
 // 	 return(err)
 //  }
-};
+// };
 
 module.exports = StudentModel;

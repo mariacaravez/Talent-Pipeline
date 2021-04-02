@@ -26,26 +26,16 @@ const student = (student) => {
 	 this.skills = req.query.skills;
 };
 
-// retrieve all students for a criteria
+//asyn was here
 exports.findStudents = (req, res) => {
-  try {
-    results = stModel.find(student, req.query.textValue, req.query.optionsValue);
-    console.log(results);
-    res.send(results);
-  } catch(err) {
+    console.log("I'M IN CONTROLLER");
+    stModel.find(student, req.query.textValue, req.query.optionsValue).then((results)=> {
+      console.log(results);
+      res.send(results);
+    }).catch((err) => {
     res.status(500).send({
      message:
         err.message || "Some error occurred while retrieving students."
+    });
   });
-}
-  // stModel.find((err, student) => {
-  //   if (err)
-  //     res.status(500).send({
-  //       message:
-  //         err.message || "Some error occurred while retrieving students."
-  //     });
-  //   else res.send(student);
-  // });
 };
-
-
