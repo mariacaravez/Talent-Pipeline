@@ -5,7 +5,6 @@ import Axios from 'axios';
 import './App.css'
 
 import Search from './components/Search';
-import Register from './components/Register';
 import Header from './components/Header';
 
 const App = () => {
@@ -15,7 +14,6 @@ const App = () => {
       <div>
         {/* I'm A Student */}
         <Header />
-        <Register/>
         {/* Search Job Posts */}
         {/* <Search /> */}
       </div>

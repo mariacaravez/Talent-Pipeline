@@ -1,34 +1,77 @@
-import React, { Component } from 'react'
-import { Input, Menu, Button,} from 'semantic-ui-react'
+import React, { useState, Component } from 'react'
+import { Input, Menu, Button, Modal} from 'semantic-ui-react'
 import '../App.css'
 
-export default class Header extends Component {
-  state = { activeItem: 'home' }
+import Register from '../pages/Register';
+import Login from '../pages/Login';
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-
-  render() {
-    const { activeItem } = this.state
+const Header = () => {
+  const [open, setOpen] = useState(false);
 
     return (
-      <Menu secondary >
+      <div>
+        <Menu secondary >
         <Menu.Item >
           <h1 className='title'>Milestone</h1>
         </Menu.Item>
         <Menu.Menu  position='right'>
           <Menu.Item
             name='about'
-            active={activeItem === 'about'}
-            onClick={this.handleItemClick}
           />
           <Menu.Item >
-              <Button color='yellow' >Login</Button>
+        <Modal
+          onClose={() => setOpen(false)}
+          onOpen={() => setOpen(true)}
+          open={open}
+          trigger={<Button color='teal'>Login</Button>}
+          size='mini'
+        >
+        <Modal.Header>Login</Modal.Header>
+        <Modal.Content>
+          <Modal.Description>
+            <Login />
+          </Modal.Description>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button color='black' onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button
+            content="Login"
+            onClick={() => setOpen(false)}
+            color='teal'
+          />
+        </Modal.Actions>
+      </Modal>
           </Menu.Item>
           <Menu.Item>
-            <Button color='yellow'>Register</Button>
+          <Modal
+          onClose={() => setOpen(false)}
+          onOpen={() => setOpen(true)}
+          open={open}
+          trigger={<Button color='teal'>Register</Button>}
+          size='small'
+          
+        >
+            <Register />
+        <Modal.Actions>
+          <Button color='black' onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button
+            content="Register"
+            onClick={() => setOpen(false)}
+            color='teal'
+          />
+        </Modal.Actions>
+      </Modal>
           </Menu.Item>
         </Menu.Menu>
       </Menu>
+      </div>
+
+
     )
-  }
 }
+
+export default Header;
