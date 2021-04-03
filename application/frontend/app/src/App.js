@@ -4,8 +4,9 @@ import { Dropdown, Input, Button, Card, Container, Image} from 'semantic-ui-reac
 import Axios from 'axios';
 import './App.css'
 
-import Search from './pages/Search';
-import Register from './pages/Register';
+import Search from './components/Search';
+import Register from './components/Register';
+import Header from './components/Header';
 
 const App = () => {
 
@@ -13,9 +14,10 @@ const App = () => {
     <div>
       <div>
         {/* I'm A Student */}
+        <Header />
         <Register/>
         {/* Search Job Posts */}
-        <Search />
+        {/* <Search /> */}
       </div>
       <div>
         <div>
