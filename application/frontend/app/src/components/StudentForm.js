@@ -49,7 +49,7 @@ const StudentForm = () => {
             {/* COURSEWORK, SKILLS, & WORK EXPERIENCE ARE BREAKING THE STUDENT FORM */}
             <Form.Group  widths='equal'>
               <Form.Input>
-              <Input label={{basic: true, content: 'Coursework'}} icon={{ type:'submit', name:'add', circular: true, link:true}} value={courseWork} placeholder='Physics I, Calculus II . . .' onChange={(e) => {setCourseWork(e.target.value);}}/>
+              <Input label={{basic: true, content: 'Coursework'}} icon={{ type:'submit', name:'add', circular: true, link:true}} value={courseWork} placeholder='Physics I, Calculus II . . .' onChange={(e) => {setCourseWork(e.target.value)}}/>
               </Form.Input>
             </Form.Group>
                 <Segment>
@@ -67,12 +67,31 @@ const StudentForm = () => {
               <Input label={{basic: true, content: 'Skills'}} labelPosition='left' icon={{ type:'submit', name:'add', circular: true, link:true}} value={skills} placeholder='Excel, Google Suite . . .' onChange={(e) => {setSkills(e.target.value);}}/>
               </Form.Input>
             </Form.Group>
+            <Segment>
+                  {skills.map((val, key) => {
+                        return (
+                          <Label as='a'>
+                          {val}
+                          <Icon name='delete' />
+                        </Label>
+                        );
+                      })}
+                </Segment>
             <Form.Group className='responsive' widths='equal'>
               <Form.Input>
               <Input label={{basic: true, content: 'Work Experience'}} icon={{ type:'submit', name:'add', circular: true, link:true}} value={workExperience} placeholder='Uber Driver, Admin Clerk . . .' onChange={(e) => {setWorkExperience(e.target.value);}}/>
               </Form.Input>
             </Form.Group>
-
+            <Segment>
+                  {workExperience.map((val, key) => {
+                        return (
+                          <Label as='a'>
+                          {val}
+                          <Icon name='delete' />
+                        </Label>
+                        );
+                      })}
+                </Segment>
             <Segment className='responsive' padded>
               <Label size='large' attached='top'>About You</Label>
               <TextArea  placeholder='Extra curricular activies, volunteer work, career goals . . .' value={about} onChange={(e) => {setAbout(e.target.value);}}/>

@@ -38,7 +38,7 @@ const handleSelect=(e, data)=>{
 
 return (
 
-  <Container  className='App' >
+  <Container  className='responsive' >
     <div className='search' text-align='center'>
       <Input type= 'text' placeholder='Search Student...'
         value = {textValue}

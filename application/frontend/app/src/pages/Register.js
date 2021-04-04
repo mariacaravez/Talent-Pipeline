@@ -6,7 +6,7 @@ import '../App.css'
 
 import StudentForm from '../components/StudentForm';
 
-
+// USER TYPES
 const options = [
   { key: 'student', text: 'Student', value: 'student' },
   { key: 'headHunter', text: 'Headhunter', value: 'headHunter' },
@@ -15,29 +15,23 @@ const options = [
 
 const Register = () => {
 
+  const [optionsValue, setOptionsValue] = useState('');
+
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+
+  // TODO: LOGIC FOR PASSWORD MATCHING
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [optionsValue, setOptionsValue] = useState('');
 
   const handleSelect=(e, data)=>{
     setOptionsValue(data.value);
   }
-  // const addCourse = () =>{    
-  //   {courseWork.map((val, key) => {
-  //     return (
-  //       <Label as='a'>
-  //       {val}
-  //       <Icon name='delete' />
-  //     </Label>
-  //     );
-  //   })}
 
-  // }
+  // TODO: SET UP APPROPRIATE ROUTE
   const submitRegistration = () => {
     // Axios.post("http://localhost:6480/search", {params: {student}}).then((response) => {
     //   console.log(response.data);
@@ -55,27 +49,24 @@ const Register = () => {
 
       <Grid padded='very'>
         <Segment  padded='very' raised>
-          <Label color='teal' size='big' attached='top'>
+          <Label color='orange' size='big' attached='top'>
                 Register as {' '}
                 <Dropdown pointing options = {options} defaultValue='headHunter' onChange={handleSelect} />
           </Label>
           <Form> 
-            <Form.Group padded>
-              <Form.Input width={16}>
-                <Input label={{basic: true, color: 'red', content: '@mail.sfsu.edu'}} labelPosition='right' placeholder='johndoe648@mail.sfsu.edu' value={email} onChange={(e) => {setEmail(e.target.value);}}/>  
+            <Form.Group widths='equal'>
+              <Form.Input required label='Email'>
+                <Input label={{basic: true, color:'violet', content: '@mail.sfsu.edu*'}} labelPosition='right' placeholder='johndoe648@mail.sfsu.edu' value={email} onChange={(e) => {setEmail(e.target.value);}}/>  
               </Form.Input>
             </Form.Group>
-            <Form.Group className='responsive' >
-                <Label basic color='red' pointing='right'>Full Name</Label>
-                <Form.Input placeholder='First Name' value={firstName} onChange={(e) => {setFirstName(e.target.value);}}/>
-                <Form.Input placeholder='Middle Name' value={middleName} onChange={(e) => {setMiddleName(e.target.value);}}/>
-                <Form.Input placeholder='Last Name' value={lastName} onChange={(e) => {setLastName(e.target.value);}}/>
-
+            <Form.Group className='responsive' widths='equal'>
+              <Form.Input required label='Full Name' placeholder='First Name' value={firstName} onChange={(e) => {setFirstName(e.target.value)}}/>  
+              <Form.Input label='(Optional)' placeholder='Middle Name' value={middleName} onChange={(e) => {setMiddleName(e.target.value);}}/>
+              <Form.Input required label=''placeholder='Last Name' value={lastName} onChange={(e) => {setLastName(e.target.value);}}/>
             </Form.Group >
             <Form.Group  className='responsive' widths='equal'>
-            <Label basic color='red' pointing='right'>Password</Label>
-              <Form.Input placeholder='Password' type='password' value={password} onChange={(e) => {setPassword(e.target.value);}}/>
-              <Form.Input placeholder='Confirm Password' type='password' value={confirmPassword} onChange={(e) => {setConfirmPassword(e.target.value);}}/>
+              <Form.Input required label='Password' placeholder='Password' type='password' value={password} onChange={(e) => {setPassword(e.target.value);}}/>
+              <Form.Input required label='' placeholder='Confirm Password' type='password' value={confirmPassword} onChange={(e) => {setConfirmPassword(e.target.value);}}/>
             </Form.Group>
           <Form.Field>
           {(optionsValue === 'student') && (
@@ -91,6 +82,9 @@ const Register = () => {
           </>
           )}
           </Form.Field>
+          <Form.Field className='responsive'>
+              <Button color='orange' type='submit' onSubmit={submitRegistration}>Register</Button>
+            </Form.Field>
           </Form>
         </Segment>
 
