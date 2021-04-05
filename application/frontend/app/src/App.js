@@ -6,58 +6,32 @@ import './App.css'
 
 //TODO: CLEAN IT UP
 
-import Search from './components/Search';
-import Header from './components/Navigation';
+import Landing from './components/Landing';
+import NavBar from './components/NavBar';
 import Footer from './components/Footer';
+import StudentDashboard from './pages/StudentDashboard';
+import Register from './pages/Register';
 
 const App = () => {
 
   return(
-    <Container fluid>
+    <div>
       <nav>
-
-        <Header />
-
+        <NavBar />
       </nav>
-      <Grid padded centered columns='equal'>
+      <div>
+        <Landing/>
+      </div>
+      <div>
+        {/* <StudentDashboard/> */}
+      </div>
 
-        <Grid.Column stretched columns={2}>
-          <Segment className='responsive'>
-            Student
-            <Button>Create Profile</Button>
-          </Segment>
-        </Grid.Column >
-
-        <Grid.Column className='responsive'>
-          <Grid columns='equal'>
-            <Grid.Row>
-              <Grid.Column>
-                <Segment className='responsive'>
-                Headhunter
-                <Button>Create Job Post</Button>
-                </Segment>
-              </Grid.Column>
-              <Grid.Column>
-                <Segment className='responsive'>
-                  Endorser
-                  <Button>Endorse Student</Button>
-                </Segment>
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row >
-              <Segment><Search/></Segment>
-            </Grid.Row>
-          </Grid>
-          
-        </Grid.Column>
-        
+      <div className='footer'>
+      <Footer />
+      </div>
 
 
-      </Grid>
-      <footer>
-        <Footer />
-      </footer>
-    </Container>
+    </div>
 
   )
 }
