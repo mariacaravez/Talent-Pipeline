@@ -16,23 +16,11 @@ const App = () => {
 
   return(
     <div>
-      <nav>
         <NavBar />
-      </nav>
-      <div>
         <Landing/>
-      </div>
-      <div>
         {/* <StudentDashboard/> */}
-      </div>
-
-      <div className='footer'>
       <Footer />
-      </div>
-
-
     </div>
-
   )
 }
 

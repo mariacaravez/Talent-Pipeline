@@ -1,5 +1,5 @@
 import React, { useState, Component } from 'react'
-import { Input, Menu, Button, Modal} from 'semantic-ui-react'
+import { Input, Menu, Button, Modal, Container} from 'semantic-ui-react'
 import '../App.css'
 
 import Register from '../pages/Register';
@@ -13,12 +13,11 @@ const NavBar = () => {
   const [openLogin, setOpenLogin] = useState(false);
 
     return (
-      <div>
-        <Menu secondary >
+
+        <Menu fixed='top' inverted>
         <Menu.Item >
           <h1 className='title'>Milestone</h1>
         </Menu.Item>
-        
         {!isLoggedIn && (
                   <Menu.Menu  position='right'>
                   <Menu.Item
@@ -40,7 +39,7 @@ const NavBar = () => {
                       <Button size='tiny' basic onClick={() => setOpenLogin(false)}>
                         Cancel
                       </Button>
-        
+
                     </Modal.Actions>
                   </Modal>
                   </Menu.Item>
@@ -71,10 +70,8 @@ const NavBar = () => {
             <Button color='orange'>Logout</Button>
           </Menu.Item>
         )}
-
-
       </Menu>
-      </div>
+
 
 
     )
