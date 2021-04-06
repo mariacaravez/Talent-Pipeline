@@ -72,7 +72,17 @@ exports.newstudent = (req, res) => {
     firstName: req.body.firstName,
     middleName: req.body.middleName,
     lastName: req.body.lastName,
-    userTypeID: 1, //req.body.userTypeID,
+    userTypeID: req.body.userTypeID,
+  });
+
+  // user (student, headhunter, endorser) login account
+  const acctModel = new StudentModel({
+	  username: req.body.username,
+	  password: req.body.password,
+	  email: req.body.email,
+  });
+
+// for use on student attributes
     // major: req.body.major,
     // academicStanding: req.body.academicStanding,
     // graduationDate: req.body.graduationDate,
@@ -97,7 +107,7 @@ exports.newstudent = (req, res) => {
   })
 
   // save the student data to the database
-  StudentModel.create(stModel, (err, data) => {
+  StudentModel.create(stModel, acctModel, (err, data) => {
 		console.log(req.body);
     if (err)
       res

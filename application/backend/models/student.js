@@ -5,22 +5,33 @@
 // get the db access
 const db = require("./dbaccess.js");
 
-// constructor
+// constructor for new user (student, headhunter, endorser)
 const StudentModel = function (objValues) {
   this.firstName = objValues.firstName;
   this.middleName = objValues.middleName;
   this.lastName = objValues.lastName;
   this.userTypeID = objValues.userTypeID;
-  // this.major = objValues.major;
-  // this.academicStanding = objValues.academicStanding;
-  // this.graduationDate = objValues.graduationDate;
-  // this.gender = objValues.gender;
-  // this.age = objValues.age;
-  // this.race = objValues.race;
-  // this.veteran = objValues.veteran;
-  // this.militaryCode = objValues.militaryCode;
-  // this.ethnicity = objValues.ethnicity;
-  // this.skills = objValues.skills;
+};
+
+// constructor for (ONLY) student user attributes
+const StudentAttrib = function(attribValues) {
+  this.major = attribValues.major;
+  this.academicStanding = attribValues.academicStanding;
+  this.graduationDate = attribValues.graduationDate;
+  this.gender = attribValues.gender;
+  this.age = attribValues.age;
+  this.race = attribValues.race;
+  this.veteran = attribValues.veteran;
+  this.militaryCode = attribValues.militaryCode;
+  this.ethnicity = attribValues.ethnicity;
+  this.skills = attribValues.skills;
+};
+
+// constructor for user (student, headhunter, endorser) account
+const userAccount = function(acctValues) {
+	this.username = acctValues.username;
+	this.password = acctValues.password;
+	this.email = acctValues.email;
 };
 
 // const StudentModel = {};
@@ -177,34 +188,25 @@ StudentModel.find = (student, textValue, optionsValue) => {
 };
 
 // create a new student record - registration
-StudentModel.create = (newstudent, result) => {
+StudentModel.create = (newuser, useracct, result) => {
   db.promise()
-    .query("INSERT INTO user SET ?", newstudent)
+    .query("INSERT INTO user SET ?", newuser)
     .then(([results, fields]) => {
       console.log(results.insertId);
       // console.log(results);
+	  
+	  // add userID for the new user to the user account object
+	  useracct = {userID: result.insertedId,...useracct};
       return Promise.resolve(results);
       
-      // we need to capture the usrID and use it to create tha user attribute record
-      // db.promise().query("INSERT INTO userAttributes SET ?", newstudent)
-      // .then(([result, fields]) => {
-      // return Promise.resolve(result);
-      // })
-      // .catch((err) => Promise.reject(err));
+      // create the user account record
+      db.promise().query("INSERT INTO userAccounts SET ?", useracct)
+       .then(([result, fields]) => {
+       return Promise.resolve(result);
+      })
+       .catch((err) => Promise.reject(err));
     })
     .catch((err) => Promise.reject(err));
-
-  // old code
-  // , (err, resl) => {
-  // if (err) {
-  // console.log("error: ", err);
-  // result(err, null);
-  // return;
-  // }
-
-  // console.log("new student registered: ", {id: resl.userID, ...newstudent});
-  // result(null, {id:resl.userID, ...newstudent});
-  // });
 };
 
 module.exports = StudentModel;

@@ -39,10 +39,7 @@ const handleSelect=(e, data)=>{
 
 return (
 <div>
-
-
   <Segment padded='very' className='responsive' >
-
     <Input type= 'text' placeholder='Search Student...'
       value = {textValue}
       onChange={(e) => {
@@ -69,7 +66,6 @@ return (
             Academic Standing: {val.academicStanding}
             </Card.Description>
           </Card.Content>
-
           </Card>
         );
       })}
