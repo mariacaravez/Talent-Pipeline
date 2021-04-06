@@ -14,6 +14,15 @@
 
   // Retrieve all students; like search text and major or graduation date
   router.get('/search', controller.findStudents);
+  
+  
+  // new student registration
+  router.post('/newstudent', controller.newstudent);
+  
+  // search for job postings
+  router,get('/jobsearch', controller.findJob);
 
+  // post a job
+  router.post('/newjobpost', controller.postjob);
 
   module.exports = router;
