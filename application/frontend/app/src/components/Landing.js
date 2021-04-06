@@ -18,6 +18,7 @@ import "../App.css";
 //TODO: IMPLEMENT THE JOB SEARCH
 
 import Search from "../components/Search";
+import SearchJobs from "../components/SearchJobs";
 
 const Landing = () => {
   return (
@@ -30,7 +31,9 @@ const Landing = () => {
             I'm A Student
           </Header>
             <Button>Create Profile</Button>
+
           </Segment>
+          <SearchJobs />
         </Grid.Column>
         <Grid.Column stretched width={10}>
           <Grid verticalAlign='middle' padded='very' centered columns='equal'>

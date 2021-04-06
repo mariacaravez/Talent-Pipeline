@@ -29,6 +29,17 @@ const student = (student) => {
   this.skills = req.query.skills;
 };
 
+const job = (job) => {
+  this.location = req.query.location;
+  this.salary = req.query.salary;
+  this.company = req.query.company;
+  this.description = req.query.description;
+  this.jobPosterID = req.query.jobPosterID;
+  this.workType = req.query.workType;
+  this.gradRangeStart = req.query.gradRangeStart;
+  this.gradRangeEnd = req.query.gradRangeEnd;
+}
+
 //asyn was here
 exports.findStudents = (req, res) => {
   //console.log("I'M IN CONTROLLER");
@@ -74,6 +85,17 @@ exports.newstudent = (req, res) => {
     // skills: req.query.skills,
   });
 
+  const jModel = new JobModel({
+    location: req.query.location,
+    salary: req.query.salary,
+    company: req.query.company,
+    description: req.query.description,
+    jobPosterID: req.query.jobPosterID,
+    workType: req.query.workType,
+    gradRangeStart: req.query.gradRangeStart,
+    gradRangeEnd: req.query.gradRangeEnd
+  })
+
   // save the student data to the database
   StudentModel.create(stModel, (err, data) => {
 		console.log(req.body);
@@ -92,8 +114,9 @@ exports.newstudent = (req, res) => {
 //
 
 exports.findJob = (req, res) => {
+
   jobModel
-    .find(req.query.jodID, req.query.jobdesc, req.query.optionValue)
+    .find(req.query.jobID, req.query.jobdesc, req.query.optionValue)
     .then((results) => {
       res.send(results);
     })
