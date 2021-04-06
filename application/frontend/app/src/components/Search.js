@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Dropdown, Input, Button, Card, Container, Image} from 'semantic-ui-react';
+import { Dropdown, Input, Button, Card, Container, Image, Segment} from 'semantic-ui-react';
 import Axios from 'axios';
 import '../App.css'
 
@@ -18,17 +18,18 @@ const [studentList, setStudentList] = useState([]);
 const [optionsValue, setOptionsValue] = useState("*");
 
 const getSearch = () => {
-  // Axios.get("http://localhost:6480/search", {params: {textValue: textValue, optionsValue: optionsValue}}).then((response) => {
-  //   console.log(response.data);
-  //   console.log(textValue);
-  //   setStudentList(response.data);
-  // });
-  Axios.get("http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/search", {params: {textValue: textValue, optionsValue: optionsValue}}).then((response) => {
+  Axios.get("http://localhost:6480/search", {params: {textValue: textValue, optionsValue: optionsValue}}).then((response) => {
     console.log(response.data);
     console.log(textValue);
     setStudentList(response.data);
   });
 }
+//   Axios.get("http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/search", {params: {textValue: textValue, optionsValue: optionsValue}}).then((response) => {
+//     console.log(response.data);
+//     console.log(textValue);
+//     setStudentList(response.data);
+//   });
+// }
 
 const handleSelect=(e, data)=>{
   console.log(data.value);
@@ -37,40 +38,43 @@ const handleSelect=(e, data)=>{
 }
 
 return (
+<div>
 
-  <Container  className='App' >
-    <div className='search' text-align='center'>
-      <Input type= 'text' placeholder='Search Student...'
-        value = {textValue}
-        onChange={(e) => {
-        setTextValue(e.target.value);
-        }}
-        action>
-        <input />
-        <Dropdown compact button basic floating options={options} defaultValue='site'
-          onChange={handleSelect} />
-        <Button type='submit' onClick={getSearch}>Search</Button>
-      </Input>
-    </div>
- <Card.Group itemsPerRow={4}>
-    {studentList.map((val, key) => {
-      return (
-       <Card >
-         <Card.Content textAlign='left'>
-          <Card.Header>{val.firstName + " " + val.lastName}</Card.Header>
-          <Card.Meta>{val.major}</Card.Meta>
-          <Card.Description>
-          Graduation Date: {val.gradDate}
-          <br></br>
-          Academic Standing: {val.academicStanding}
-          </Card.Description>
-        </Card.Content>
 
-        </Card>
-      );
-    })}
+  <Segment padded='very' className='responsive' >
+
+    <Input type= 'text' placeholder='Search Student...'
+      value = {textValue}
+      onChange={(e) => {
+      setTextValue(e.target.value);
+      }}
+      action>
+      <input />
+      <Dropdown compact button basic floating options={options} defaultValue='site'
+        onChange={handleSelect} />
+      <Button type='submit' onClick={getSearch}>Search</Button>
+    </Input>
+  </Segment>
+  {/* TODO: MOVE THIS TO A NEW PAGE */}
+  <Card.Group itemsPerRow={4}>
+      {studentList.map((val, key) => {
+        return (
+        <Card >
+          <Card.Content textAlign='left'>
+            <Card.Header>{val.firstName + " " + val.lastName}</Card.Header>
+            <Card.Meta>{val.major}</Card.Meta>
+            <Card.Description>
+            Graduation Date: {val.gradDate}
+            <br></br>
+            Academic Standing: {val.academicStanding}
+            </Card.Description>
+          </Card.Content>
+
+          </Card>
+        );
+      })}
     </Card.Group>
-  </Container>
+    </div>
 );
 }
 export default Search;
