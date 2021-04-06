@@ -53,5 +53,7 @@ jobpostingModel.create = (newjob, result) => {
 		}) .catch((err) => Promise.reject(err));
      })
      .catch((err) => Promise.reject(err));
- };
+};
+ 
+ 
  
