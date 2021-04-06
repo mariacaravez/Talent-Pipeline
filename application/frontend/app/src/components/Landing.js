@@ -17,6 +17,11 @@ import "../App.css";
 //TODO: IMPLEMENT THE JOB SEARCH
 
 import Search from "../components/Search";
+import StudentForm from "./StudentForm";
+
+const createProfile = () => {
+    <StudentForm/>
+}
 
 const Landing = () => {
   return (
@@ -25,7 +30,7 @@ const Landing = () => {
         <Grid.Column stretched>
           <Segment className="responsive">
             I'm A Student
-            <Button>Create Profile</Button>
+            <Button onClick={createProfile}>Create Profile</Button>
           </Segment>
         </Grid.Column>
 

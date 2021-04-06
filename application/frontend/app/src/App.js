@@ -12,6 +12,7 @@ import Footer from './components/Footer';
 import StudentDashboard from './pages/StudentDashboard';
 import Register from './pages/Register';
 
+
 const App = () => {
 
   return(
@@ -23,6 +24,7 @@ const App = () => {
         <Landing/>
       </div>
       <div>
+
         {/* <StudentDashboard/> */}
       </div>
 
