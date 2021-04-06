@@ -80,6 +80,8 @@ const StudentForm = () => {
     // });
   };
 
+  // NOTE: FIGURE OUT HOW TO PREVENT USER FROM ACCIDENTALLY CLICKING OUTSIDE OF MODAL AND LOSING DATA
+
   return (
     <div>
       <Form.Field>
@@ -125,7 +127,9 @@ const StudentForm = () => {
                 placeholder="Physics I, Calculus II"
                 value={course}
                 onChange={(e) => {
-                  setCourse(e.target.value);
+                  if(e.target.value !== null){
+                    setCourse(e.target.value);
+                  }
                 }}
                 action
               >
@@ -146,38 +150,7 @@ const StudentForm = () => {
             </Label.Group>
           </Transition.Group>
         </Segment>
-        <Segment padded="very">
-          <Label basic size="large" attached="top">
-            Skills
-          </Label>
-          <Form.Group widths="equal">
-            <Form.Input>
-              <Input
-                type="text"
-                placeholder="Problem solver, Design, Team player"
-                value={skill}
-                onChange={(e) => {
-                  setSkill(e.target.value);
-                }}
-                action
-              >
-                <input />
-                <Button type="submit" onClick={addSkill} icon="add" />
-              </Input>
-            </Form.Input>
-          </Form.Group>
-          <Transition.Group>
-            <Label.Group fluid padded>
-              {skills.map((skill) => {
-                return (
-                  <Label onClick={removeSkill(skill)}>
-                    {skill.toUpperCase()}
-                  </Label>
-                );
-              })}
-            </Label.Group>
-          </Transition.Group>
-        </Segment>
+        {/* Courses Ends */}
         <Segment padded="very">
           <Label basic size="large" attached="top">
             Work Experience
@@ -213,6 +186,40 @@ const StudentForm = () => {
             </Label.Group>
           </Transition.Group>
         </Segment>
+        {/* Work Ends */}
+        <Segment padded="very">
+          <Label basic size="large" attached="top">
+            Skills
+          </Label>
+          <Form.Group widths="equal">
+            <Form.Input>
+              <Input
+                type="text"
+                placeholder="Problem solver, Design, Team player"
+                value={skill}
+                onChange={(e) => {
+                  setSkill(e.target.value);
+                }}
+                action
+              >
+                <input />
+                <Button type="submit" onClick={addSkill} icon="add" />
+              </Input>
+            </Form.Input>
+          </Form.Group>
+          <Transition.Group>
+            <Label.Group fluid padded>
+              {skills.map((skill) => {
+                return (
+                  <Label onClick={removeSkill(skill)}>
+                    {skill.toUpperCase()}
+                  </Label>
+                );
+              })}
+            </Label.Group>
+          </Transition.Group>
+        </Segment>
+        {/* Skills Ends */}
         <Segment className="responsive" padded>
           <Label size="large" attached="top">
             About You

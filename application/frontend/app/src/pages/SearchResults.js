@@ -4,7 +4,7 @@ import { Card, Image } from 'semantic-ui-react';
 
 
 
-const SearchResults = (studentL) => {
+const SearchResults = () => {
   const [studentList, setStudentList] = useState([]);
   return (
     <div>

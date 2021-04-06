@@ -20,7 +20,7 @@
   router.post('/newstudent', controller.newstudent);
   
   // search for job postings
-  router,get('/jobsearch', controller.findJob);
+  // router.get('/jobsearch', controller.findJob);
 
   // post a job
   router.post('/newjobpost', controller.postjob);
