@@ -1,5 +1,5 @@
 import React, { useState, Component } from 'react'
-import { Input, Menu, Button, Modal} from 'semantic-ui-react'
+import { Input, Menu, Button, Modal, Container} from 'semantic-ui-react'
 import '../App.css'
 
 import Register from '../pages/Register';
@@ -13,12 +13,11 @@ const NavBar = () => {
   const [openLogin, setOpenLogin] = useState(false);
 
     return (
-      <div>
-        <Menu secondary >
+
+        <Menu fixed='top' inverted>
         <Menu.Item >
           <h1 className='title'>Milestone</h1>
         </Menu.Item>
-        
         {!isLoggedIn && (
                   <Menu.Menu  position='right'>
                   <Menu.Item
@@ -31,7 +30,7 @@ const NavBar = () => {
                       onClose={() => setOpenLogin(false)}
                       onOpen={() => setOpenLogin(true)}
                       open={openLogin}
-                      trigger={<Button color='yellow'>Login</Button>}
+                      trigger={<Button style={{color: 'white', backgroundColor: '#FBBE74'}}>Login</Button>}
                       className='responsive'
                       size='mini'
                     >
@@ -40,7 +39,7 @@ const NavBar = () => {
                       <Button size='tiny' basic onClick={() => setOpenLogin(false)}>
                         Cancel
                       </Button>
-        
+
                     </Modal.Actions>
                   </Modal>
                   </Menu.Item>
@@ -51,7 +50,7 @@ const NavBar = () => {
                     onClose={() => setOpenRegister(false)}
                     onOpen={() => setOpenRegister(true)}
                     open={openRegister}
-                    trigger={<Button color='orange'>Register</Button>}
+                    trigger={<Button  style={{color: 'white', backgroundColor: '#E06F41'}}>Register</Button>}
                     size='tiny'
                     className='responsive'
                   >
@@ -68,13 +67,11 @@ const NavBar = () => {
         {isLoggedIn && (
           <Menu.Item position='right'>
             {/* TODO: FIX LOGIC FOR THIS BUTTON : onClick={setLoggedIn(false)} */}
-            <Button color='orange'>Logout</Button>
+            <Button  style={{color: 'white', backgroundColor: '#E06F41'}}>Logout</Button>
           </Menu.Item>
         )}
-
-
       </Menu>
-      </div>
+
 
 
     )

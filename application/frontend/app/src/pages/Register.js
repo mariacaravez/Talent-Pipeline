@@ -15,30 +15,48 @@ import "../App.css";
 
 import StudentForm from "../components/StudentForm";
 
+const options = [
+  { key: 'student', text: 'Student', value: 'student' },
+  { key: 'headhunter', text: 'Employer', value: 'headhunter' },
+  { key: 'endorser', text: 'Professor', value: 'endorser' },
+]
+
+
 const Register = () => {
-  const [optionsValue, setOptionsValue] = useState("");
-  const [userType, setUserType] = useState("");
+
+  const [optionsValue, setOptionsValue] = useState("student");
+  const [userType, setUserType] = useState();
 
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
 
+  const [userName, setUserName] = useState("");
+
+    // TODO: LOGIC FOR PASSWORD MATCHING
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+
   // TODO: CHANGE THIS OBJECT TO BE USER
   const student = {
-    //userType
     firstName,
     middleName,
     lastName,
-    email,
+    userType,
   };
 
-  // TODO: LOGIC FOR PASSWORD MATCHING
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const account = {
+    password,
+    email
+  }
+
+  const handleSelect=(e, data)=>{
+    setOptionsValue(data.value);
+  }
 
   const submitRegistration = () => {
-    Axios.post("http://localhost:6480/newstudent", student).then((response) => {
+    Axios.post("http://localhost:6480/newstudent", {student, account}).then((response) => {
       console.log(response.data);
     });
     // Axios.post("http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/newStudent", {params: {student}}).then((response) => {
@@ -58,52 +76,11 @@ const Register = () => {
               size="big"
               attached="top"
             >
-              Register
-            </Label>
-            {/* WITH DROPDOWN LABEL
-                as {' '}
+              Register as {' '}
                 <Dropdown pointing options = {options} defaultValue='student' onChange={handleSelect} /> 
-          */}
+            </Label>
+                
             <Form onSubmit={submitRegistration}>
-              <Form.Group>
-                <Form.Field>
-                  I'm a (n)
-                </Form.Field>
-                <Form.Field>
-                  <Radio
-                    label="Student"
-                    name="radioGroup"
-                    value={1}
-                    checked={userType}
-                    onChange={(e) => {
-                      setUserType(e.target.value);
-                      }}
-                    // defaultChecked
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <Radio
-                    label="Employer"
-                    name="radioGroup"
-                    value={2}
-                    checked={userType}
-                    onChange={(e) => {
-                      setUserType(e.target.value);
-                      }}
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <Radio
-                    label="Professor"
-                    name="radioGroup"
-                    value={3}
-                    checked={userType}
-                    onChange={(e) => {
-                      setUserType(e.target.value);
-                      }}
-                  />
-                </Form.Field>
-              </Form.Group>
               <Form.Group widths="equal">
                 <Form.Input required label="Email">
                   <Input

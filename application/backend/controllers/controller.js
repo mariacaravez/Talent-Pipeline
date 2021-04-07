@@ -6,7 +6,7 @@
 const StudentModel = require("../models/student.js");
 
 // job posting model
-const jobModel = require("../models/jobposting.js");
+const JobModel = require("../models/jobposting.js");
 
 //
 // student control
@@ -28,6 +28,17 @@ const student = (student) => {
   this.ethnicity = req.query.ethnicity;
   this.skills = req.query.skills;
 };
+
+const job = (job) => {
+  this.location = req.query.location;
+  this.salary = req.query.salary;
+  this.company = req.query.company;
+  this.description = req.query.description;
+  this.jobPosterID = req.query.jobPosterID;
+  this.workType = req.query.workType;
+  this.gradRangeStart = req.query.gradRangeStart;
+  this.gradRangeEnd = req.query.gradRangeEnd;
+}
 
 //asyn was here
 exports.findStudents = (req, res) => {
@@ -61,7 +72,17 @@ exports.newstudent = (req, res) => {
     firstName: req.body.firstName,
     middleName: req.body.middleName,
     lastName: req.body.lastName,
-    userTypeID: 1, //req.body.userTypeID,
+    userTypeID: req.body.userTypeID,
+  });
+
+  // user (student, headhunter, endorser) login account
+  const acctModel = new userAccount({
+	  username: req.body.username,
+	  password: req.body.password,
+	  email: req.body.email,
+  });
+
+// for use on student attributes
     // major: req.body.major,
     // academicStanding: req.body.academicStanding,
     // graduationDate: req.body.graduationDate,
@@ -72,10 +93,21 @@ exports.newstudent = (req, res) => {
     // militaryCode: req.query.militaryCode,
     // ethnicity: req.query.ethnicity,
     // skills: req.query.skills,
-  });
+  // });
+
+  const jModel = new JobModel({
+    location: req.query.location,
+    salary: req.query.salary,
+    company: req.query.company,
+    description: req.query.description,
+    jobPosterID: req.query.jobPosterID,
+    workType: req.query.workType,
+    gradRangeStart: req.query.gradRangeStart,
+    gradRangeEnd: req.query.gradRangeEnd
+  })
 
   // save the student data to the database
-  StudentModel.create(stModel, (err, data) => {
+  StudentModel.create(stModel, acctModel, (err, data) => {
 		console.log(req.body);
     if (err)
       res
@@ -92,8 +124,9 @@ exports.newstudent = (req, res) => {
 //
 
 exports.findJob = (req, res) => {
-  jobModel
-    .find(req.query.jodID, req.query.jobdesc, req.query.optionValue)
+
+  JobModel
+    .find(req.query.jobID, req.query.jobdesc, req.query.optionValue)
     .then((results) => {
       res.send(results);
     })
