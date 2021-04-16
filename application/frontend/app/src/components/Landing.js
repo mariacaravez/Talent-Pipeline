@@ -16,12 +16,12 @@ import {
 import Axios from "axios";
 import "../App.css";
 
+
 //TODO: IMPLEMENT THE JOB SEARCH
 
 import Search from "../components/Search";
 import Register from "../pages/Register";
 import SearchJobs from "../components/SearchJobs";
-import StudentForm from "../components/StudentForm";
 
 const Landing = () => {
 
@@ -29,21 +29,26 @@ const Landing = () => {
 
   return (
     <div className="landing">
-      <Container>
+     
+      <Container fluid>
+      
         <Grid
           // verticalAlign="middle"
           padded
           // centered
-          columns={2}
+          columns={3}
           // columns="equal"
           stackable
           // stretched
         >
+
+          
           <Grid.Column width={6}>
             <Segment
               // padded="very"
               className="responsive"
               style={{ paddingTop: "18vh", paddingBottom: "20vh" }}
+              
             >
               <Header size="huge">I'm A Student</Header>
               <Modal
@@ -56,6 +61,7 @@ const Landing = () => {
                     size='tiny'
                     className='responsive'
                   >
+                    
                   <Register />
                   <Modal.Actions className='responsive'>
                     <Button size='tiny' basic onClick={() => setOpenRegister(false)}>
@@ -103,8 +109,8 @@ const Landing = () => {
                   </Segment>
                 </Grid.Column>
               </Grid.Row>
-              <Grid.Row>
-                <Grid.Column stretched>
+              <Grid.Row >
+                <Grid.Column>
                   <Search />
                 </Grid.Column>
               </Grid.Row>

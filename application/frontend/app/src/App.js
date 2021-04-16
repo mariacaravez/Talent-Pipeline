@@ -11,6 +11,8 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import StudentDashboard from './pages/StudentDashboard';
 import Register from './pages/Register';
+import About from "./pages/About";
+
 
 
 const App = () => {
@@ -22,9 +24,9 @@ const App = () => {
       </nav>
       <div>
         <Landing/>
+        {/* <About/> */}
       </div>
       <div>
-
         {/* <StudentDashboard/> */}
       </div>
 
@@ -36,6 +38,6 @@ const App = () => {
     </div>
 
   )
-}
+} 
 
 export default App;
