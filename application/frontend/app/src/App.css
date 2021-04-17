@@ -45,5 +45,10 @@
   text-align: center;
 }
 
+.editable {
+  border: 2px solid #E06F41;
+  border-radius: 4px;
+}
+
 
 /* 16698A */
