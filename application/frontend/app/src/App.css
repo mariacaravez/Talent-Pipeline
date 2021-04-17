@@ -35,9 +35,15 @@
   padding-bottom: 20vh;
 }
 
-.student-form {
+.dashboard {
   padding-top: 10vh;
-  padding-left: 8vh;
+  padding-left: 10vh;
   padding-right: 0vh;
   padding-bottom: 10vh;
 }
+.content {
+  text-align: center;
+}
+
+
+/* 16698A */

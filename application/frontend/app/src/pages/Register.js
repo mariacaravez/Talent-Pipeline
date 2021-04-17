@@ -14,6 +14,8 @@ import Axios from "axios";
 import "../App.css";
 
 import StudentForm from "../components/StudentForm";
+import JobPosting from "../components/JobPostingForm";
+import EndorsementForm from "../components/EndorsementForm";
 
 const options = [
   { key: "student", text: "Student", value: "student" },
@@ -203,11 +205,17 @@ const Register = () => {
                   </>
                 )}
               </Form.Field>
-              <Form.Field className="responsive">
-                {(optionsValue === "headHunter" ||
-                  optionsValue === "endorser") && (
+              <Form.Field>
+                {optionsValue === "headhunter" && (
                   <>
-                    {/* CAN INCLUDE ANYTHING SPECIFIC FOR HEADHUNTER OR ENDORSER HERE! */}
+                    {/* <JobPosting /> */}
+                  </>
+                )}
+              </Form.Field>
+              <Form.Field>
+                {optionsValue === "endorser" && (
+                  <>
+                    {/* <EndorsementForm /> */}
                   </>
                 )}
               </Form.Field>

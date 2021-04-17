@@ -21,7 +21,7 @@ import bera from "../images/bera.jpg";
 const StudentDashboard = () => {
 
   return (
-    <div className="student-form">
+    <div className="dashboard">
       <Container fluid className="responsive">
         <Grid columns={3} stackable stretched>
           {/* TODO: ADD EDITABLE PROFILE PICTURE */}

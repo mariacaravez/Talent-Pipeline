@@ -22,10 +22,15 @@ import "../App.css";
 import Search from "../components/Search";
 import Register from "../pages/Register";
 import SearchJobs from "../components/SearchJobs";
+import JobPosting from "./JobPostingForm";
+import EndorsementForm from "./EndorsementForm";
+
 
 const Landing = () => {
 
   const [openRegister, setOpenRegister] = useState(false);
+  const [openCreateJob, setOpenCreateJob] = useState(false);
+  const [openEndorse, setOpenEndorse] = useState(false);
 
   return (
     <div className="landing">
@@ -86,11 +91,24 @@ const Landing = () => {
                     <Header centered size="huge">
                       I'm An Employer
                     </Header>
-                    <Button
-                      style={{ color: "white", backgroundColor: "#87AFA6" }}
-                    >
-                      Create Job Post
+                    <Modal
+                    basic
+                    dimmer='inverted'
+                    onClose={() => setOpenCreateJob(false)}
+                    onOpen={() => setOpenCreateJob(true)}
+                    open={openCreateJob}
+                    trigger={<Button  style={{color: 'white', backgroundColor: '#87AFA6'}}>Create Job Post</Button>}
+                    size='tiny'
+                    className='responsive'
+                  >
+                    
+                  <JobPosting />
+                  <Modal.Actions className='responsive'>
+                    <Button size='tiny' basic onClick={() => setOpenCreateJob(false)}>
+                      Cancel
                     </Button>
+                  </Modal.Actions>
+                </Modal>
                   </Segment>
                 </Grid.Column>
                 <Grid.Column stretched>
@@ -101,11 +119,24 @@ const Landing = () => {
                     <Header className="responsive" size="huge">
                       I'm A Professor
                     </Header>
-                    <Button
-                      style={{ color: "white", backgroundColor: "#16698A" }}
-                    >
-                      Endorse Student
+                    <Modal
+                    basic
+                    dimmer='inverted'
+                    onClose={() => setOpenEndorse(false)}
+                    onOpen={() => setOpenEndorse(true)}
+                    open={openEndorse}
+                    trigger={<Button  style={{color: 'white', backgroundColor: '#16698A'}}>Endorse Student</Button>}
+                    size='tiny'
+                    className='responsive'
+                  >
+                    
+                  <EndorsementForm />
+                  <Modal.Actions className='responsive'>
+                    <Button size='tiny' basic onClick={() => setOpenEndorse(false)}>
+                      Cancel
                     </Button>
+                  </Modal.Actions>
+                </Modal>
                   </Segment>
                 </Grid.Column>
               </Grid.Row>
