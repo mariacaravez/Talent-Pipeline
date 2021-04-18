@@ -37,8 +37,6 @@
 
 .dashboard {
   padding-top: 10vh;
-  padding-left: 10vh;
-  padding-right: 0vh;
   padding-bottom: 10vh;
 }
 .content {
@@ -50,5 +48,9 @@
   border-radius: 4px;
 }
 
+.employer {
+  color: white;
+  background-color: #87AFA6;
+}
 
 /* 16698A */

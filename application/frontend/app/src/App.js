@@ -28,8 +28,8 @@ const App = () => {
         {/* <About/> */}
       </div>
       <div>
-        {/* <StudentDashboard/> */}
-        <HeadhunterDashboard/>
+        <StudentDashboard/>
+        {/* <HeadhunterDashboard/> */}
       </div>
 
       <div className='footer'>

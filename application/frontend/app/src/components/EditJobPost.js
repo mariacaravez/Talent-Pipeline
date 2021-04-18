@@ -9,7 +9,7 @@ import {
   Form,
   Label,
   Header,
-  Icon
+  Icon,
 } from "semantic-ui-react";
 
 import { useState } from "react";
@@ -40,14 +40,14 @@ const EditJobPost = () => {
   const description = "Someone who can help with redux, please!! :'(";
   const location = "CS Department at SFSU";
 
-  // NOT WORKING
+  // NOT WORKING - attempted to display as defaultValue
   const courses = [
-    {course: "CSC 317"},
-    {course: "CSC 667"},
-    {course: "CSC 648"}
+    { course: "CSC 317" },
+    { course: "CSC 667" },
+    { course: "CSC 648" },
   ];
-  // NOT WORKING
-  const type = options["internship"]
+  // NOT WORKING - attempted to display as defaultValue
+  const type = options["internship"];
 
   const gradStart = "2021-05-21";
   const gradEnd = "2021-12-16";
@@ -120,147 +120,132 @@ const EditJobPost = () => {
   const submitJobPost = () => {
     // TODO: ADD ROUTE
   };
+  const updateJobPosting = () => {
+    console.log("UPDATED JOB POSTING")
+  }
 
   return (
-    <div className="responsive">
-      <Grid padded="very">
-        <Segment padded="very">
-          <Label
-            style={{ color: "white", backgroundColor: "#87AFA6" }}
-            size="big"
-            attached="top"
-            icon="edit"
-            content="Edit Job Posting"
+    <div>
+        <Form onSubmit={submitJobPost} classname="responsive">
+          <Form.Field required>
+            <label>Title</label>
+            <input
+              defaultValue={title}
+              // onChange={e => dispatch(setTitle(e.target.value)
             />
-          <Form onSubmit={submitJobPost} classname="responsive">
-            <Form.Field required>
-              <label>Title</label>
-              <input
-                defaultValue={title}
-                // onChange={e => dispatch(setTitle(e.target.value)
-              />
-            </Form.Field>
-            <Form.Group widths="equal">
-              <Form.Select
-                required
-                label="Type"
-                placeholder="Full-time/Part-Time"
-                default={type}
-                options={options}
-                selected
-                value={type}
-                multiple={true}
-                // onChange={e => dispatch(setType(e.target.value)
-              ></Form.Select>
-              <Form.Input
-                placeholder="$80,000"
-                label="Salary"
-                defaultValue={salary}
-                // onChange={e => dispatch(setSalary(e.target.value)
-              />
-            </Form.Group>
-
-            <Form.TextArea
-              inline
+          </Form.Field>
+          <Form.Group>
+            <Form.Select
               required
-              label="Description"
-              defaultValue={description}
-              // onChange={e => dispatch(setDescription(e.target.value)
-            ></Form.TextArea>
-            <Form.Group widths="equal">
-              <Form.Field required>
-                <label>Company</label>
-                <input
-                  defaultValue={company}
-                  placeholder="Google Inc."
-                  type="text"
-                  // onChange={e => dispatch(setCompany(e.target.value)
-                />
-              </Form.Field>
-              <Form.Field required>
-                <label>Location</label>
-                <input
-                  defaultValue={location}
-                  placeholder="Mountain View, CA"
-                  type="text"
-                  // onChange={e => dispatch(setLocation(e.target.value)
-                />
-              </Form.Field>
-            </Form.Group>
-            <Segment padded="very">
-              <Label basic size="large" attached="top">
-                Coursework
-              </Label>
+              label="Type"
+              placeholder="Full-time/Part-Time"
+              default={type}
+              options={options}
+              selected
+              value={type}
+              multiple={true}
+              width={9}
+              // onChange={e => dispatch(setType(e.target.value)
+            ></Form.Select>
+            <Form.Input
+              placeholder="$80"
+              label="Salary"
+              defaultValue={salary}
+              width={7}
+              // onChange={e => dispatch(setSalary(e.target.value)
+            />
+          </Form.Group>
 
-              {/* TODO: FIGURE OUT HOW TO SHOW THE COURSES FOR CURRENT JOB POST AS DEFAULT VALUE */}
-              <CreatableSelect
-                isClearable
-                isMulti
-                components={{ DropdownIndicator: null }}
-                inputValue={course}
-                menuIsOpen={false}
-                onChange={(value) => handleChange("courses", value)}
-                placeholder="Physics II, Calculus I . . ."
-                onKeyDown={addCourse}
-                onInputChange={(value) => handleInputChange("courses", value)}
-                value={coursework}
-                // TODO: defaultValue={{label: cs}}
+          <Form.TextArea
+            inline
+            required
+            label="Description"
+            defaultValue={description}
+            // onChange={e => dispatch(setDescription(e.target.value)
+          ></Form.TextArea>
+          <Form.Group widths="equal">
+            <Form.Field required>
+              <label>Company</label>
+              <input
+                defaultValue={company}
+                placeholder="Google Inc."
+                type="text"
+                // onChange={e => dispatch(setCompany(e.target.value)
               />
-            </Segment>
-
-            {/* TODO: FIGURE OUT HOW TO SHOW THE SKILLS FOR CURRENT JOB POST AS DEFAULT VALUE */}
-            <Segment padded="very">
-              <Label basic size="large" attached="top">
-                Skills
-              </Label>
-              <CreatableSelect
-                isClearable
-                isMulti
-                components={{ DropdownIndicator: null }}
-                inputValue={skill}
-                menuIsOpen={false}
-                onChange={(value) => handleChange("skills", value)}
-                placeholder="Google Suite, Salesforce . . ."
-                onKeyDown={addSkill}
-                onInputChange={(value) => handleInputChange("skills", value)}
-                value={skills}
-              />
-            </Segment>
-            <Segment className="responsive" padded="very">
-              <Label basic size="large" attached="top">
-                Graduation Date Range
-              </Label>
-              <Form.Group inline widths="equal">
-                <Form.Field inline>
-                  <label>From</label>
-                  <input
-                    type="date"
-                    value={gradStart}
-                    // onChange={e => dispatch(setGradStart(e.target.value)
-                  />
-                </Form.Field>
-                <Form.Field inline>
-                  <label>To</label>
-                  <input
-                    type="date"
-                    value={gradEnd}
-                    // onChange={e => dispatch(setGradEnd(e.target.value)
-                  />
-                </Form.Field>
-              </Form.Group>
-            </Segment>
-
-            <Form.Field className="responsive">
-              <Button
-                style={{ color: "white", backgroundColor: "#87AFA6" }}
-                type="submit"
-              >
-                Post Job
-              </Button>
             </Form.Field>
-          </Form>
-        </Segment>
-      </Grid>
+            <Form.Field required>
+              <label>Location</label>
+              <input
+                defaultValue={location}
+                placeholder="Mountain View, CA"
+                type="text"
+                // onChange={e => dispatch(setLocation(e.target.value)
+              />
+            </Form.Field>
+          </Form.Group>
+          <Form.Field>
+            <label>Courses</label>
+            {/* TODO: FIGURE OUT HOW TO SHOW THE COURSES FOR CURRENT JOB POST AS DEFAULT VALUE */}
+            <CreatableSelect
+              isClearable
+              isMulti
+              components={{ DropdownIndicator: null }}
+              inputValue={course}
+              menuIsOpen={false}
+              onChange={(value) => handleChange("courses", value)}
+              placeholder="Physics II, Calculus I . . ."
+              onKeyDown={addCourse}
+              onInputChange={(value) => handleInputChange("courses", value)}
+              value={coursework}
+              // TODO: defaultValue={{label: cs}}
+            />
+          </Form.Field>
+
+          {/* TODO: FIGURE OUT HOW TO SHOW THE SKILLS FOR CURRENT JOB POST AS DEFAULT VALUE */}
+          <Form.Field>
+            <label>Skills</label>
+            <CreatableSelect
+              isClearable
+              isMulti
+              components={{ DropdownIndicator: null }}
+              inputValue={skill}
+              menuIsOpen={false}
+              onChange={(value) => handleChange("skills", value)}
+              placeholder="Google Suite, Salesforce . . ."
+              onKeyDown={addSkill}
+              onInputChange={(value) => handleInputChange("skills", value)}
+              value={skills}
+            />
+          </Form.Field>
+          <Segment className="responsive">
+            <Label attached="top">Graduation Date</Label>
+            <Form.Group widths="equal">
+              <Form.Input
+                type="date"
+                label="From"
+                value={gradStart}
+                // onChange={e => dispatch(setGradStart(e.target.value)
+              />
+              <Form.Input
+                type="date"
+                label="To"
+                value={gradEnd}
+                // onChange={e => dispatch(setGradEnd(e.target.value)
+              />
+
+            </Form.Group>
+          </Segment>
+
+          <Form.Field className="responsive">
+            <Button
+              style={{ color: "white", backgroundColor: "#87AFA6" }}
+              type="submit"
+              onClick={updateJobPosting}
+            >
+              Update
+            </Button>
+          </Form.Field>
+        </Form>
     </div>
   );
 };
