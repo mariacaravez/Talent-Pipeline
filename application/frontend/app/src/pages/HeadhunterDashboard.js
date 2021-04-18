@@ -64,7 +64,7 @@ const HeadhunterDashboard = () => {
   return (
     <div className="dashboard">
       <Container fluid className="responsive">
-        <Grid columns={2} stackable>
+        <Grid centered columns={2} stackable>
           <Grid.Column width={3} stretched>
             <Card centered>
               <Image src={headhunterImage} wrapped ui={false} />
