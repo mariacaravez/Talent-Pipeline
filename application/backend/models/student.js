@@ -5,17 +5,9 @@
 // get the db access
 const db = require("./dbaccess.js");
 
-// constructor for new user (student, headhunter, endorser)
-const StudentModel = function (objValues) {
-  this.firstName = objValues.firstName;
-  this.middleName = objValues.middleName;
-  this.lastName = objValues.lastName;
-  this.userTypeID = objValues.userTypeID;
-
-};
-
 // constructor for (ONLY) student user attributes
 const StudentAttrib = function(attribValues) {
+  this.userID = attribValues.userID;
   this.major = attribValues.major;
   this.academicStanding = attribValues.academicStanding;
   this.graduationDate = attribValues.graduationDate;
@@ -26,35 +18,13 @@ const StudentAttrib = function(attribValues) {
   this.militaryCode = attribValues.militaryCode;
   this.ethnicity = attribValues.ethnicity;
   this.skills = attribValues.skills;
+  this.courseWork = attribValues.courseWork;
+  this.workexp = attribValues.workexp;
+  this.resume = attribValues.resume;
 };
 
-// constructor for user (student, headhunter, endorser) account
-const userAccount = function(acctValues) {
-	this.username = acctValues.username;
-	this.password = acctValues.password;
-	this.email = acctValues.email;
-};
-
-// const StudentModel = {};
-
-/* PROMISES */
-//async was here
-// StudentModel.find = (student, textValue, optionsValue) => {
-// // console.log("I'M IN STUDENT MODEL");
-// let baseSQL = 'SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID';
-// return db.promise().query(baseSQL)
-// .then(([results, fields]) => {
-// console.log(results);
-// return Promise.resolve(results);
-// })
-// .catch((err) => Promise.reject(err));
-// }
-/* PROMISES END*/
-
-// OLD: student.find(student) = result =>
-// retrieve all students who match - textvalue and have attribute optiotsvalue
-StudentModel.find = (student, textValue, optionsValue) => {
-
+// search for students
+StudentModel.find = (textValue, optionsValue) => {
   try {
     if (textValue == "") {
       return db
@@ -67,19 +37,8 @@ StudentModel.find = (student, textValue, optionsValue) => {
           return Promise.resolve(results);
         })
         .catch((err) => Promise.reject(err));
-
-      // // old code
-      // , (error, result) => {
-      // if (error) {
-      // //console.log("error: ", error);
-      // res.sendStatus(500);
-      // //result(null, err);
-      // return (error);
-      // }
-      // //console.log("student: ", res);
-      // return(result);
-      // });
-    } else if (optionsValue == "major") {
+    }
+	else if (optionsValue == "major") {
       return db
         .promise()
         .query(
@@ -91,19 +50,8 @@ StudentModel.find = (student, textValue, optionsValue) => {
           return Promise.resolve(results);
         })
         .catch((err) => Promise.reject(err));
-
-      // old code
-      // , (error, result) => {
-      // if (error) {
-      // //console.log("error: ", error);
-      // res.sendStatus(500);
-      // //result(null, err);
-      // return (error);
-      // }
-      // //console.log("student: ", res);
-      // return(result);
-      // });
-    } else if (optionsValue == "gradDate") {
+    }
+	else if (optionsValue == "gradDate") {
       return db
         .promise()
         .query(
@@ -115,23 +63,12 @@ StudentModel.find = (student, textValue, optionsValue) => {
           return Promise.resolve(results);
         })
         .catch((err) => Promise.reject(err));
-
-      // old code
-      // , (error, result) => {
-      // if (error) {
-      // //console.log("error: ", error);
-      // res.sendStatus(500);
-      // //result(null, err);
-      // return (error);
-      // }
-      // //console.log("student: ", res);
-      // return(result);
-      // });
-    } else if (optionsValue == "standing") {
+    }
+	else if (optionsValue == "standing") {
       return db
         .promise()
         .query(
-          "SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID AND +ua.academicStanding LIKE ?",
+          "SELECT * FROM user us, userAttributes ua WHERE us.userTypeID = 1 AND us.userID = ua.userID AND +ua.academicStanding = ?",
           ["%" + textValue + "%"]
         )
         .then(([results, fields]) => {
@@ -139,19 +76,8 @@ StudentModel.find = (student, textValue, optionsValue) => {
           return Promise.resolve(results);
         })
         .catch((err) => Promise.reject(err));
-
-      // old code
-      // , (error, result) => {
-      // if (error) {
-      // //console.log("error: ", error);
-      // res.sendStatus(500);
-      // //result(null, err);
-      // return (error);
-      // }
-      // //console.log("student: ", res);
-      // return(result);
-      // });
-    } else if (optionsValue == "site" || optionsValue == "*") {
+    }
+	else if (optionsValue == "site" || optionsValue == "*") {
       return db
         .promise()
         .query(
@@ -170,18 +96,6 @@ StudentModel.find = (student, textValue, optionsValue) => {
           return Promise.resolve(results);
         })
         .catch((err) => Promise.reject(err));
-
-      // old code
-      // , (error, result) => {
-      // if (error) {
-      // //console.log("error: ", error);
-      // res.sendStatus(500);
-      // //result(null, err);
-      // return (error);
-      // }
-      // //console.log("student: ", res);
-      // return(result);
-      // });
     }
   } catch (err) {
     console.log(err);
@@ -189,27 +103,93 @@ StudentModel.find = (student, textValue, optionsValue) => {
   }
 };
 
-// create a new student record - registration
-StudentModel.create = (newuser, useracct, result) => {
-  console.log(newuser);
-  db.promise()
-    .query("INSERT INTO user SET ?", newuser)
+// create a new student profile - registration
+StudentModel.createProfile = (stdtattrib, results) => {
+    console.log(stdtattrib);
+    db.promise().query("INSERT INTO userAttributes (gradDate, academicStanding, major, userID, resume)  VALUS(?,?,?,?,?)",
+                    	[stdtattrib.graduationDate, stdtattrib.academicStanding, stdtattrib.major, stdtattrib.userID, stdtattrib.resume])
     .then(([results, fields]) => {
-      console.log(results.insertId);
-      // console.log(results);
-	  
-	  // add userID for the new user to the user account object
-	  useracct = {userID: result.insertedId,...useracct};
-      // return Promise.resolve(results);
-    
-      // create the user account record
-      db.promise().query("INSERT INTO userAccounts SET ?", useracct)
-       .then(([result, fields]) => {
-       return Promise.resolve(result);
-      })
-       .catch((err) => Promise.reject(err));
+        //console.log(results.insertId);
+        // console.log(results);
+		
+		// insert student demo data
+		db.promise().query("INSERT INTO studentDemo (userID, gender, age, race, ethnicity, veteran, militaryCode)  VALUS(?,?,?,?,?,?,?)",
+                    	[stdtattrib.userID, stdtattrib.gender, stdtattrib.age, stdtattrib.race, stdtattrib.ethnicity, stdtattrib.veteran, stdtattrib.militaryCode])
+        .then(([dresults, fields]) => {
+        // console.log(results);
+        //return Promise.resolve(result);
+		results(...results, { ...dresults });
+        
+			// insert course work
+			db.promise().query("INSERT INTO studentCoursework (coursework, corseworkRating, userID)  VALUS(?,?,?,?,?,?)",
+							[stdtattrib.courseWork.coursework, stdtattrib.coursework.rating, stdtattrib.userID])
+			.then(([cwresults, fields]) => {
+			// console.log(results);
+			//return Promise.resolve(result);
+			results(...results, { ...cwresults });
+			
+			// insert student skills
+				db.promise().query("INSERT INTO studentSkills (userSkill, userSkillRating, userID)  VALUS(?,?,?)",
+							[stdtattrib.skills.userskill, stdtattrib.skills.rating, stdtattrib.userID])
+			    .then(([sresults, fields]) => {
+			        // console.log(results);
+			        //return Promise.resolve(result);
+					results(...results, { ...sresults });
+			
+			        // insert student work experience
+		            db.promise().query("INSERT INTO studentWorkExp (workExpTitle, workExpDesc, userID)  VALUS(?,?,?)",
+							[stdtattrib.workexp.title, stdtattrib.workexp.description, stdtattrib.userID])
+			        .then(([weresults, fields]) => {
+			             // console.log(results);
+			             //return Promise.resolve(result);
+						 results(...results, { ...weresults });
+		            })
+		        })
+		    })
+		
+		})
+		
+        return Promise.resolve(results);
     })
     .catch((err) => Promise.reject(err));
 };
 
-module.exports = StudentModel, userAccount, StudentAttrib;
+// update an existing student's profile
+StudentModel.updateProfile = (stdtattrib, result) => {
+    console.log(stdtattrib);
+    db.promise().query("UPDATE userAttributes SET academicStanding = ?, resume = ? where userID = ?)",
+                    	[stdtattrib.academicStanding, stdtattrib.resume, stdtattrib.userID])
+    .then(([results, fields]) => {
+        //console.log(results.insertId);
+        // console.log(results);
+		
+		// update student demo data
+		db.promise().query("UPDATE studentDemo SET gender = ?, age = ?, race = ?, ethnicity = ?, veteran = ?, militaryCode = ? WHERE userID = ?)",
+                    	[stdtattrib.gender, stdtattrib.age, stdtattrib.race, stdtattrib.ethnicity, stdtattrib.veteran, stdtattrib.militaryCode, stdtattrib.userID])
+        .then(([dresults, fields]) => {
+            // console.log(results);
+            //return Promise.resolve(result);
+		    results(...results, { ...dresults });
+		})
+		
+        return Promise.resolve(results);
+
+    })
+    .catch((err) => Promise.reject(err));
+};
+
+// retrieve student profile
+// update an existing student's profile
+StudentModel.findProfile = (userid, result) => {
+    console.log(newuser);
+    db.promise().query("SELECT * FROM user us, userAttributes ua, studentDemo sd, studentCoursework scw, studentSkills ss, studentWorkExp swe WHERE  us.userID = ua.userID AND us.userID = sd.userID AND us.userID = scw.userID AND us.userID = ss.userID AND us.userID = swe.userID AND us.userID = ?", userid)
+    .then(([results, fields]) => {
+        //console.log(results.insertId);
+        // console.log(results);
+        return Promise.resolve(result);
+    })
+    .catch((err) => Promise.reject(err));
+};
+
+
+module.exports = StudentAttrib;

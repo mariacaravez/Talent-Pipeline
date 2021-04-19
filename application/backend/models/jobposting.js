@@ -6,8 +6,9 @@
 const db = require('./dbaccess.js');
 
 // jobpost constructor
-const JobModel = function(jobpost) {
+const JobPostObj = function(jobpost) {
 	this.location = jobpost.location;
+	this.title = jobpost.title;
 	this.salary = jobpost.salary;
 	this.company = jobpost.company;
 	this.description = jobpost.description;
@@ -15,9 +16,10 @@ const JobModel = function(jobpost) {
 	this.workType = jobpost.workType;
 	this.gradRangeStart = jobpost.gradRangeStart;
 	this.gradRangeEnd = jobpost.gradRangeEnd;
+	this.coursework = jobpost.coursework;
+	this.skills = jobpost.skills;
 };
 
-// const jobpostingModel = {}
 
 // find all job postings
 JobModel.find = (jobId, jobDesc) => {
@@ -40,19 +42,31 @@ JobModel.find = (jobId, jobDesc) => {
 };
 
 // // create a new job posting
-// JobModel.create = (newjob, result) => {
-//     db.promise().query("INSERT INTO jobPostings SET ?", newjob)
-// 	 .then(([results, fields]) => {
-// 	    // console.log(results);
-//         return Promise.resolve(results);
-//
-// 		// we need the jobpostingID for creation of job requirement records
-// 		//db.promise().query("INSERT INTO jobReq SET ?", newjob)
-// 		//.then ( ([results, fields]) => {
-// 		//    console.log(results);
-// 		}) .catch((err) => Promise.reject(err));
-//      })
-//      .catch((err) => Promise.reject(err));
-// };
+JobModel.create = (newjob, result) => {
+    db.promise().query("INSERT INTO jobPostings (title, location, salary, description, workType,gradRangeStar, gradRangeEnd, company, jobPosterID) VALUES(?,?,?,?)",
+	                   [newjob.title, newjob.location, newjob.salary, newjob.description, newjob.workType, newjob.gradRangeStart, newjob.gradRangeEnd, newjob.company, newjob.jobPosterID])
+	 .then(([results, fields]) => {
+	    // console.log(results);
+		// we need the jobpostingID for creation of job requirement records
+        db.promise().query("INSERT INTO jpbReqs (jpbPostingID, coursework, skills) VALUES(?,?,?)", [results.insertedID, newjob.coursework, newjob.skills])
+		.then(([jresults, fields]) => {
+			results(...results, ...jresults)
+		    //console.log(results);
+		}) .catch((err) => Promise.reject(err));
+        return Promise.resolve(results);
+     })
+     .catch((err) => Promise.reject(err));
+};
+
+
+// all jobs posted by session user
+JobModel.findMyJobs = (userid) => {
+    db.promise().query("SELECT * FROM jobPostings jp, jobReq jr WHERE jp.postID = jr.jobPostingID AND jobPosterID = ?", [userid])
+	.then(([results, fields]) => {
+	    // console.log(results);
+        return Promise.resolve(results);
+    })
+    .catch((err) => Promise.reject(err));
+};
 
 module.exports = JobModel;
