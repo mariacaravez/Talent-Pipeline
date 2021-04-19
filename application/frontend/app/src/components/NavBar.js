@@ -1,9 +1,11 @@
 import React, { useState, Component } from 'react'
 import { Input, Menu, Button, Modal, Container} from 'semantic-ui-react'
+
 import '../App.css'
 
 import Register from '../pages/Register';
 import Login from '../pages/Login';
+import About from "../pages/About"
 
 const NavBar = () => {
 
@@ -21,7 +23,7 @@ const NavBar = () => {
         {!isLoggedIn && (
                   <Menu.Menu  position='right'>
                   <Menu.Item
-                    name='about'
+                    name='about'                    
                   />
                   <Menu.Item >
                     <Modal

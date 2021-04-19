@@ -34,3 +34,31 @@
   padding-top: 20vh;
   padding-bottom: 20vh;
 }
+
+.dashboard {
+  padding-top: 10vh;
+  padding-bottom: 10vh;
+}
+.content {
+  text-align: center;
+}
+
+.editable {
+  border: 2px solid #E06F41;
+  border-radius: 4px;
+}
+
+.employer {
+  color: white;
+  background-color: #87AFA6;
+}
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+/* 16698A */

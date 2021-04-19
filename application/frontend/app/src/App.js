@@ -11,6 +11,9 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import StudentDashboard from './pages/StudentDashboard';
 import Register from './pages/Register';
+import About from "./pages/About";
+import HeadhunterDashboard from "./pages/HeadhunterDashboard";
+import JobPosting from './components/JobPostingForm';
 
 
 const App = () => {
@@ -21,11 +24,12 @@ const App = () => {
         <NavBar />
       </nav>
       <div>
-        <Landing/>
+        {/* <Landing/> */}
+        {/* <About/> */}
       </div>
       <div>
-
-        {/* <StudentDashboard/> */}
+        <StudentDashboard/>
+        {/* <HeadhunterDashboard/> */}
       </div>
 
       <div className='footer'>
@@ -36,6 +40,6 @@ const App = () => {
     </div>
 
   )
-}
+} 
 
 export default App;

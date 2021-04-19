@@ -17,7 +17,7 @@ import {
 // import Axios from 'axios';
 import "../App.css";
 
-const StudentForm = () => {
+const EditProfile = () => {
   const [graduationDate, setGraduationDate] = useState("");
   const [major, setMajor] = useState("");
 
@@ -164,6 +164,7 @@ const StudentForm = () => {
           <Label basic size="large" attached="top">
             Courses
           </Label>
+          {/* <Form.Group widths="equal"> */}
               <CreatableSelect
               isClearable
               isMulti
@@ -183,6 +184,7 @@ const StudentForm = () => {
           <Label basic size="large" attached="top">
             Work Experience
           </Label>
+          {/* <Form.Group widths="equal"> */}
               <CreatableSelect
               isClearable
               isMulti
@@ -202,6 +204,7 @@ const StudentForm = () => {
           <Label basic size="large" attached="top">
             Skills
           </Label>
+          {/* <Form.Group widths="equal"> */}
               <CreatableSelect
               isClearable
               isMulti
@@ -234,4 +237,4 @@ const StudentForm = () => {
   );
 };
 
-export default StudentForm;
+export default EditProfile;
