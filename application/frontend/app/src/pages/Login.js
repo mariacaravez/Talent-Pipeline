@@ -1,19 +1,20 @@
 import React from 'react';
 import { useState } from 'react';
-import { Form, Input, Segment, Grid, Label, Dropdown, Button} from 'semantic-ui-react';
+import { Form, Input, Segment, Grid, Label, Button} from 'semantic-ui-react';
 
-import StudentDashboard from '../pages/StudentDashboard';
+import { authActions } from '../components/store/auth-slice';
+import { useDispatch } from 'react-redux';
 
 const Login = () => {
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const dispatch = useDispatch();
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   // TODO: SET UP APPROPRIATE ROUTE
   const submitLogin = () =>{
     console.log('USER IS LOGGED IN');
-    setIsLoggedIn(true);
+    dispatch(authActions.login());
   }
 
   return(
@@ -23,7 +24,7 @@ const Login = () => {
         <Label style={{color: 'white', backgroundColor: '#FBBE74'}} size='big' attached='top'>
                 Login
           </Label>
-          <Form>
+          <Form onSubmit={submitLogin}>
             <Form.Input>
                 <Input label={{basic: true, content: 'Email'}} type='email' labelPosition='left' placeholder='johndoe648@mail.sfsu.edu' value={email} onChange={(e) => {setEmail(e.target.value);}}/>  
               </Form.Input>
@@ -31,7 +32,7 @@ const Login = () => {
                 <Input label={{basic: true, content: 'Password'}} type='password' labelPosition='left' value={password} onChange={(e) => {setPassword(e.target.value);}}/>  
               </Form.Input>
               <Form.Field className='responsive'>
-                <Button style={{color: 'white', backgroundColor: '#FBBE74'}} type='submit' value={isLoggedIn} onClick={submitLogin}>Login</Button>
+                <Button style={{color: 'white', backgroundColor: '#FBBE74'}} type='submit'>Login</Button>
               </Form.Field>
 
           </Form>
