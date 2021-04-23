@@ -22,6 +22,7 @@ import Search from "../components/Search";
 import Register from "../pages/Register";
 import SearchJobs from "../components/SearchJobs";
 import StudentForm from "../components/StudentForm";
+import NewSearchStudent from "../components/NewSearchStudent";
 
 const Landing = () => {
 
@@ -105,7 +106,7 @@ const Landing = () => {
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column stretched>
-                  <Search />
+                  <NewSearchStudent />
                 </Grid.Column>
               </Grid.Row>
             </Grid>

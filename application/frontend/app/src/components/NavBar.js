@@ -5,15 +5,27 @@ import '../App.css'
 import Register from '../pages/Register';
 import Login from '../pages/Login';
 
+// redux imports
+import { useSelector, useDispatch } from 'react-redux';
+import { authActions } from './store/auth-slice';
+
 const NavBar = () => {
 
   //TODO: LOGIC FOR LOGGED IN TO ONLY SHOW LOGOUT BUTTON
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  // const [isLoggedIn, setLoggedIn] = useState(false);
   const [openRegister, setOpenRegister] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
 
-    return (
+  // using global state to check if user logged in
+  const isLoggedIn = useSelector(state => state.auth.isLogged);
+  // so we can use dispatch
+  const dispatch = useDispatch();
 
+  const logoutHandler = () => {
+    dispatch(authActions.logout());
+  };
+
+    return (
         <Menu fixed='top' inverted>
         <Menu.Item >
           <h1 className='title'>Milestone</h1>
@@ -66,8 +78,10 @@ const NavBar = () => {
         )}
         {isLoggedIn && (
           <Menu.Item position='right'>
-            {/* TODO: FIX LOGIC FOR THIS BUTTON : onClick={setLoggedIn(false)} */}
-            <Button  style={{color: 'white', backgroundColor: '#E06F41'}}>Logout</Button>
+            <Menu.Item
+                    name='about'
+                  />
+            <Button  onClick = {logoutHandler} style={{color: 'white', backgroundColor: '#E06F41'}}>Logout</Button>
           </Menu.Item>
         )}
       </Menu>
