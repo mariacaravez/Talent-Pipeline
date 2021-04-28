@@ -1,8 +1,7 @@
 import React from 'react';
-import { useState } from 'react';
-import { Dropdown, Input, Button, Card, Container, Image, Grid, Segment, Label} from 'semantic-ui-react';
-import Axios from 'axios';
 import './App.css'
+import { Route } from 'react-router-dom';
+import { Fragment } from 'react';
 
 //TODO: CLEAN IT UP
 
@@ -14,32 +13,32 @@ import Register from './pages/Register';
 import About from "./pages/About";
 import HeadhunterDashboard from "./pages/HeadhunterDashboard";
 import JobPosting from './components/JobPostingForm';
-import Demographics from './components/Demographics';
+import SearchStudents from './components/Search/Students/SearchStudents';
 
 
 const App = () => {
 
-  return(
-    <div>
-      <nav>
-        <NavBar />
-      </nav>
-      <div>
-        {/* <Landing/> */}
-        {/* <About/> */}
-      </div>
-      <div>
-        <StudentDashboard/>
-        {/* <HeadhunterDashboard/> */}
-        {/* <Demographics/> */}
-      </div>
-
-      <div className='footer'>
-      <Footer />
-      </div>
-
-
-    </div>
+  return (
+    <Fragment>
+      <Route path="/">
+      <NavBar />
+      </Route>
+        <Route exact path="/">
+          <Landing />
+          <Footer />
+        </Route>
+        <Route path="/search/students">
+          <SearchStudents />
+        </Route>
+        <Route path='/student'>
+          <StudentDashboard/>
+          <Footer />
+        </Route>
+        <Route path='/headhunter'>
+          <HeadhunterDashboard/>
+          <Footer />
+        </Route>
+    </Fragment>
 
   )
 } 

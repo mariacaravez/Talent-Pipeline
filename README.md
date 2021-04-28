@@ -11,7 +11,7 @@ http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com/html/about.html
 
 2. Add ALL members of your team to this repository. For it to count, they must ACCEPT the invite.
 
-3. Fill out the table below
+3. Fill out the table below. 
 
 
 | Student Name | Student Email | GitHub Username |
