@@ -18,10 +18,11 @@ UserAccount.create = (useracct, result) => {
 };
 
 // for user login
-UserAccount.verify = (useracct, result) => {
-	return db.promise().query("SELECT userID, email FROM userAccounts WHERE username = ? AND password = ?", [useracct.username, useracct.password])
+UserAccount.verify = (useracct, results) => {
+    console.log(useracct);
+	db.promise().query("SELECT userAccID, email FROM userAccounts WHERE username = ? AND password = ?", [useracct.username, useracct.password])
     .then(([results, fields]) => {
-          // console.log(results);
+          console.log(results);
           return Promise.resolve(results);
     })
     .catch((err) => Promise.reject(err));
@@ -29,7 +30,8 @@ UserAccount.verify = (useracct, result) => {
 
 // for password reset
 UserAccount.resetpass = (useracct, result) => {
-	return db.promise().query("UPDATE userAccounts SET password = ? WHERE username = ? AND userID = ?", [useracct.password, useracct.username, useracct.userID])
+
+	return db.promise().query("UPDATE userAccounts SET password = ? WHERE username = ? AND userAccID = ?", [useracct.password, useracct.username, useracct.userID])
     .then(([results, fields]) => {
           // console.log(results);
           return Promise.resolve(results);

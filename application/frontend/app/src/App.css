@@ -60,5 +60,15 @@
 	position: absolute;
 	z-index: -1;
 }
+input[type="file"]{
+  display: none;
+}
+.custom-file-upload {
+  background-color: #FBBE74;
+  border-radius: 15px;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
 
 /* 16698A */

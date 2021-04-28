@@ -14,6 +14,7 @@ import Register from './pages/Register';
 import About from "./pages/About";
 import HeadhunterDashboard from "./pages/HeadhunterDashboard";
 import JobPosting from './components/JobPostingForm';
+import Demographics from './components/Demographics';
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
       <div>
         <StudentDashboard/>
         {/* <HeadhunterDashboard/> */}
+        {/* <Demographics/> */}
       </div>
 
       <div className='footer'>

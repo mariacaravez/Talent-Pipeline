@@ -1,5 +1,4 @@
 import React from "react";
-import Axios from "axios";
 import { useState } from "react";
 import {
   Form,
@@ -13,35 +12,16 @@ import {
 
 import StudentDashboard from "../pages/StudentDashboard";
 
-const Login = () => {
+const Demographics = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   // TODO: SET UP APPROPRIATE ROUTE
-  // "http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/search"
   // const submitLogin = () => {
-  //   Axios.get("http://localhost:6480/login",
-  //     {
-  //       params: { username: username, password: password },
-  //     }
-  //   ).then((response) => {
-  //     console.log(response.data);
-
-  //     setIsLoggedIn(true);
-  //   });
+  //   console.log("USER IS LOGGED IN");
+  //   setIsLoggedIn(true);
   // };
-
-  const submitLogin = () => {
-
-    Axios.get("http://localhost:6480/login",{body: {username: username, password: password}})
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   return (
     <div className="responsive">
@@ -52,29 +32,50 @@ const Login = () => {
             size="big"
             attached="top"
           >
-            Login
+            Demographic
           </Label>
-          <Form onSubmit={submitLogin}>
+          <Form>
             <Form.Input>
               <Input
-                label={{ basic: true, content: "Email" }}
-                type="email"
-                labelPosition="left"
-                placeholder="johndoe648@mail.sfsu.edu"
-                value={username}
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
-              />
-            </Form.Input>
-            <Form.Input>
-              <Input
-                label={{ basic: true, content: "Password" }}
+                label={{ basic: true, content: "Ethnicity" }}
                 type="password"
                 labelPosition="left"
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
+                }}
+              />
+            </Form.Input>
+            <Form.Input>
+              <Input
+                label={{ basic: true, content: "Race" }}
+                type="password"
+                labelPosition="left"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+            </Form.Input>
+            <Form.Input>
+              <Input
+                label={{ basic: true, content: "Age" }}
+                type="text"
+                labelPosition="left"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+            </Form.Input>
+            <Form.Input>
+              <Input
+                label={{ basic: true, content: "Gender" }}
+                type="text"
+                labelPosition="left"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
                 }}
               />
             </Form.Input>
@@ -94,4 +95,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Demographics;

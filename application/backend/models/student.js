@@ -24,7 +24,7 @@ const StudentAttrib = function(attribValues) {
 };
 
 // search for students
-StudentModel.find = (textValue, optionsValue) => {
+StudentAttrib.find = (textValue, optionsValue) => {
   try {
     if (textValue == "") {
       return db
@@ -104,7 +104,7 @@ StudentModel.find = (textValue, optionsValue) => {
 };
 
 // create a new student profile - registration
-StudentModel.createProfile = (stdtattrib, results) => {
+StudentAttrib.createProfile = (stdtattrib, results) => {
     console.log(stdtattrib);
     db.promise().query("INSERT INTO userAttributes (gradDate, academicStanding, major, userID, resume)  VALUS(?,?,?,?,?)",
                     	[stdtattrib.graduationDate, stdtattrib.academicStanding, stdtattrib.major, stdtattrib.userID, stdtattrib.resume])
@@ -155,7 +155,7 @@ StudentModel.createProfile = (stdtattrib, results) => {
 };
 
 // update an existing student's profile
-StudentModel.updateProfile = (stdtattrib, result) => {
+StudentAttrib.updateProfile = (stdtattrib, result) => {
     console.log(stdtattrib);
     db.promise().query("UPDATE userAttributes SET academicStanding = ?, resume = ? where userID = ?)",
                     	[stdtattrib.academicStanding, stdtattrib.resume, stdtattrib.userID])
@@ -180,7 +180,7 @@ StudentModel.updateProfile = (stdtattrib, result) => {
 
 // retrieve student profile
 // update an existing student's profile
-StudentModel.findProfile = (userid, result) => {
+StudentAttrib.findProfile = (userid, result) => {
     console.log(newuser);
     db.promise().query("SELECT * FROM user us, userAttributes ua, studentDemo sd, studentCoursework scw, studentSkills ss, studentWorkExp swe WHERE  us.userID = ua.userID AND us.userID = sd.userID AND us.userID = scw.userID AND us.userID = ss.userID AND us.userID = swe.userID AND us.userID = ?", userid)
     .then(([results, fields]) => {

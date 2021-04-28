@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import CreatableSelect from "react-select/creatable";
+
 import {
   Grid,
   Image,
@@ -13,8 +15,12 @@ import {
   Form,
   Modal,
   Input,
+  Header,
+  Button,
 } from "semantic-ui-react";
 import "../App.css";
+
+import RateRequest from "../components/RateRequest";
 
 import bera from "../images/bera.jpg";
 
@@ -27,17 +33,90 @@ const StudentDashboard = () => {
   const [openAbout, setOpenAbout] = useState(false);
   const [openSkills, setOpenSkills] = useState(false);
   const [openWork, setOpenWork] = useState(false);
+  const [openRequest, setOpenRequest] = useState(false);
+  const [openMedia, setOpenMedia] = useState(false);
+
+  const [course, setCourse] = useState("");
+  const [courseWork, setCourseWork] = useState("");
+
+  const [skill, setSkill] = useState("");
+  const [skills, setSkills] = useState("");
+
+  const [experience, setExperience] = useState("");
+  const [workExperience, setWorkExperience] = useState("");
+
+  const createOption = label =>({
+    label,
+    value: label
+  })
+  const work = "Work 1";
 
   const about = "This is the description of about me.";
-  const skills = "Skill 1, Skill 2, Skill 3";
-  const work = "Work 1, Work 2, Work 3";
+  const skillsObj = "Skill 1, Skill 2, Skill 3";
+
   const student = {
     firstName: "Bera",
     middleName: "Hasan",
     lastName: "Coskun",
     major: "Computer Science",
-    academicStanding: "Junior"
+    academicStanding: "Junior",
+  };
+  
+
+  const postMedia = () => {
+    console.log("Media Posted");
+  };
+  const handleChange = (field, value) => {
+    switch(field) {
+      case "skills":
+        setSkills(value);
+        break;
+      case "experience":
+        setWorkExperience(value);
+        break;
+    }
   }
+
+  const handleInputChange = (field, value) => {
+    switch(field) {
+      case "skills":
+        setSkill(value);
+        break;
+      case "experience":
+        setExperience(value);
+        break;
+    }
+  }
+  const addWork = (e) => {
+    if(!experience) return;
+
+    switch(e.key){
+      case 'Enter':
+      case 'Tab':
+        setWorkExperience([...workExperience, createOption(experience)])
+        setExperience("");
+        e.preventDefault();
+        break;
+      default:
+        break;
+    }
+  };
+
+  const addSkill = (e) => {
+    if(!skill) return;
+
+    switch(e.key){
+      case 'Enter':
+      case 'Tab':
+        setSkills([...skills, createOption(skill)])
+        setSkill("");
+        e.preventDefault();
+        break;
+      default:
+        break;
+    }
+  };
+  
 
   return (
     <div className="dashboard">
@@ -60,7 +139,7 @@ const StudentDashboard = () => {
             </Card>
 
             <Grid.Row>
-              <Segment size="big" padded="very">
+              <Segment size="big" padded="very" textAlign="center">
                 <Label style={studentStyle} size="huge" attached="top">
                   Coursework
                 </Label>
@@ -81,6 +160,31 @@ const StudentDashboard = () => {
                     </a>
                   </List.Item>
                 </List>
+                <Modal
+                  basic
+                  dimmer="inverted"
+                  onClose={() => setOpenRequest(false)}
+                  onOpen={() => setOpenRequest(true)}
+                  open={openRequest}
+                  trigger={
+                    <Button style={{ backgroundColor: "#FBBE74" }}>
+                      Request Rating
+                    </Button>
+                  }
+                  className="responsive"
+                  size="mini"
+                >
+                  <RateRequest />
+                  <Modal.Actions className="responsive">
+                    <Button
+                      size="tiny"
+                      basic
+                      onClick={() => setOpenRequest(false)}
+                    >
+                      Cancel
+                    </Button>
+                  </Modal.Actions>
+                </Modal>
               </Segment>
             </Grid.Row>
           </Grid.Column>
@@ -115,11 +219,11 @@ const StudentDashboard = () => {
               <Grid.Column stretched>
                 <Segment padded="very">
                   <Label style={studentStyle} size="huge" attached="top">
-                    Skills
+                    skillsObj
                   </Label>
                   <Segment padded="very">
                     <Label as="a" corner="right" icon="edit"></Label>
-                    {skills}
+                    {skillsObj}
                     <Modal
                       basic
                       dimmer="inverted"
@@ -134,7 +238,7 @@ const StudentDashboard = () => {
                     >
                       <Segment>
                         <Form>
-                          <Form.TextArea defaultValue={skills}></Form.TextArea>
+                          <Form.TextArea defaultValue={skillsObj}></Form.TextArea>
                         </Form>
                       </Segment>
                     </Modal>
@@ -163,7 +267,20 @@ const StudentDashboard = () => {
                     >
                       <Segment>
                         <Form>
-                          <Form.TextArea defaultValue={work}></Form.TextArea>
+                          <CreatableSelect
+                            isClearable
+                            isMulti
+                            components={{ DropdownIndicator: null }}
+                            inputValue={workExperience}
+                            menuIsOpen={false}
+                            onChange={(value) => handleChange("experience", value)}
+                            placeholder="Physics II, Calculus I . . ."
+                            onKeyDown={addWork}
+                            onInputChange={(value) =>
+                              handleInputChange("experience", value)
+                            }
+                            value={workExperience}
+                          />
                         </Form>
                       </Segment>
                     </Modal>
@@ -171,11 +288,47 @@ const StudentDashboard = () => {
                 </Segment>
               </Grid.Column>
             </Grid>
-            <Segment padded="very">
-              <Label attached="top" style={studentStyle} size="huge">
-                Videos
-              </Label>
-              <input type="file" />
+            <Segment padded="very" style={{ textAlign: "center" }}>
+              <Modal
+                basic
+                dimmer="inverted"
+                onClose={() => setOpenMedia(false)}
+                onOpen={() => setOpenMedia(true)}
+                open={openMedia}
+                trigger={
+                  <Button style={{ backgroundColor: "#FBBE74" }}>Upload</Button>
+                }
+                size="tiny"
+                className="responsive"
+              >
+                <Segment padded="very">
+                  <Header textAlign="center" as="h1">
+                    Upload Media
+                  </Header>
+                  <Form onSubmit={postMedia}>
+                    <Form.Input required label="Title" />
+                    <Form.Group verticalAlign="middle" inline widths="equal">
+                      <label className="custom-file-upload">
+                        Choose File
+                        <Input type="file" accept="video/* pdf" />
+                      </label>
+                      <Header.Content>
+                        upload videos, portfolios, pdfs
+                      </Header.Content>
+                    </Form.Group>
+                    <Form.Field className="responsive">
+                      <Button
+                        style={{ backgroundColor: "#FBBE74" }}
+                        type="submit"
+                      >
+                        Post
+                      </Button>
+                    </Form.Field>
+                  </Form>
+                </Segment>
+              </Modal>
+
+              <Header>Upload media to have it display here!</Header>
             </Segment>
           </Grid.Column>
           <Grid.Column width={2} stretched>
