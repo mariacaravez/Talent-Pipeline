@@ -27,12 +27,7 @@ exports.findStudents = (req, res) => {
       res.send(results);
     })
     .catch((err) => {
-      res
-        .status(500)
-        .send({
-          message:
-            err.message || "Some error occurred while retrieving students.",
-        });
+      res.status(500).send({message: err.message || "Some error occurred while retrieving students."});
     });
 };
 
@@ -64,12 +59,7 @@ exports.newStudentProfile = (req, res) => {
   // save profile data
   StudentModel.createProfile(student, (err, data) => {
     if (err)
-      res
-        .status(500)
-        .send({
-          message:
-            err.message || "error occured while creating student profile.",
-        });
+      res.status(500).send({message: err.message || "error occured while creating student profile."});
     else res.send(data);
   });
 };
@@ -78,12 +68,7 @@ exports.newStudentProfile = (req, res) => {
 exports.findStudentProfile = (req, res) => {
   StudentModel.findProfile(req.body.userID, (err, data) => {
     if (err)
-      res
-        .status(500)
-        .send({
-          message:
-            err.message || "error occured while retrieving student profile.",
-        });
+      res.status(500).send({message:  err.message || "error occured while retrieving student profile."});
     else res.send(data);
   });
 };
@@ -105,19 +90,14 @@ exports.changeStudentProfile = (req, res) => {
     skills: req.body.skills,
     courseWork: req.body.courseWork,
     workexp: req.body.workexp,
-    // jobapps: req,body.jobapps,
+    // jobapps: req.body.jobapps,
     resume: req.body.resume,
   });
 
   // save updated data
   StudentModel.updateProfile(student, (err, data) => {
     if (err)
-      res
-        .status(500)
-        .send({
-          message:
-            err.message || "error occured while updating student profile.",
-        });
+      res.status(500).send({message: err.message || "error occured while updating student profile."});
     else res.send(data);
   });
 };
@@ -143,15 +123,12 @@ exports.newuser = (req, res) => {
 
   // save new user record
   userModel.create(User, (err, data) => {
-    console.log(req.body);
     if (err)
-      res
-        .status(500)
-        .send({
-          message: err.message || "error occured while registering user.",
-        });
+      res.status(500).send({message: err.message || "error occured while registering user."});
     else {
       //res.send(data);
+
+      //console.log(data.insertedID);
 
       // user login account
       const acct = new userAccount({
@@ -164,12 +141,7 @@ exports.newuser = (req, res) => {
       // save user account record
       UserAccount.create(acct, (err, data) => {
         if (err)
-          res
-            .status(500)
-            .send({
-              message:
-                err.message || "error occured while saving user account.",
-            });
+          res.status(500).send({message: err.message || "error occured while saving user account."});
         else res.send(data);
       });
     }
@@ -186,9 +158,7 @@ exports.userLogin = (req, res) => {
   // check for valid user
   UserAccount.verify(creds, (err, data) => {
     if (err)
-      res
-        .status(500)
-        .send({ message: err.message || "Login failed; try again." });
+      res.status(500).send({ message: err.message || "Login failed; try again." });
     else res.send(data);
   });
 };
@@ -196,20 +166,20 @@ exports.userLogin = (req, res) => {
 // password reset
 exports.passReset = (req, res) => {
   const newpass = new userAccount({
-    userID: req.insertID,
+    userID: req.body.userID,
     username: req.body.username,
     password: req.body.password,
     email: req.body.email,
   });
 
   // save new password
-  UserAccount.resetpaas(newpass, (err, data) => {
-    if (err)
-      res
-        .status(500)
-        .send({ message: err.message || "password reset failed." });
-    else res.send(data);
-  });
+  UserAccount.resetpass(newpass)
+    .then((results) => {
+        res.send(results);
+    })
+    .catch((err) => {
+        res.status(500).send({message: err.message || "password reset failed." });
+    });
 };
 
 //
@@ -223,10 +193,7 @@ exports.findJob = (req, res) => {
       res.send(results);
     })
     .catch((err) => {
-      res.status(500).send({
-        message:
-          err.message || " some error occured while retrieving job postings.",
-      });
+      res.status(500).send({message: err.message || " some error occured while retrieving job postings."});
     });
 };
 
@@ -257,11 +224,7 @@ exports.postjob = (req, res) => {
       res.send("job posted");
     })
     .catch((err) => {
-      res
-        .status(500)
-        .send({
-          message: err.message || " error occured while posting this job.",
-        });
+      res.status(500).send({          message: err.message || " error occured while posting this job." });
     });
 };
 
@@ -272,12 +235,6 @@ exports.myJobs = (req, res) => {
       res.send(results);
     })
     .catch((err) => {
-      res
-        .status(500)
-        .send({
-          message:
-            err.message ||
-            " some error occured while retrieving user job postings.",
-        });
+      res.status(500).send({ message:  err.message || " some error occured while retrieving user job postings." });
     });
 };

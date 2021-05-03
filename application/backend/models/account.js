@@ -29,7 +29,7 @@ UserAccount.verify = (useracct, results) => {
 };
 
 // for password reset
-UserAccount.resetpass = (useracct, result) => {
+UserAccount.resetpass = (useracct, results) => {
 
 	return db.promise().query("UPDATE userAccounts SET password = ? WHERE username = ? AND userAccID = ?", [useracct.password, useracct.username, useracct.userID])
     .then(([results, fields]) => {
@@ -37,6 +37,6 @@ UserAccount.resetpass = (useracct, result) => {
           return Promise.resolve(results);
     })
     .catch((err) => Promise.reject(err));	
-}
+};
 
 module.exports =  UserAccount;
