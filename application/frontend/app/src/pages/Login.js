@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { Form, Input, Segment, Grid, Label, Button} from 'semantic-ui-react';
+import Axios from 'axios';
 
 import { authActions } from '../components/store/auth-slice';
 import { useDispatch } from 'react-redux';
@@ -13,8 +14,15 @@ const Login = () => {
 
   // TODO: SET UP APPROPRIATE ROUTE
   const submitLogin = () =>{
-    console.log('USER IS LOGGED IN');
-    dispatch(authActions.login());
+    Axios.get("http://localhost:6480/login", { username: email, password: password }).then(
+      (response) => {
+        console.log(response.data);
+        console.log(response.data.userAccID);
+        if(response.data.userAccID){
+          dispatch(authActions.login());
+        }
+      }
+    );
   }
 
   return(
@@ -34,7 +42,6 @@ const Login = () => {
               <Form.Field className='responsive'>
                 <Button style={{color: 'white', backgroundColor: '#FBBE74'}} type='submit'>Login</Button>
               </Form.Field>
-
           </Form>
         </Segment>
       </Grid>

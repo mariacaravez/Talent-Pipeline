@@ -108,35 +108,42 @@ exports.changeStudentProfile = (req, res) => {
 
 // new user (student, headhunter, endorser) registration
 exports.newuser = (req, res) => {
+  console.log("IN CONTROLLER NEWUSER FUNCTION BEFORE OBJECT CREATION")
   console.log(req.body);
   if (!req.body) {
-    res.status(400).send({ message: "Content can not be empty!" });
+    res.status(400).send({ message: "Content cannot be empty!" });
   }
 
   // new user object from req data
-  const User = new userModel({
-    firstName: req.body.firstName,
-    middleName: req.body.middleName,
-    lastName: req.body.lastName,
-    userTypeID: req.body.userTypeID,
+  const User = new UserModel({
+    firstName: req.body.user.firstName,
+    middleName: req.body.user.middleName,
+    lastName: req.body.user.lastName,
+    userTypeID: req.body.user.userTypeID,
+
   });
 
-  // save new user record
-  userModel.create(User, (err, data) => {
-    if (err)
-      res.status(500).send({message: err.message || "error occured while registering user."});
-    else {
-      //res.send(data);
+  console.log("CONTROLLER: USER SHOULD PRINT NEXT");
+  console.log(User);
 
-      //console.log(data.insertedID);
+  // save new user record
+  UserModel.create(User, (err, data) => {
+    if (err){
+      res.status(500).send({message: err.message || "error occured while registering user."});
+    }
+    else {
+      res.send(data);
+      console.log(data.insertID);
+      console.log("Before user account is created")
 
       // user login account
-      const acct = new userAccount({
+      const acct = new UserAccount({
         userID: data.insertID,
-        username: req.body.username,
-        password: req.body.password,
-        email: req.body.email,
+        username: req.body.user.username,
+        password: req.body.user.password,
+        email: req.body.user.email,
       });
+
 
       // save user account record
       UserAccount.create(acct, (err, data) => {
@@ -144,16 +151,21 @@ exports.newuser = (req, res) => {
           res.status(500).send({message: err.message || "error occured while saving user account."});
         else res.send(data);
       });
+      console.log("After account created: USER ACCOUNT SHOULD PRINT NEXT");
+      console.log(acct);
+
     }
   });
 };
 
 // user login
 exports.userLogin = (req, res) => {
+  console.log("I'm in login");
   const creds = new UserAccount({
     username: req.body.username,
     password: req.body.password,
   });
+  console.log(creds);
 
   // check for valid user
   UserAccount.verify(creds, (err, data) => {

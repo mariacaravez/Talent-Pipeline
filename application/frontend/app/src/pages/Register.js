@@ -18,14 +18,14 @@ import JobPosting from "../components/JobPostingForm";
 import EndorsementForm from "../components/EndorsementForm";
 
 const options = [
-  { key: "student", text: "Student", value: "student" },
-  { key: "headhunter", text: "Employer", value: "headhunter" },
-  { key: "endorser", text: "Professor", value: "endorser" },
+  { key: 1, text: "Student", value: "student" },
+  { key: 2, text: "Employer", value: "headhunter" },
+  { key: 3, text: "Professor", value: "endorser" },
 ];
 
 const Register = () => {
   const [optionsValue, setOptionsValue] = useState("student");
-  const [userType, setUserType] = useState();
+  const [userType, setUserType] = useState(1);
 
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
@@ -39,16 +39,14 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   // TODO: CHANGE THIS OBJECT TO BE USER
-  const student = {
-    firstName,
-    middleName,
-    lastName,
-    userType,
-  };
-
-  const account = {
-    password,
-    email,
+  const user = {
+    firstName: firstName,
+    middleName: middleName,
+    lastName: lastName,
+    userTypeID: 1,
+    username: email,
+    password: password,
+    email: email,
   };
 
   const handleSelect = (e, data) => {
@@ -56,15 +54,13 @@ const Register = () => {
   };
 
   const submitRegistration = () => {
-    Axios.post("http://localhost:6480/newstudent", { student, account }).then(
+    Axios.post("http://localhost:6480/newuser", { user }).then(
       (response) => {
         console.log(response.data);
       }
     );
     // Axios.post("http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/newStudent", {params: {student}}).then((response) => {
     //   console.log(response.data);
-    console.log("REGISTRATION SUBMITTED");
-
     // });
   };
 
@@ -90,6 +86,7 @@ const Register = () => {
             <Form onSubmit={submitRegistration}>
               <Form.Group widths="equal">
                 {optionsValue === "student" && (
+
                   <>
                     <Form.Input required label="Email">
                       <Input
