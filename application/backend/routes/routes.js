@@ -47,7 +47,7 @@
   router.post('/newuser', controller.newuser);
   
   // user login
-  router.get('/login', controller.userLogin);
+  router.post('/login', controller.userLogin);
   
   // user password reset
   router.post('/passreset', controller.passReset);

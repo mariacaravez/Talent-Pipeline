@@ -163,13 +163,15 @@ exports.newuser = (req, res) => {
 // user login
 exports.userLogin = (req, res) => {
   const creds = new UserAccount({
-    username: req.body.username,
-    password: req.body.password,
+    username: req.body.user.username,
+    password: req.body.user.password,
   });
-  console.log(creds);
+  // console.log(creds);
 
   // check for valid user
   UserAccount.verify(creds, (err, data) => {
+    console.log("IN CONTROLLER: looking for data");
+    console.log(data);
     if (err)
       res.status(500).send({ message: err.message || "Login failed; try again." });
     else res.send(data);

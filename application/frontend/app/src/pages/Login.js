@@ -12,14 +12,18 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const user = {
+    username: email,
+    password: password
+  }
+
 
   // TODO: SET UP APPROPRIATE ROUTE
   const submitLogin = () =>{
-    Axios.get("http://localhost:6480/login", { username: email, password }).then(
+    Axios.post("http://localhost:6480/login", { user }).then(
       (response) => {
-        console.log(response.data);
-        console.log(response.data.userAccID);
-        if(response.data.userAccID){
+        console.log(response.data.userID);
+        if(response.data.userID){
           dispatch(authActions.login());
         }
       }

@@ -18,15 +18,29 @@ UserAccount.create = (useracct, result) => {
 };
 
 // for user login
-UserAccount.verify = (useracct, results) => {
-    // console.log(useracct);
-	db.promise().query("SELECT userID, email FROM user WHERE username = ? AND password = ?", [useracct.username, useracct.password])
-    .then(([results, fields]) => {
-          console.log(results);
-          return Promise.resolve(results);
-    })
-    .catch((err) => Promise.reject(err));
-};
+UserAccount.verify = (useracct, result) => {
+    //console.log(useracct);
+     db.query("SELECT userID, email FROM user WHERE username = ? AND password = ?", [useracct.username, useracct.password], (err, res) => {
+         if(err) {
+             console.log(err);
+             result(err, null);
+             return;
+         }
+         if(res.length){
+             console.log(res[0]);
+             result(null, res[0]);
+             return;
+         }
+     })
+// 	db.promise().query("SELECT userID, email FROM user WHERE username = ? AND password = ?", [useracct.username, useracct.password])
+//     .then(([results, fields]) => {
+//           console.log(results);
+//         //   return Promise.resolve(results);
+//     })
+//     .catch((err) => Promise.reject(err));
+console.log(result);
+return;
+ };
 
 // for password reset
 UserAccount.resetpass = (useracct, results) => {
