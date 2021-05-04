@@ -11,9 +11,9 @@ const UserModel = function (objValues) {
   this.middleName = objValues.middleName;
   this.lastName = objValues.lastName;
   this.userTypeID = objValues.userTypeID;
-  this.username = acctValues.username;
-	this.password = acctValues.password;
-	this.email = acctValues.email;
+  this.username = objValues.username;
+	this.password = objValues.password;
+	this.email = objValues.email;
 };
 
 // create a new student record - registration

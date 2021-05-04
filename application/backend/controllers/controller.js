@@ -162,7 +162,6 @@ exports.newuser = (req, res) => {
 
 // user login
 exports.userLogin = (req, res) => {
-  console.log("I'm in login");
   const creds = new UserAccount({
     username: req.body.username,
     password: req.body.password,

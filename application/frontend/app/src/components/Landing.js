@@ -37,7 +37,7 @@ const Landing = () => {
   return (
     <div className="landing">
      
-      <Container fluid>
+      <Container fluid >
       
         <Grid
           // verticalAlign="middle"
@@ -52,7 +52,7 @@ const Landing = () => {
           
           <Grid.Column width={6}>
             <Segment
-              // padded="very"
+               padded="very"
               className="responsive"
               style={{ paddingTop: "18vh", paddingBottom: "20vh" }}
               

@@ -19,7 +19,7 @@ import SearchStudents from './components/Search/Students/SearchStudents';
 const App = () => {
 
   return (
-    <Fragment>
+    <Fragment >
       <Route path="/">
       <NavBar />
       </Route>
