@@ -20,7 +20,7 @@ UserAccount.create = (useracct, result) => {
 // for user login
 UserAccount.verify = (useracct, results) => {
     // console.log(useracct);
-	db.promise().query("SELECT userAccID, email FROM userAccounts WHERE username = ? AND password = ?", [useracct.username, useracct.password])
+	db.promise().query("SELECT userID, email FROM user WHERE username = ? AND password = ?", [useracct.username, useracct.password])
     .then(([results, fields]) => {
           console.log(results);
           return Promise.resolve(results);

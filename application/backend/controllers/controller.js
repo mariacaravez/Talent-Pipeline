@@ -120,7 +120,9 @@ exports.newuser = (req, res) => {
     middleName: req.body.user.middleName,
     lastName: req.body.user.lastName,
     userTypeID: req.body.user.userTypeID,
-
+    username: req.body.user.username,
+    password: req.body.user.password,
+    email: req.body.user.email,
   });
 
   console.log("CONTROLLER: USER SHOULD PRINT NEXT");
@@ -132,27 +134,27 @@ exports.newuser = (req, res) => {
       res.status(500).send({message: err.message || "error occured while registering user."});
     }
     else {
-      res.send(data);
-      console.log(data.insertID);
-      console.log("Before user account is created")
+       res.send(data);
+    //   console.log(data.insertID);
+    //   console.log("Before user account is created")
 
-      // user login account
-      const acct = new UserAccount({
-        userID: data.insertID,
-        username: req.body.user.username,
-        password: req.body.user.password,
-        email: req.body.user.email,
-      });
+    //   // user login account
+    //   const acct = new UserAccount({
+    //     userID: data.insertID,
+    //     username: req.body.user.username,
+    //     password: req.body.user.password,
+    //     email: req.body.user.email,
+    //   });
 
 
-      // save user account record
-      UserAccount.create(acct, (err, data) => {
-        if (err)
-          res.status(500).send({message: err.message || "error occured while saving user account."});
-        else res.send(data);
-      });
-      console.log("After account created: USER ACCOUNT SHOULD PRINT NEXT");
-      console.log(acct);
+    //   // save user account record
+    //   UserAccount.create(acct, (err, data) => {
+    //     if (err)
+    //       res.status(500).send({message: err.message || "error occured while saving user account."});
+    //     else res.send(data);
+    //   });
+    //   console.log("After account created: USER ACCOUNT SHOULD PRINT NEXT");
+    //   console.log(acct);
 
     }
   });
