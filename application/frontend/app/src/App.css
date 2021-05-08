@@ -1,19 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Jura:wght@300&display=swap');
+
+/* body{
+  font-family: urbane-rounded, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+} */
+
 .responsive {
   /* text-align: center; */
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .search {
   padding: 20px;
 }
 
-/* .title{
-  font-family: niagara-engraved, sans-serif;
+.title{
+  font-family: Jura, sans-serif;
   font-style: normal;
-  font-weight: 500;
-  font-size: 500%;
-} */
+}
 
 .header{
   margin:0%;
@@ -35,6 +42,8 @@
   padding-bottom: 20vh;
   background-color: #F2E8E1;
 }
+
+
 
 .dashboard {
   padding-top: 10vh;

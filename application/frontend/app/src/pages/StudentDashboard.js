@@ -61,6 +61,7 @@ const StudentDashboard = () => {
     major: "Computer Science",
     academicStanding: "Junior",
   };
+
   
 
   const postMedia = () => {

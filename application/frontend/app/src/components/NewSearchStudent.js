@@ -5,6 +5,7 @@ import {
     Input,
     Button,
     Segment,
+    Header
 } from "semantic-ui-react";
 import "../App.css";
 import { Link, Route } from 'react-router-dom';
@@ -14,6 +15,8 @@ import SearchStudents from './Search/Students/SearchStudents';
 import { useDispatch } from 'react-redux';
 import { searchStudentActions } from './store/search-student-slice';
 
+// Styling
+const segment = { borderRadius: "15px" };
 
 function NewSearchStudent() {
     const [textValue, setTextValue] = useState();
@@ -33,7 +36,8 @@ function NewSearchStudent() {
 
     return (
         <div>
-            <Segment padded="very" className="responsive">
+            <Segment padded="very" className="responsive" style={segment}>
+            <Header as="h4" textAlign="center" style={{color: "#696969"}}>Search For Students</Header>
                 <div className="ui action input">
                     <Input
                         type="text"
@@ -44,15 +48,18 @@ function NewSearchStudent() {
                         }}
                         action
                     >
-                    </ Input>
-                    <Link to={{pathname: "/search/students/"}}>
+                    <input/>
+                    {/* <Link to={{pathname: "/search/students/"}}> */}
                         <Button
-                            style={{ color: "white", backgroundColor: "#FBBE74" }}
-                            onClick={searchClickedHandler}
+                            style={{ backgroundColor: "#FBBE74" }}
+                            onClick={searchClickedHandler}   
+                            as={Link} 
+                            to="/search/students/"                       
                         >
-                            Search
+                            Find Students
               </Button>
-                    </Link>
+                    {/* </Link> */}
+                    </Input>
                 </div>
 
             </Segment>

@@ -24,7 +24,7 @@
   // student edit's existing profile
   router.post('/editprofile', controller.changeStudentProfile);
   
-  // retrieve student profile - dashboar
+  // retrieve student profile - dashboard (for display)
   router.get('/student/profile', controller.findStudentProfile);
 
 

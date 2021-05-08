@@ -1,4 +1,7 @@
 import React from "react";
+import { useState } from "react";
+import CreatableSelect from "react-select/creatable";
+
 import {
   Grid,
   Image,
@@ -11,10 +14,6 @@ import {
   Header,
   Icon,
 } from "semantic-ui-react";
-
-import { useState } from "react";
-import CreatableSelect from "react-select/creatable";
-import JobPosting from "./JobPostingForm";
 
 const options = [
   { key: "full-time", value: "full-time", text: "Full-time" },

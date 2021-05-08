@@ -27,7 +27,12 @@ exports.findStudents = (req, res) => {
       res.send(results);
     })
     .catch((err) => {
-      res.status(500).send({message: err.message || "Some error occurred while retrieving students."});
+      res
+        .status(500)
+        .send({
+          message:
+            err.message || "Some error occurred while retrieving students.",
+        });
     });
 };
 
@@ -36,9 +41,10 @@ exports.newStudentProfile = (req, res) => {
   if (!req.body) {
     res.status(400).send({ message: "Content can not be empty!" });
   }
+console.log("CONTROLLER: About to create student object with: ", req.body)
 
   // student data object
-  const student = new StudentAttrib({
+  const student = new StudentModel({
     userID: req.body.userID,
     major: req.body.major,
     academicStanding: req.body.academicStanding,
@@ -59,16 +65,28 @@ exports.newStudentProfile = (req, res) => {
   // save profile data
   StudentModel.createProfile(student, (err, data) => {
     if (err)
-      res.status(500).send({message: err.message || "error occured while creating student profile."});
+      res
+        .status(500)
+        .send({
+          message:
+            err.message || "error occured while creating student profile.",
+        });
     else res.send(data);
   });
+
+  // console.log("IN CONTROLLER.NEWSTUDENTPROFILE:", student);
 };
 
 // retrieve student profile for display
 exports.findStudentProfile = (req, res) => {
   StudentModel.findProfile(req.body.userID, (err, data) => {
     if (err)
-      res.status(500).send({message:  err.message || "error occured while retrieving student profile."});
+      res
+        .status(500)
+        .send({
+          message:
+            err.message || "error occured while retrieving student profile.",
+        });
     else res.send(data);
   });
 };
@@ -76,7 +94,7 @@ exports.findStudentProfile = (req, res) => {
 // save changes to student profile
 exports.changeStudentProfile = (req, res) => {
   // populate student object with changed data
-  const student = new StudentAttrib({
+  const student = new StudentModel({
     userID: req.body.userID,
     major: req.body.major,
     academicStanding: req.body.academicStanding,
@@ -97,7 +115,12 @@ exports.changeStudentProfile = (req, res) => {
   // save updated data
   StudentModel.updateProfile(student, (err, data) => {
     if (err)
-      res.status(500).send({message: err.message || "error occured while updating student profile."});
+      res
+        .status(500)
+        .send({
+          message:
+            err.message || "error occured while updating student profile.",
+        });
     else res.send(data);
   });
 };
@@ -108,8 +131,8 @@ exports.changeStudentProfile = (req, res) => {
 
 // new user (student, headhunter, endorser) registration
 exports.newuser = (req, res) => {
-  console.log("IN CONTROLLER NEWUSER FUNCTION BEFORE OBJECT CREATION")
-  console.log(req.body);
+  // console.log("IN CONTROLLER NEWUSER FUNCTION BEFORE OBJECT CREATION")
+  // console.log(req.body);
   if (!req.body) {
     res.status(400).send({ message: "Content cannot be empty!" });
   }
@@ -124,38 +147,38 @@ exports.newuser = (req, res) => {
     password: req.body.user.password,
     email: req.body.user.email,
   });
-
-  console.log("CONTROLLER: USER SHOULD PRINT NEXT");
-  console.log(User);
+  console.log("CONTROLLER: About to Create User:", User);
 
   // save new user record
   UserModel.create(User, (err, data) => {
-    if (err){
-      res.status(500).send({message: err.message || "error occured while registering user."});
-    }
-    else {
-       res.send(data);
-    //   console.log(data.insertID);
-    //   console.log("Before user account is created")
+    if (err) {
+      res
+        .status(500)
+        .send({
+          message: err.message || "error occured while registering user.",
+        });
+    } else {
+      console.log("CONTROLLER: userModel.create: ", data);
+      res.send(data);
+      //   console.log(data.insertID);
+      //   console.log("Before user account is created")
 
-    //   // user login account
-    //   const acct = new UserAccount({
-    //     userID: data.insertID,
-    //     username: req.body.user.username,
-    //     password: req.body.user.password,
-    //     email: req.body.user.email,
-    //   });
+      //   // user login account
+      //   const acct = new UserAccount({
+      //     userID: data.insertID,
+      //     username: req.body.user.username,
+      //     password: req.body.user.password,
+      //     email: req.body.user.email,
+      //   });
 
-
-    //   // save user account record
-    //   UserAccount.create(acct, (err, data) => {
-    //     if (err)
-    //       res.status(500).send({message: err.message || "error occured while saving user account."});
-    //     else res.send(data);
-    //   });
-    //   console.log("After account created: USER ACCOUNT SHOULD PRINT NEXT");
-    //   console.log(acct);
-
+      //   // save user account record
+      //   UserAccount.create(acct, (err, data) => {
+      //     if (err)
+      //       res.status(500).send({message: err.message || "error occured while saving user account."});
+      //     else res.send(data);
+      //   });
+      //   console.log("After account created: USER ACCOUNT SHOULD PRINT NEXT");
+      //   console.log(acct);
     }
   });
 };
@@ -173,7 +196,9 @@ exports.userLogin = (req, res) => {
     console.log("IN CONTROLLER: looking for data");
     console.log(data);
     if (err)
-      res.status(500).send({ message: err.message || "Login failed; try again." });
+      res
+        .status(500)
+        .send({ message: err.message || "Login failed; try again." });
     else res.send(data);
   });
 };
@@ -190,10 +215,12 @@ exports.passReset = (req, res) => {
   // save new password
   UserAccount.resetpass(newpass)
     .then((results) => {
-        res.send(results);
+      res.send(results);
     })
     .catch((err) => {
-        res.status(500).send({message: err.message || "password reset failed." });
+      res
+        .status(500)
+        .send({ message: err.message || "password reset failed." });
     });
 };
 
@@ -208,7 +235,12 @@ exports.findJob = (req, res) => {
       res.send(results);
     })
     .catch((err) => {
-      res.status(500).send({message: err.message || " some error occured while retrieving job postings."});
+      res
+        .status(500)
+        .send({
+          message:
+            err.message || " some error occured while retrieving job postings.",
+        });
     });
 };
 
@@ -239,7 +271,11 @@ exports.postjob = (req, res) => {
       res.send("job posted");
     })
     .catch((err) => {
-      res.status(500).send({          message: err.message || " error occured while posting this job." });
+      res
+        .status(500)
+        .send({
+          message: err.message || " error occured while posting this job.",
+        });
     });
 };
 
@@ -250,6 +286,12 @@ exports.myJobs = (req, res) => {
       res.send(results);
     })
     .catch((err) => {
-      res.status(500).send({ message:  err.message || " some error occured while retrieving user job postings." });
+      res
+        .status(500)
+        .send({
+          message:
+            err.message ||
+            " some error occured while retrieving user job postings.",
+        });
     });
 };

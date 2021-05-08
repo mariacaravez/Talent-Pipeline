@@ -7,6 +7,7 @@ import { searchStudentActions } from '../../store/search-student-slice';
 import MajorTag from './Tags/MajorTag';
 
 const SearchPanel = (props) => {
+    
     const { dataCallback } = props;
     // The following states only store values inputed into the text boxes.
     const [majorValue, setMajorValue] = useState();

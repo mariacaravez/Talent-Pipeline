@@ -28,7 +28,7 @@ function Search() {
   const [openSearchResults, setOpenSearchResults] = useState(false);
 
   const getSearch = () => {
-    Axios.get("http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/search", {
+    Axios.get("http://localhost:6480/search", {
       params: { textValue: textValue, optionsValue: optionsValue },
     }).then((response) => {
       console.log(response.data);
@@ -51,7 +51,7 @@ function Search() {
 
   return (
     <div>
-      <Segment padded="very" className="responsive">
+      <Segment fluid padded="very" className="responsive">
         <Input
           type="text"
           placeholder="Search Student..."

@@ -18,7 +18,7 @@ import {
 } from "semantic-ui-react";
 import "../App.css";
 import headhunterImage from "../images/jooyoung-cropped.jpg";
-import JobPosting from "../components/JobPostingForm";
+import JobPosting from "../components/Register/JobPostingForm";
 import EditJobPost from "../components/EditJobPost";
 import studentImage from "../images/maria-cropped.jpg";
 
