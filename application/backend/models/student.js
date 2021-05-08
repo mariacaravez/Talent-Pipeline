@@ -101,147 +101,135 @@ StudentModel.find = (textValue, optionsValue) => {
 
 // create a new student profile - registration
 StudentModel.createProfile = (stdtattrib, results) => {
-  // console.log(stdtattrib);
-  db.promise()
-    .query(
-      "INSERT INTO userAttributes (gradDate, academicStanding, major, userID, resume)  VALUES(?,?,?,?,?)",
-      [
-        stdtattrib.graduationDate,
-        stdtattrib.academicStanding,
-        stdtattrib.major,
-        stdtattrib.userID,
-        stdtattrib.resume,
-      ]
-    )
-    .then(([results, fields]) => {
-      //console.log(results.insertId);
-      // console.log(results);
+    // console.log(stdtattrib);
+    db.query("INSERT INTO userAttributes (gradDate, academicStanding, major, userID, resume)  VALUES(?,?,?,?,?)",
+      [stdtattrib.graduationDate, stdtattrib.academicStanding, stdtattrib.major, stdtattrib.userID, stdtattrib.resume], (err, res) => {
+         if(err) {
+             console.log(err);
+             results(err, null);
+             return;
+         }
+         else {
+             console.log(res);
+             results(null, res);
+             // return;   // we cannot return yet, more inserts happening below.
+         }
+     })
+     // console.log(results);
 
       // insert student demo data
-      db.promise()
-        .query(
-          "INSERT INTO studentDemo (userID, gender, age, race, ethnicity, veteran, militaryCode)  VALUES(?,?,?,?,?,?,?)",
-          [
-            stdtattrib.userID,
-            stdtattrib.gender,
-            stdtattrib.age,
-            stdtattrib.race,
-            stdtattrib.ethnicity,
-            stdtattrib.veteran,
-            stdtattrib.militaryCode,
-          ]
-        )
-        .then(([dresults, fields]) => {
-          // console.log(results);
-          //return Promise.resolve(result);
-          results(...results, { ...dresults });
+      db.query("INSERT INTO studentDemo (userID, gender, age, race, ethnicity, veteran, militaryCode)  VALUES(?,?,?,?,?,?,?)",
+          [stdtattrib.userID, stdtattrib.gender, stdtattrib.age, stdtattrib.race, stdtattrib.ethnicity, stdtattrib.veteran, stdtattrib.militaryCode], (err, res) => {
+         if(err) {
+             console.log(err);
+             results(err, null);
+             return;
+         }
+         else {
+             console.log(res);
+             results(...results, {...res}); 
+         }
+     })
+     // console.log(results);
 
-          // insert course work
-          db.promise()
-            .query(
-              "INSERT INTO studentCoursework (coursework, corseworkRating, userID)  VALUES(?,?,?,?,?,?)",
-              [
-                stdtattrib.courseWork.coursework,
-                stdtattrib.coursework.rating,
-                stdtattrib.userID,
-              ]
-            )
-            .then(([cwresults, fields]) => {
-              // console.log(results);
-              //return Promise.resolve(result);
-              results(...results, { ...cwresults });
+     // insert course work
+     db.query("INSERT INTO studentCoursework (coursework, corseworkRating, userID)  VALUES(?,?,?,?,?,?)",
+              [stdtattrib.courseWork.coursework, stdtattrib.coursework.rating, stdtattrib.userID], (err, res) => {
+         if(err) {
+             console.log(err);
+             results(err, null);
+             return;
+         }
+         else {
+             console.log(res);
+             results(...results, {...res});
+         }
+     })
+     // console.log(results);
 
-              // insert student skills
-              db.promise()
-                .query(
-                  "INSERT INTO studentSkills (userSkill, userSkillRating, userID)  VALUES(?,?,?)",
-                  [
-                    stdtattrib.skills.userskill,
-                    stdtattrib.skills.rating,
-                    stdtattrib.userID,
-                  ]
-                )
-                .then(([sresults, fields]) => {
-                  // console.log(results);
-                  //return Promise.resolve(result);
-                  results(...results, { ...sresults });
+     // insert student skills
+     db.query("INSERT INTO studentSkills (userSkill, userSkillRating, userID)  VALUES(?,?,?)",
+                  [stdtattrib.skills.userskill, stdtattrib.skills.rating, stdtattrib.userID], (err, res) => {
+         if(err) {
+             console.log(err);
+             results(err, null);
+             return;
+         }
+         else {
+             console.log(res);
+             results(...results, {...res});
+         }
+     })
+     // console.log(results);
 
-                  // insert student work experience
-                  db.promise()
-                    .query(
-                      "INSERT INTO studentWorkExp (workExpTitle, workExpDesc, userID)  VALUES(?,?,?)",
-                      [
-                        stdtattrib.workexp.title,
-                        stdtattrib.workexp.description,
-                        stdtattrib.userID,
-                      ]
-                    )
-                    .then(([weresults, fields]) => {
-                      // console.log(results);
-                      //return Promise.resolve(result);
-                      results(...results, { ...weresults });
-                    });
-                });
-            });
-        });
-
-      return Promise.resolve(results);
-    })
-    .catch((err) => Promise.reject(err));
+     // insert student work experience
+     db.query("INSERT INTO studentWorkExp (workExpTitle, workExpDesc, userID)  VALUES(?,?,?)",
+                     [stdtattrib.workexp.title, stdtattrib.workexp.description, stdtattrib.userID], (err, res) => {
+         if(err) {
+             console.log(err);
+             results(err, null);
+             return;
+         }
+         else {
+             console.log(res[0]);
+             results(...results, {...res});
+             return;
+         }
+     })
+     // console.log(results);
 };
 
 // update an existing student's profile
-StudentModel.updateProfile = (stdtattrib, result) => {
+StudentModel.updateProfile = (stdtattrib, results) => {
   console.log(stdtattrib);
-  db.promise()
-    .query(
-      "UPDATE userAttributes SET academicStanding = ?, resume = ? where userID = ?)",
-      [stdtattrib.academicStanding, stdtattrib.resume, stdtattrib.userID]
-    )
-    .then(([results, fields]) => {
-      //console.log(results.insertId);
-      // console.log(results);
+  db.query("UPDATE userAttributes SET academicStanding = ?, resume = ? where userID = ?)",
+      [stdtattrib.academicStanding, stdtattrib.resume, stdtattrib.userID], (err, res) => {
+         if(err) {
+             console.log(err);
+             results(err, null);
+             return;
+         }
+         else {
+             console.log(res);
+             results(null, res);
+         }
+     })
+     // console.log(results);
 
-      // update student demo data
-      db.promise()
-        .query(
-          "UPDATE studentDemo SET gender = ?, age = ?, race = ?, ethnicity = ?, veteran = ?, militaryCode = ? WHERE userID = ?)",
-          [
-            stdtattrib.gender,
-            stdtattrib.age,
-            stdtattrib.race,
-            stdtattrib.ethnicity,
-            stdtattrib.veteran,
-            stdtattrib.militaryCode,
-            stdtattrib.userID,
-          ]
-        )
-        .then(([dresults, fields]) => {
-          // console.log(results);
-          //return Promise.resolve(result);
-          results(...results, { ...dresults });
-        });
-
-      return Promise.resolve(results);
-    })
-    .catch((err) => Promise.reject(err));
+     // update student demo data
+     db.query("UPDATE studentDemo SET gender = ?, age = ?, race = ?, ethnicity = ?, veteran = ?, militaryCode = ? WHERE userID = ?)",
+          [stdtattrib.gender, stdtattrib.age, stdtattrib.race, stdtattrib.ethnicity, stdtattrib.veteran, stdtattrib.militaryCode, stdtattrib.userID], (err, res) => {
+         if(err) {
+             console.log(err);
+             results(err, null);
+             return;
+         }
+         else {
+             console.log(res[0]);
+             results(...results, {...res});
+             return;
+         }
+     })
+     // console.log(results);
 };
 
-// retrieve student profile
-// update an existing student's profile
+// retrieve a student profile
 StudentModel.findProfile = (userid, result) => {
-  console.log(newuser);
-  db.promise()
-    .query(
-      "SELECT * FROM user us, userAttributes ua, studentDemo sd, studentCoursework scw, studentSkills ss, studentWorkExp swe WHERE  us.userID = ua.userID AND us.userID = sd.userID AND us.userID = scw.userID AND us.userID = ss.userID AND us.userID = swe.userID AND us.userID = ?",
-      userid
-    )
-    .then(([results, fields]) => {
-      //console.log(results.insertId);
-      // console.log(results);
-      return Promise.resolve(result);
-    })
-    .catch((err) => Promise.reject(err));
+  console.log(userid);
+  db.query("SELECT * FROM user us, userAttributes ua, studentDemo sd, studentCoursework scw, studentSkills ss, studentWorkExp swe WHERE  us.userID = ua.userID AND us.userID = sd.userID AND us.userID = scw.userID AND us.userID = ss.userID AND us.userID = swe.userID AND us.userID = ?",
+      [userid], (err, res) => {
+         if(err) {
+             console.log(err);
+             result(err, null);
+             return;
+         }
+         else {
+             console.log(res);
+             result(null, res);
+             return;
+         }
+     })
+     // console.log(result);
 };
 
 module.exports = StudentModel;

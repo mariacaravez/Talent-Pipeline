@@ -8,6 +8,7 @@ const UserAccount = function(acctValues) {
 	this.email = acctValues.email;
 };
 
+// this is no longer in use. keep for tracking
 UserAccount.create = (useracct, result) => {
     // create the user account record
     db.promise().query("INSERT INTO userAccounts SET ?", useracct)
@@ -26,31 +27,29 @@ UserAccount.verify = (useracct, result) => {
              result(err, null);
              return;
          }
-         if(res.length){
+         else {
              console.log(res[0]);
              result(null, res[0]);
              return;
          }
      })
-// 	db.promise().query("SELECT userID, email FROM user WHERE username = ? AND password = ?", [useracct.username, useracct.password])
-//     .then(([results, fields]) => {
-//           console.log(results);
-//         //   return Promise.resolve(results);
-//     })
-//     .catch((err) => Promise.reject(err));
-console.log(result);
-return;
+     //console.log(result);
+     return;
  };
 
 // for password reset
 UserAccount.resetpass = (useracct, results) => {
-
-	return db.promise().query("UPDATE userAccounts SET password = ? WHERE username = ? AND userAccID = ?", [useracct.password, useracct.username, useracct.userID])
-    .then(([results, fields]) => {
-          // console.log(results);
-          return Promise.resolve(results);
-    })
-    .catch((err) => Promise.reject(err));	
+	db.query("UPDATE userAccounts SET password = ? WHERE username = ? AND userAccID = ?", [useracct.password, useracct.username, useracct.userID], (err, res) => {
+         if(err) {
+             console.log(err);
+             results(err, null);
+             return;
+         }
+         else {
+             console.log(res);
+             results(null, res);
+             return;
+         })
 };
 
 module.exports =  UserAccount;
