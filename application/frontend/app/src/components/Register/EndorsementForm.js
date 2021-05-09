@@ -17,7 +17,7 @@ const EndorsementForm = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <div className="responsive">
-      <Grid padded="very">
+      {/* <Grid padded="very"> */}
         <Segment padded="very"  size="massive">
           <div className="responsive">
             <Label
@@ -108,7 +108,7 @@ const EndorsementForm = () => {
             </Form.Field>
           </Form>
         </Segment>
-      </Grid>
+      {/* </Grid> */}
     </div>
   );
 };

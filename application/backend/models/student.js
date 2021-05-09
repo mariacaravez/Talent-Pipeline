@@ -133,8 +133,8 @@ StudentModel.createProfile = (stdtattrib, results) => {
      // console.log(results);
 
      // insert course work
-     db.query("INSERT INTO studentCoursework (coursework, corseworkRating, userID)  VALUES(?,?,?,?,?,?)",
-              [stdtattrib.courseWork.coursework, stdtattrib.coursework.rating, stdtattrib.userID], (err, res) => {
+     db.query("INSERT INTO studentCoursework (coursework, courseworkRating, userID)  VALUES(?,?,?,?,?,?)",
+              [stdtattrib.courseWork.coursework, stdtattrib.courseWork.courseworkRating, stdtattrib.userID], (err, res) => {
          if(err) {
              console.log(err);
              results(err, null);

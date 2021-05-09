@@ -37,6 +37,7 @@ function Search() {
   return (
     <div>
         <Input
+        fluid
           type="text"
           placeholder="Search Job..."
           value={textValue}
@@ -78,7 +79,6 @@ function Search() {
                     })}
                   </Card.Group>
                 </Segment>
-
               </Modal>
         </Input>
 

@@ -16,7 +16,6 @@ import {
 import Axios from "axios";
 import "../App.css";
 
-
 //TODO: IMPLEMENT THE JOB SEARCH
 
 import StudentForm from "../components/Register/StudentForm";
@@ -27,19 +26,23 @@ import LandingSearchStudent from "../components/LandingSearchStudent";
 
 //Styling
 
-const segment = { paddingTop: "12vh", paddingBottom: "12vh", borderRadius: "15px" };
+const segment = {
+  paddingTop: "20%",
+  paddingBottom: "20%",
+  borderRadius: "15px",
+};
 
 const Landing = () => {
-
   const [openRegister, setOpenRegister] = useState(false);
   const [openCreateJob, setOpenCreateJob] = useState(false);
   const [openEndorse, setOpenEndorse] = useState(false);
 
   return (
-    <div className="landing">
-     
-      <Container fluid >
-      
+    <div
+      className="landing"
+      style={{ paddingLeft: "10%", paddingRight: "10%" }}
+    >
+      <Container fluid>
         <Grid
           // verticalAlign="middle"
           padded
@@ -49,37 +52,43 @@ const Landing = () => {
           stackable
           // stretched
         >
-
-          
           <Grid.Column width={6} stretched>
-            <Segment
-               padded="very"
-              className="responsive"
-              style={segment}
-              
-            >
+            <Segment stackable textAlign="center" style={segment}>
               <Header size="huge">I'm A Student</Header>
               <Modal
-                    basic
-                    dimmer='inverted'
-                    onClose={() => setOpenRegister(false)}
-                    onOpen={() => setOpenRegister(true)}
-                    open={openRegister}
-                    trigger={<Button  style={{color: 'white', backgroundColor: '#A73349'}}>Create Profile</Button>}
-                    size='tiny'
-                    className='responsive'
+                basic
+                dimmer="inverted"
+                onClose={() => setOpenRegister(false)}
+                onOpen={() => setOpenRegister(true)}
+                open={openRegister}
+                trigger={
+                  <Button
+                    style={{ color: "white", backgroundColor: "#A73349" }}
                   >
-                    
-                  <StudentForm />
-                  <Modal.Actions className='responsive'>
-                    <Button size='tiny' onClick={() => setOpenRegister(false)}>
-                      Cancel
-                    </Button>
-                  </Modal.Actions>
-                </Modal>
+                    Create Profile
+                  </Button>
+                }
+                size="tiny"
+                className="responsive"
+              >
+                <StudentForm />
+                {/* <Modal.Actions className="responsive">
+                  <Button
+                    color="black"
+                    size="tiny"
+                    onClick={() => setOpenRegister(false)}
+                  >
+                    Cancel
+                  </Button>
+                </Modal.Actions> */}
+              </Modal>
               <div style={{ paddingTop: "10vh" }}>
-                <Header as="h4" textAlign="center" style={{color: "#696969"}}>Search For Jobs/Internships</Header>
-                <SearchJobs />
+                <Header as="h4" textAlign="center" style={{ color: "#696969" }}>
+                  Search For Jobs/Internships
+                </Header>
+                <div style={{ paddingLeft: "15%", paddingRight: "15%" }}>
+                  <SearchJobs />
+                </div>
               </div>
             </Segment>
           </Grid.Column>
@@ -88,59 +97,71 @@ const Landing = () => {
             <Grid stretched columns="equal">
               <Grid.Row>
                 <Grid.Column>
-                  <Segment
-                    className="responsive" 
-                    style={segment}
-                  >
+                  <Segment className="responsive" style={segment}>
                     <Header centered size="huge">
                       I'm An Employer
                     </Header>
                     <Modal
-                    basic
-                    dimmer='inverted'
-                    onClose={() => setOpenCreateJob(false)}
-                    onOpen={() => setOpenCreateJob(true)}
-                    open={openCreateJob}
-                    trigger={<Button  style={{color: 'white', backgroundColor: '#87AFA6'}}>Create Job Post</Button>}
-                    size='tiny'
-                    className='responsive'
-                  >
-                    
-                  <JobPosting />
-                  <Modal.Actions className='responsive'>
-                    <Button size='tiny' basic onClick={() => setOpenCreateJob(false)}>
-                      Cancel
-                    </Button>
-                  </Modal.Actions>
-                </Modal>
+                      basic
+                      dimmer="inverted"
+                      onClose={() => setOpenCreateJob(false)}
+                      onOpen={() => setOpenCreateJob(true)}
+                      open={openCreateJob}
+                      trigger={
+                        <Button
+                          style={{ color: "white", backgroundColor: "#87AFA6" }}
+                        >
+                          Create Job Post
+                        </Button>
+                      }
+                      size="tiny"
+                      className="responsive"
+                    >
+                      <JobPosting />
+                      {/* <Modal.Actions className="responsive">
+                        <Button
+                          color="black"
+                          size="tiny"
+                          onClick={() => setOpenCreateJob(false)}
+                        >
+                          Cancel
+                        </Button>
+                      </Modal.Actions> */}
+                    </Modal>
                   </Segment>
                 </Grid.Column>
                 <Grid.Column stretched>
-                  <Segment
-                    className="responsive"
-                    style={segment}
-                  >
+                  <Segment className="responsive" style={segment}>
                     <Header className="responsive" size="huge">
                       I'm A Professor
                     </Header>
                     <Modal
-                    basic
-                    dimmer='inverted'
-                    onClose={() => setOpenEndorse(false)}
-                    onOpen={() => setOpenEndorse(true)}
-                    open={openEndorse}
-                    trigger={<Button  style={{color: 'white', backgroundColor: '#16698A'}}>Endorse Student</Button>}
-                    size='tiny'
-                    className='responsive'
-                  >
-                    
-                  <EndorsementForm />
-                  <Modal.Actions className='responsive'>
-                    <Button size='tiny' basic onClick={() => setOpenEndorse(false)}>
-                      Cancel
-                    </Button>
-                  </Modal.Actions>
-                </Modal>
+                      basic
+                      dimmer="inverted"
+                      onClose={() => setOpenEndorse(false)}
+                      onOpen={() => setOpenEndorse(true)}
+                      open={openEndorse}
+                      trigger={
+                        <Button
+                          style={{ color: "white", backgroundColor: "#16698A" }}
+                        >
+                          Endorse Student
+                        </Button>
+                      }
+                      size="tiny"
+                      className="responsive"
+                    >
+                      <EndorsementForm />
+                      {/* <Modal.Actions className="responsive">
+                        <Button
+                          color="black"
+                          size="tiny"
+                          onClick={() => setOpenEndorse(false)}
+                        >
+                          Cancel
+                        </Button>
+                      </Modal.Actions> */}
+                    </Modal>
                   </Segment>
                 </Grid.Column>
               </Grid.Row>
