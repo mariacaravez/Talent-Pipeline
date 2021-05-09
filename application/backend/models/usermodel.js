@@ -18,28 +18,21 @@ const UserModel = function (objValues) {
 
 // create a new student record - registration
 UserModel.create = (newuser, result) => {
-  //console.log(newuser);
-//   db.promise().query("INSERT INTO user SET ?", newuser)
-//     .then(([results, fields]) => {
-//       console.log("From UserModel: ", results.insertId);
-//       // return Promise.resolve(result);
-//     })
-//     .catch((err) => Promise.reject(err));
-// };
-db.query("INSERT INTO user SET ?", newuser, (err, res) =>{
-if(err) {
-  console.log(err);
-  result(err, null);
-  return;
-}
-else{
-  console.log("Response from UserModel: ", res.insertId);
-  result(null, res);
-  return;
-}
-// console.log("From UserModel: ", res);
-})
-return;
+     //console.log(newuser);
+     db.query("INSERT INTO user SET ?", newuser, (err, res) =>{
+         if(err) {
+              console.log(err);
+              result(err, null);
+              return;
+         }
+         else{
+              console.log("Response from UserModel: ", res.insertId);
+              result(null, res);
+              return;
+         }
+        // console.log("From UserModel: ", res);
+     })
+     return;
 };
 
 module.exports = UserModel;

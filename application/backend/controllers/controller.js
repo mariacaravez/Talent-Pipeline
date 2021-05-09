@@ -91,6 +91,7 @@ exports.findStudentProfile = (req, res) => {
   });
 };
 
+
 // save changes to student profile
 exports.changeStudentProfile = (req, res) => {
   // populate student object with changed data

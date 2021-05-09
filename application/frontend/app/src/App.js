@@ -31,11 +31,11 @@ const App = () => {
         <Route path="/search/students">
           <SearchStudents />
         </Route>
-        <Route path='/student'>
+        <Route path="/student-page/:id">
           <StudentDashboard/>
           <Footer />
         </Route>
-        <Route path='/headhunter'>
+        <Route path='/headhunter-page'>
           <HeadhunterDashboard/>
           <Footer />
         </Route>

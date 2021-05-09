@@ -1,6 +1,6 @@
 import React from "react";
-import { useState } from "react";
 import { Card } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 const options = [
   { key: "site", text: "Entire Site", value: "site" },
@@ -14,8 +14,9 @@ const StudentCard = (props) => {
   const { student } = props;
 
   return (
+    
     <Card>
-      <Card.Content textAlign="left">
+      <Card.Content textAlign="left" as={Link} to={{pathname: "/student-page/" + student.userID}}>
         <Card.Header>
           {student.firstName + " " + student.lastName}
         </Card.Header>

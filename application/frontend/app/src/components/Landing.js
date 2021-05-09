@@ -23,7 +23,7 @@ import StudentForm from "../components/Register/StudentForm";
 import SearchJobs from "../components/SearchJobs";
 import JobPosting from "../components/Register/JobPostingForm";
 import EndorsementForm from "../components/Register/EndorsementForm";
-import NewSearchStudent from "../components/NewSearchStudent";
+import LandingSearchStudent from "../components/LandingSearchStudent";
 
 //Styling
 
@@ -146,7 +146,7 @@ const Landing = () => {
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column stretched>
-                  <NewSearchStudent />
+                  <LandingSearchStudent />
                 </Grid.Column>
               </Grid.Row>
             </Grid>
