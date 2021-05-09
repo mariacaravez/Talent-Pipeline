@@ -66,12 +66,15 @@ exports.newStudentProfile = (req, res) => {
 
 // retrieve student profile for display
 exports.findStudentProfile = (req, res) => {
-  StudentModel.findProfile(req.body.userID, (err, data) => {
-    if (err)
+  StudentModel.findProfile(req.query.userID, (err, data) => {
+    if (err) {
       res.status(500).send({message:  err.message || "error occured while retrieving student profile."});
-    else res.send(data);
+    } else { 
+      res.send(data);
+    }
   });
 };
+
 
 // save changes to student profile
 exports.changeStudentProfile = (req, res) => {

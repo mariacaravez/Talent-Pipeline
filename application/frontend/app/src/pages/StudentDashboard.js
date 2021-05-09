@@ -1,6 +1,8 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CreatableSelect from "react-select/creatable";
+import { useParams } from "react-router-dom";
+import Axios from "axios";
 
 import {
   Grid,
@@ -25,6 +27,8 @@ import RateRequest from "../components/RateRequest";
 import bera from "../images/bera.jpg";
 
 const StudentDashboard = () => {
+  let { id } = useParams()
+
   const studentStyle = {
     color: "white",
     backgroundColor: "#9c88b3",
@@ -45,7 +49,7 @@ const StudentDashboard = () => {
   const [experience, setExperience] = useState("");
   const [workExperience, setWorkExperience] = useState("");
 
-  const createOption = label =>({
+  const createOption = label => ({
     label,
     value: label
   })
@@ -61,13 +65,25 @@ const StudentDashboard = () => {
     major: "Computer Science",
     academicStanding: "Junior",
   };
-  
+
+  useEffect(() => {
+    console.log(id);
+    // http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/student/profile
+    Axios.get("http://localhost:6480/student/profile", {
+      params: { userID: id }
+    }).then((response) => {
+      console.log("got here");
+      console.log(response.data);
+      //console.log(response.body.user.firstName);
+    })
+    
+  }, []);
 
   const postMedia = () => {
     console.log("Media Posted");
   };
   const handleChange = (field, value) => {
-    switch(field) {
+    switch (field) {
       case "skills":
         setSkills(value);
         break;
@@ -78,7 +94,7 @@ const StudentDashboard = () => {
   }
 
   const handleInputChange = (field, value) => {
-    switch(field) {
+    switch (field) {
       case "skills":
         setSkill(value);
         break;
@@ -88,9 +104,9 @@ const StudentDashboard = () => {
     }
   }
   const addWork = (e) => {
-    if(!experience) return;
+    if (!experience) return;
 
-    switch(e.key){
+    switch (e.key) {
       case 'Enter':
       case 'Tab':
         setWorkExperience([...workExperience, createOption(experience)])
@@ -103,9 +119,9 @@ const StudentDashboard = () => {
   };
 
   const addSkill = (e) => {
-    if(!skill) return;
+    if (!skill) return;
 
-    switch(e.key){
+    switch (e.key) {
       case 'Enter':
       case 'Tab':
         setSkills([...skills, createOption(skill)])
@@ -116,10 +132,11 @@ const StudentDashboard = () => {
         break;
     }
   };
-  
+
 
   return (
     <div className="dashboard">
+      <p>This is the id: {id}</p>
       <Container fluid className="responsive">
         <Grid centered columns={3} stackable>
           <Grid.Column stretched width={3} className="responsive">

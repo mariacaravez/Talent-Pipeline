@@ -45,7 +45,7 @@ function NewSearchStudent() {
                         action
                     >
                     </ Input>
-                    <Link to={{pathname: "/search/students/"}}>
+                    <Link to={{pathname: "/search-page/students/"}}>
                         <Button
                             style={{ color: "white", backgroundColor: "#FBBE74" }}
                             onClick={searchClickedHandler}

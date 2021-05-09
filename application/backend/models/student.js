@@ -181,12 +181,11 @@ StudentAttrib.updateProfile = (stdtattrib, result) => {
 // retrieve student profile
 // update an existing student's profile
 StudentAttrib.findProfile = (userid, result) => {
-    console.log(newuser);
-    db.promise().query("SELECT * FROM user us, userAttributes ua, studentDemo sd, studentCoursework scw, studentSkills ss, studentWorkExp swe WHERE  us.userID = ua.userID AND us.userID = sd.userID AND us.userID = scw.userID AND us.userID = ss.userID AND us.userID = swe.userID AND us.userID = ?", userid)
+
+    // console.log(newuser);
+    db.promise().query("SELECT * FROM user us, userAttributes ua, studentCoursework scw, studentSkills ss, studentWorkExp swe WHERE  us.userID = ua.userID AND us.userID = scw.userID AND us.userID = ss.userID AND us.userID = swe.userID AND us.userID = ?", userid)
     .then(([results, fields]) => {
-        //console.log(results.insertId);
-        // console.log(results);
-        return Promise.resolve(result);
+        return Promise.resolve(results);
     })
     .catch((err) => Promise.reject(err));
 };

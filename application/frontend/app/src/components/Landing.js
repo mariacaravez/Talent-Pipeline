@@ -26,7 +26,7 @@ import JobPosting from "./JobPostingForm";
 import EndorsementForm from "./EndorsementForm";
 
 import StudentForm from "../components/StudentForm";
-import NewSearchStudent from "../components/NewSearchStudent";
+import LandingSearchStudent from "./LandingSearchStudent";
 
 const Landing = () => {
 
@@ -144,7 +144,7 @@ const Landing = () => {
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column stretched>
-                  <NewSearchStudent />
+                  <LandingSearchStudent />
                 </Grid.Column>
               </Grid.Row>
             </Grid>
