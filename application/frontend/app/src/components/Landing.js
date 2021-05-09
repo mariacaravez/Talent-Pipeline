@@ -19,7 +19,7 @@ import "../App.css";
 
 //TODO: IMPLEMENT THE JOB SEARCH
 
-import Register from "../components/Register/Register";
+import StudentForm from "../components/Register/StudentForm";
 import SearchJobs from "../components/SearchJobs";
 import JobPosting from "../components/Register/JobPostingForm";
 import EndorsementForm from "../components/Register/EndorsementForm";
@@ -70,9 +70,9 @@ const Landing = () => {
                     className='responsive'
                   >
                     
-                  <Register />
+                  <StudentForm />
                   <Modal.Actions className='responsive'>
-                    <Button size='tiny' basic onClick={() => setOpenRegister(false)}>
+                    <Button size='tiny' onClick={() => setOpenRegister(false)}>
                       Cancel
                     </Button>
                   </Modal.Actions>

@@ -134,7 +134,9 @@ const Register = () => {
 
   return (
     <div className="responsive">
-      <Segment padded="very" raised>
+      <Grid padded="very">
+
+      <Segment padded raised size="massive">
         <Label
           style={{ color: "white", backgroundColor: "#E06F41" }}
           size="huge"
@@ -150,10 +152,10 @@ const Register = () => {
         </Label>
 
         <Form stackable onSubmit={submitRegistration}>
-          <Grid stackable divided padded columns={2}>
+          {/* <Grid stackable divided padded>
             <Grid.Column>
-              <Container>
-                <Header>Account Information</Header>
+              <Container> */}
+                {/* <Header>Account Information</Header> */}
                 {optionsValue === "student" && (
                   <>
                     <Form.Input required label="Email">
@@ -178,7 +180,7 @@ const Register = () => {
                       <Input
                         label={{
                           basic: true,
-                          color: "##7A48AC",
+                          color: "violet",
                           content: "@sfsu.edu*",
                         }}
                         labelPosition="right"
@@ -194,6 +196,7 @@ const Register = () => {
                   <>
                     <Form.Input required label="Email">
                       <Input
+                      
                         value={email}
                         onChange={(e) => {
                           setEmail(e.target.value);
@@ -203,8 +206,9 @@ const Register = () => {
                   </>
                 )}
                 <Form.Group widths="equal">
+   
                   <Form.Input
-                    fluid
+                    
                     required
                     label="Full Name"
                     placeholder="First"
@@ -215,7 +219,7 @@ const Register = () => {
                   />
 
                   <Form.Input
-                    fluid
+                    
                     label="(Optional)"
                     placeholder="Middle"
                     value={middleName}
@@ -225,7 +229,7 @@ const Register = () => {
                   />
 
                   <Form.Input
-                    fluid
+                    
                     required
                     label=""
                     placeholder="Last"
@@ -266,14 +270,14 @@ const Register = () => {
                 )}
 
                 {/* Forms depending on user type */}
-                {optionsValue === "student" && (
+                {/* {optionsValue === "student" && (
                   <Form.Field>
                     <StudentForm dataCallBack={handleStudentFormData} />
                   </Form.Field>
-                )}
-              </Container>
-            </Grid.Column>
-            <Grid.Column stretched>
+                )} */}
+              {/* </Container>
+            </Grid.Column> */}
+            {/* <Grid.Column stretched>
               <Form.Field>
                 {optionsValue === "student" && (
                   <>
@@ -295,8 +299,8 @@ const Register = () => {
                   </>
                 )}
               </Form.Field>
-            </Grid.Column>
-          </Grid>
+            </Grid.Column> */}
+          {/* </Grid> */}
           <Form.Field className="responsive">
             <Button
               style={{ color: "white", backgroundColor: "#E06F41" }}
@@ -307,6 +311,7 @@ const Register = () => {
           </Form.Field>
         </Form>
       </Segment>
+      </Grid>
     </div>
   );
 };
