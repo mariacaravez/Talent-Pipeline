@@ -9,10 +9,8 @@ import Landing from './components/Landing';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import StudentDashboard from './pages/StudentDashboard';
-import Register from './pages/Register';
 import About from "./pages/About";
 import HeadhunterDashboard from "./pages/HeadhunterDashboard";
-import JobPosting from './components/JobPostingForm';
 import SearchStudents from './components/Search/Students/SearchStudents';
 
 
@@ -27,10 +25,13 @@ const App = () => {
           <Landing />
           <Footer />
         </Route>
-        <Route path="/search-page/students">
+        <Route path="/about">
+          <About/>
+        </Route>
+        <Route path="/search/students">
           <SearchStudents />
         </Route>
-        <Route path='/student-page/:id'>
+        <Route path="/student-page/:id">
           <StudentDashboard/>
           <Footer />
         </Route>

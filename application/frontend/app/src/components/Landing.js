@@ -19,14 +19,15 @@ import "../App.css";
 
 //TODO: IMPLEMENT THE JOB SEARCH
 
-import Search from "../components/Search";
-import Register from "../pages/Register";
+import Register from "../components/Register/Register";
 import SearchJobs from "../components/SearchJobs";
-import JobPosting from "./JobPostingForm";
-import EndorsementForm from "./EndorsementForm";
+import JobPosting from "../components/Register/JobPostingForm";
+import EndorsementForm from "../components/Register/EndorsementForm";
+import LandingSearchStudent from "../components/LandingSearchStudent";
 
-import StudentForm from "../components/StudentForm";
-import LandingSearchStudent from "./LandingSearchStudent";
+//Styling
+
+const segment = { paddingTop: "12vh", paddingBottom: "12vh", borderRadius: "15px" };
 
 const Landing = () => {
 
@@ -50,11 +51,11 @@ const Landing = () => {
         >
 
           
-          <Grid.Column width={6}>
+          <Grid.Column width={6} stretched>
             <Segment
                padded="very"
               className="responsive"
-              style={{ paddingTop: "18vh", paddingBottom: "20vh" }}
+              style={segment}
               
             >
               <Header size="huge">I'm A Student</Header>
@@ -76,7 +77,8 @@ const Landing = () => {
                     </Button>
                   </Modal.Actions>
                 </Modal>
-              <div style={{ paddingTop: "5vh" }}>
+              <div style={{ paddingTop: "10vh" }}>
+                <Header as="h4" textAlign="center" style={{color: "#696969"}}>Search For Jobs/Internships</Header>
                 <SearchJobs />
               </div>
             </Segment>
@@ -87,8 +89,8 @@ const Landing = () => {
               <Grid.Row>
                 <Grid.Column>
                   <Segment
-                    className="responsive"
-                    style={{ paddingTop: "12vh", paddingBottom: "12vh" }}
+                    className="responsive" 
+                    style={segment}
                   >
                     <Header centered size="huge">
                       I'm An Employer
@@ -116,7 +118,7 @@ const Landing = () => {
                 <Grid.Column stretched>
                   <Segment
                     className="responsive"
-                    style={{ paddingTop: "12vh", paddingBottom: "12vh" }}
+                    style={segment}
                   >
                     <Header className="responsive" size="huge">
                       I'm A Professor

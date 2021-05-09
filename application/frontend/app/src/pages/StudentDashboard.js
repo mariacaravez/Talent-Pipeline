@@ -67,13 +67,11 @@ const StudentDashboard = () => {
   };
 
   useEffect(() => {
-    console.log(id);
     // http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/student/profile
     Axios.get("http://localhost:6480/student/profile", {
       params: { userID: id }
     }).then((response) => {
-      console.log("got here");
-      console.log(response.data);
+      console.log("Server Responded With: " + response.data);
       //console.log(response.body.user.firstName);
     })
     

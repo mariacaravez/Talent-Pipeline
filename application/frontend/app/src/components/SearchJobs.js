@@ -54,10 +54,10 @@ function Search() {
                 open={openSearchResults}
                 trigger={
                   <Button
-                    style={{ color: "white", backgroundColor: "#FBBE74" }}
+                    style={{ backgroundColor: "#FBBE74" }}
                     onClick={getSearch}
                   >
-                    Search
+                    Find Jobs
                   </Button>
                 }
                 className="responsive"

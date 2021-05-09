@@ -1,15 +1,19 @@
 import React, { useState, Component } from 'react'
-import { Input, Menu, Button, Modal, Container} from 'semantic-ui-react'
+import { Input, Menu, Button, Modal, Container, Image, Divider} from 'semantic-ui-react'
+import { Link, Route } from 'react-router-dom';
+
 
 import '../App.css'
 
-import Register from '../pages/Register';
+import Register from '../components/Register/Register';
 import Login from '../pages/Login';
 import About from "../pages/About"
 
 // redux imports
 import { useSelector, useDispatch } from 'react-redux';
 import { authActions } from './store/auth-slice';
+
+import logo from "../images/Milestone-Logo.png";
 
 const NavBar = () => {
 
@@ -28,14 +32,51 @@ const NavBar = () => {
   };
 
     return (
-        <Menu fixed='top' inverted>
-        <Menu.Item >
-          <h1 className='title'>Milestone</h1>
+      // import React from 'react'
+// import { Dropdown, Icon } from 'semantic-ui-react'
+
+// const trigger = (
+//   <span>
+//     <Icon name='user' /> Hello, Bob
+//   </span>
+// )
+
+// const options = [
+//   {
+//     key: 'user',
+//     text: (
+//       <span>
+//         Signed in as <strong>Bob Smith</strong>
+//       </span>
+//     ),
+//     disabled: true,
+//   },
+//   { key: 'profile', text: 'Your Profile' },
+//   { key: 'stars', text: 'Your Stars' },
+//   { key: 'explore', text: 'Explore' },
+//   { key: 'integrations', text: 'Integrations' },
+//   { key: 'help', text: 'Help' },
+//   { key: 'settings', text: 'Settings' },
+//   { key: 'sign-out', text: 'Sign Out' },
+// ]
+
+// const DropdownTriggerExample = () => (
+//   <Dropdown trigger={trigger} options={options} />
+// )
+
+// export default DropdownTriggerExample
+        <Menu fixed='top' secondary style={{color: 'white', backgroundColor: 'black'}}>
+          <Menu.Item as={Link} to="/"><img src={logo}/></Menu.Item>
+        <Menu.Item as={Link} to="/">
+          <h1 className='title'style={{color: 'white'}}>Milestone</h1>
         </Menu.Item>
         {!isLoggedIn && (
                   <Menu.Menu  position='right'>
                   <Menu.Item
-                    name='about'                    
+                    style={{color: 'white'}}
+                    name='about'
+                    as={Link} 
+                    to="/about"                          
                   />
                   <Menu.Item >
                     <Modal
@@ -44,7 +85,7 @@ const NavBar = () => {
                       onClose={() => setOpenLogin(false)}
                       onOpen={() => setOpenLogin(true)}
                       open={openLogin}
-                      trigger={<Button style={{color: 'white', backgroundColor: '#FBBE74'}}>Login</Button>}
+                      trigger={<Button style={{ backgroundColor: '#FBBE74'}}>Login</Button>}
                       className='responsive'
                       size='mini'
                     >
