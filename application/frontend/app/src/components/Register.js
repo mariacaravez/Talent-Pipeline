@@ -19,7 +19,7 @@ const options = [
 
 const Register = () => {
   const [optionsValue, setOptionsValue] = useState("student");
-  const [userTypeID, setUserTypeID] = useState();
+  const [userTypeID, setUserTypeID] = useState(1);
 
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
@@ -62,6 +62,7 @@ const Register = () => {
     Axios.post("http://localhost:6480/newuser", { user }).then((response) => {
       console.log("Insert ID should be: ", response.data.insertId);
       setUserID(response.data.insertId);
+      
     });
   };
 

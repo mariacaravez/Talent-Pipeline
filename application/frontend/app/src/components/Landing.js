@@ -37,7 +37,7 @@ const Landing = () => {
   return (
     <div
       className="landing"
-      style={{ paddingLeft: "10%", paddingRight: "10%" }}
+      style={{ padding:"10%"}}
     >
       <Container fluid>
         <Grid

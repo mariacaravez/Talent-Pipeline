@@ -2,14 +2,10 @@ import React from "react";
 import Axios from "axios";
 import {
   Grid,
-  Image,
   Segment,
-  List,
-  Container,
   Button,
   Form,
   Label,
-  Header,
 } from "semantic-ui-react";
 
 import { useState } from "react";
@@ -116,7 +112,8 @@ const JobPosting = () => {
         console.log("FRONTEND FORM - Job Post to create: ", jobPost);
         console.log(response.data);
       }
-    );  };
+    );
+  };
 
   return (
     <div className="responsive">
@@ -172,13 +169,22 @@ const JobPosting = () => {
                 }}
               >
                 <label>Company</label>
-                <input placeholder="Google Inc." type="text" value={company}                 onChange={(e) => {
-                  setCompany(e.target.value);
-                }}/>
+                <input
+                  placeholder="Google Inc."
+                  type="text"
+                  value={company}
+                  onChange={(e) => {
+                    setCompany(e.target.value);
+                  }}
+                />
               </Form.Field>
-              <Form.Field required value={location}                 onChange={(e) => {
+              <Form.Field
+                required
+                value={location}
+                onChange={(e) => {
                   setLocation(e.target.value);
-                }}>
+                }}
+              >
                 <label>Location</label>
                 <input placeholder="Mountain View, CA" type="text" />
               </Form.Field>
@@ -222,11 +228,23 @@ const JobPosting = () => {
                 Graduation Date Range
               </Label>
               <Form.Group inline widths="equal">
-                <Form.Field inline value={gradRangeStart} onChange={(e) => {setGradRangeStart(e.target.value)}}>
+                <Form.Field
+                  inline
+                  value={gradRangeStart}
+                  onChange={(e) => {
+                    setGradRangeStart(e.target.value);
+                  }}
+                >
                   <label>From</label>
                   <input type="date" />
                 </Form.Field>
-                <Form.Field inline value={gradRangeEnd} onChange={(e) => {setGradRangeEnd(e.target.value)}}>
+                <Form.Field
+                  inline
+                  value={gradRangeEnd}
+                  onChange={(e) => {
+                    setGradRangeEnd(e.target.value);
+                  }}
+                >
                   <label>To</label>
                   <input type="date" />
                 </Form.Field>
