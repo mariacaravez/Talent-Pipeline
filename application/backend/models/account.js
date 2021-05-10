@@ -21,7 +21,8 @@ UserAccount.create = (useracct, result) => {
 // for user login
 UserAccount.verify = (useracct, result) => {
     //console.log(useracct);
-    db.query("SELECT userID, email FROM user WHERE username = ? AND password = ?", [useracct.username, useracct.password], (err, res) => {
+    //"SELECT userID, email FROM user WHERE username = ? AND password = ?"
+    db.query("SELECT userID, email FROM user WHERE username = ? AND aes_decrypt('password', 'secret') = ?", [useracct.username, useracct.password], (err, res) => {
         if (err) {
             console.log(err);
             result(err, null);

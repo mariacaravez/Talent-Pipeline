@@ -40,7 +40,7 @@ exports.newStudentProfile = (req, res) => {
   if (!req.body) {
     res.status(400).send({ message: "Content can not be empty!" });
   }
-console.log("CONTROLLER: About to create student object with: ", req.body)
+  console.log("CONTROLLER: About to create student object with: ", req.body)
 
   // student data object
   const student = new StudentModel({
@@ -86,7 +86,11 @@ exports.findStudentProfile = (req, res) => {
           message:
             err.message || "error occured while retrieving student profile.",
         });
-    else res.send(data);
+    else {
+      console.log("data before send: " + data);
+      res.send(data);
+      console.log("data after send: " + data);
+    }
   });
   // StudentModel.findProfile(req.query.userID)
   //   .then((results) => {
