@@ -191,8 +191,8 @@ exports.userLogin = (req, res) => {
 
   // check for valid user
   UserAccount.verify(creds, (err, data) => {
-    console.log("IN CONTROLLER: looking for data");
-    console.log(data);
+    console.log("CONTROLLER - data: ", data);
+    console.log("CONTROLLER - creds: ", creds);
     if (err)
       res
         .status(500)
@@ -242,6 +242,7 @@ exports.findJob = (req, res) => {
 
 // post a new job
 exports.postjob = (req, res) => {
+  console.log("CONTROLLER - request received: ", req);
   // validate request body
   if (!req.body) {
     res.status(400).send({ message: "Content can not be empty!" });
@@ -250,6 +251,7 @@ exports.postjob = (req, res) => {
   // create new jobposting object
   const job_obj = new JobpostObj({
     location: req.body.location,
+    jobPostTitle: req.body.jobPostTitle,
     salary: req.body.salary,
     company: req.body.company,
     description: req.body.description,
@@ -260,6 +262,8 @@ exports.postjob = (req, res) => {
     coursework: req.body.coursework,
     skills: req.body.skills,
   });
+
+  console.log("CONTROLLER - obj created: ", job_obj);
 
   // save the job posting
   JobModel.create(job_obj)

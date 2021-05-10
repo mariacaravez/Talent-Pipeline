@@ -35,16 +35,27 @@ const Register = () => {
     firstName: firstName,
     middleName: middleName,
     lastName: lastName,
-    userTypeID: 1,
+    userTypeID: userTypeID,
     username: email,
     password: password,
     email: email,
   };
 
-
   const handleSelect = (e, data) => {
     setOptionsValue(data.value);
-    setUserTypeID(data.key);
+    switch (data.value) {
+      case "student":
+        setUserTypeID(1);
+        break;
+      case "headhunter":
+        setUserTypeID(3);
+        break;
+      case "endorser":
+        setUserTypeID(2);
+        break;
+      default:
+        break;
+    }
   };
 
   const submitRegistration = () => {
@@ -71,7 +82,6 @@ const Register = () => {
               onChange={handleSelect}
             />
           </Label>
-
           <Form stackable onSubmit={submitRegistration}>
             {optionsValue === "student" && (
               <>
