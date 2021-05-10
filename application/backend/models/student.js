@@ -120,20 +120,20 @@ StudentModel.createProfile = (stdtattrib, results) => {
      })
      // console.log(results);
 
-      // insert student demo data
-      db.query("INSERT INTO studentDemo (userID, gender, age, race, ethnicity, veteran, militaryCode)  VALUES(?,?,?,?,?,?,?)",
-          [stdtattrib.userID, stdtattrib.gender, stdtattrib.age, stdtattrib.race, stdtattrib.ethnicity, stdtattrib.veteran, stdtattrib.militaryCode], (err, res) => {
-         if(err) {
-             console.log(err);
-             results(err, null);
-             return;
-         }
-         else {
-             console.log(res);
-             results(...results, {...res}); 
-         }
-     })
-     // console.log(results);
+  // insert student demo data
+  db.query("INSERT INTO studentDemo (userID, gender, age, race, ethnicity, veteran, militaryCode)  VALUES(?,?,?,?,?,?,?)",
+    [stdtattrib.userID, stdtattrib.gender, stdtattrib.age, stdtattrib.race, stdtattrib.ethnicity, stdtattrib.veteran, stdtattrib.militaryCode], (err, res) => {
+      if (err) {
+        console.log(err);
+        results(err, null);
+        return;
+      }
+      else {
+        console.log(res);
+        results(...results, { ...res });
+      }
+    })
+  // console.log(results);
 
      // insert course work
      db.query("INSERT INTO studentCoursework (coursework, courseworkRating, userID)  VALUES(?,?,?,?,?,?)",
@@ -186,54 +186,72 @@ StudentModel.createProfile = (stdtattrib, results) => {
 StudentModel.updateProfile = (stdtattrib, results) => {
   console.log(stdtattrib);
   db.query("UPDATE userAttributes SET academicStanding = ?, resume = ? where userID = ?)",
-      [stdtattrib.academicStanding, stdtattrib.resume, stdtattrib.userID], (err, res) => {
-         if(err) {
-             console.log(err);
-             results(err, null);
-             return;
-         }
-         else {
-             console.log(res);
-             results(null, res);
-         }
-     })
-     // console.log(results);
+    [stdtattrib.academicStanding, stdtattrib.resume, stdtattrib.userID], (err, res) => {
+      if (err) {
+        console.log(err);
+        results(err, null);
+        return;
+      }
+      else {
+        console.log(res);
+        results(null, res);
+      }
+    })
+  // console.log(results);
 
-     // update student demo data
-     db.query("UPDATE studentDemo SET gender = ?, age = ?, race = ?, ethnicity = ?, veteran = ?, militaryCode = ? WHERE userID = ?)",
-          [stdtattrib.gender, stdtattrib.age, stdtattrib.race, stdtattrib.ethnicity, stdtattrib.veteran, stdtattrib.militaryCode, stdtattrib.userID], (err, res) => {
-         if(err) {
-             console.log(err);
-             results(err, null);
-             return;
-         }
-         else {
-             console.log(res[0]);
-             results(...results, {...res});
-             return;
-         }
-     })
-     // console.log(results);
+  // update student demo data
+  db.query("UPDATE studentDemo SET gender = ?, age = ?, race = ?, ethnicity = ?, veteran = ?, militaryCode = ? WHERE userID = ?)",
+    [stdtattrib.gender, stdtattrib.age, stdtattrib.race, stdtattrib.ethnicity, stdtattrib.veteran, stdtattrib.militaryCode, stdtattrib.userID], (err, res) => {
+      if (err) {
+        console.log(err);
+        results(err, null);
+        return;
+      }
+      else {
+        console.log(res[0]);
+        results(...results, { ...res });
+        return;
+      }
+    })
+  // console.log(results);
 };
 
 // retrieve a student profile
 StudentModel.findProfile = (userid, result) => {
-  console.log(userid);
-  // "SELECT * FROM user us, userAttributes ua, studentDemo sd, studentCoursework scw, studentSkills ss, studentWorkExp swe WHERE  us.userID = ua.userID AND us.userID = sd.userID AND us.userID = scw.userID AND us.userID = ss.userID AND us.userID = swe.userID AND us.userID = ?"
-  db.query("SELECT * FROM user us LEFT JOIN userAttributes ua ON us.userID = ua.userID LEFT JOIN studentDemo sd ON us.userID = sd.userID LEFT JOIN studentCoursework scw ON us.userID = scw.userID LEFT JOIN studentSkills ss ON us.userID = ss.userID LEFT JOIN studentWorkExp swe ON us.userID = swe.userID WHERE us.userTypeID = 1 AND us.userID = ?",
-      [userid], (err, res) => {
-         if(err) {
-             console.log(err);
-             result(err, null);
-             return;
-         }
-         else {
-             console.log(res);
-             result(null, res);
-             return;
-         }
-     })
-     console.log(result);
+  console.log("Looking for user with user id: " + userid);
+  // db.query("SELECT * FROM user us WHERE us.userTypeID = 1 AND us.userID = ?", userid, (err, res) => {
+  //   if (err) {
+  //     console.log(err);
+  //     result(err, null);
+  //     return;
+  //   }
+  //   else {
+  //     console.log(res[0]);
+  //     result(null, res[0]);
+  //     return;
+  //   }
+  // })
+  // return;
+  var us, ua, sd, scw, ss, swe;
+  const mysqlstatement = "SELECT * FROM user WHERE userID = ?;SELECT * FROM userAttributes WHERE userID = ?;SELECT * FROM studentDemo WHERE userID = ?;SELECT * FROM studentCoursework WHERE userID = ?;SELECT * FROM studentSkills WHERE userID = ?;SELECT * FROM studentWorkExp WHERE userID = ?;";
+  db.query(mysqlstatement,
+    [userid, userid, userid, userid, userid, userid],
+    (err, res) => {
+      if (err) {
+        console.log(err);
+      } else {
+        us = res[0];
+        ua = res[1];
+        sd = res[2];
+        scw = res[3];
+        ss = res[4];
+        swe = res[5];
+        var studentObj = { user: us, userAttributes: ua, studentDemo: sd, studentCoursework: scw, studentSkills: ss, studentWorkExp: swe };
+        console.log("obj: ", studentObj);
+        result(null, studentObj);
+        return;
+      }
+    });
 };
 
 module.exports = StudentModel;

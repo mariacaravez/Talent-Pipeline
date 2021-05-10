@@ -20,7 +20,6 @@ const JobModel = require("../models/jobposting.js");
 
 // search student controls
 exports.findStudents = (req, res) => {
-  //console.log("I'M IN CONTROLLER");
   StudentModel.find(req.query.textValue, req.query.optionsValue)
     .then((results) => {
       //console.log(results);
@@ -92,6 +91,19 @@ exports.findStudentProfile = (req, res) => {
       console.log("In controller after res.send: ", data);
     }
   });
+  // StudentModel.findProfile(req.query.userID)
+  //   .then((results) => {
+  //     //console.log(results);
+  //     res.send(results);
+  //   })
+  //   .catch((err) => {
+  //     res
+  //       .status(500)
+  //       .send({
+  //         message:
+  //           err.message || "Some error occurred while retrieving student information.",
+  //       });
+  //   });
 };
 
 // save changes to student profile
