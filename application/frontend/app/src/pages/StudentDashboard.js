@@ -130,15 +130,24 @@ const StudentDashboard = () => {
     academicStanding: "Junior",
   };
 
-  useEffect(() => {
-    // http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/student/profile
+  // useEffect(() => {
+  //   // http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/student/profile
+  //   Axios.get("http://localhost:6480/student/profile", {
+  //     params: { userID: id },
+  //   }).then((response) => {
+  //     console.log("Server Responded With: " + response);
+  //     //console.log(response.body.user.firstName);
+  //   });
+  // }, []);
+
+  const submitSearch = () => {
     Axios.get("http://localhost:6480/student/profile", {
       params: { userID: id },
     }).then((response) => {
-      console.log("Server Responded With: " + response.data);
+      console.log("Server Responded With: ", response);
       //console.log(response.body.user.firstName);
     });
-  }, []);
+  }
 
   const postMedia = () => {
     console.log("Media Posted");
@@ -249,7 +258,7 @@ const StudentDashboard = () => {
                   onOpen={() => setOpenRequest(true)}
                   open={openRequest}
                   trigger={
-                    <Button style={{ backgroundColor: "#FBBE74" }}>
+                    <Button style={{ backgroundColor: "#FBBE74" }} onClick={submitSearch}>
                       Request Rating
                     </Button>
                   }

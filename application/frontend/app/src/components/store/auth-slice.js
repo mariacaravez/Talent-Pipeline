@@ -10,10 +10,11 @@ const authSlice = createSlice({
         login(state, action) {
             state.isLogged = true;
             // user Id is temporarily set to 0 until back end authentication is implemented
-            state.userID = 0;
+            state.userID = action.payload.userID;
         },
         logout(state, action) {
             state.isLogged = false;
+            state.userID = null;
         }
     }
 });

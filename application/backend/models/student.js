@@ -17,9 +17,12 @@ const StudentModel = function (attribValues) {
   this.veteran = attribValues.veteran;
   this.militaryCode = attribValues.militaryCode;
   this.ethnicity = attribValues.ethnicity;
-  this.skills = attribValues.skills;
+  this.userskill = attribValues.userskill;
+  this.skillRating = attribValues.skillRating;
   this.courseWork = attribValues.courseWork;
-  this.workexp = attribValues.workexp;
+  this.courseWorkRating = attribValues.courseWorkRating;
+  this.workTitle = attribValues.workTitle;
+  this.workDescription = attribValues.workDescription;
   this.resume = attribValues.resume;
 };
 
@@ -101,7 +104,7 @@ StudentModel.find = (textValue, optionsValue) => {
 
 // create a new student profile - registration
 StudentModel.createProfile = (stdtattrib, results) => {
-    // console.log(stdtattrib);
+    console.log("Inside StudentModel: ", stdtattrib);
     db.query("INSERT INTO userAttributes (gradDate, academicStanding, major, userID, resume)  VALUES(?,?,?,?,?)",
       [stdtattrib.graduationDate, stdtattrib.academicStanding, stdtattrib.major, stdtattrib.userID, stdtattrib.resume], (err, res) => {
          if(err) {
@@ -134,7 +137,7 @@ StudentModel.createProfile = (stdtattrib, results) => {
 
      // insert course work
      db.query("INSERT INTO studentCoursework (coursework, courseworkRating, userID)  VALUES(?,?,?,?,?,?)",
-              [stdtattrib.courseWork.coursework, stdtattrib.courseWork.courseworkRating, stdtattrib.userID], (err, res) => {
+              [stdtattrib.coursework, stdtattrib.courseworkRating, stdtattrib.userID], (err, res) => {
          if(err) {
              console.log(err);
              results(err, null);
@@ -149,7 +152,7 @@ StudentModel.createProfile = (stdtattrib, results) => {
 
      // insert student skills
      db.query("INSERT INTO studentSkills (userSkill, userSkillRating, userID)  VALUES(?,?,?)",
-                  [stdtattrib.skills.userskill, stdtattrib.skills.rating, stdtattrib.userID], (err, res) => {
+                  [stdtattrib.userskill, stdtattrib.skillRating, stdtattrib.userID], (err, res) => {
          if(err) {
              console.log(err);
              results(err, null);
@@ -164,7 +167,7 @@ StudentModel.createProfile = (stdtattrib, results) => {
 
      // insert student work experience
      db.query("INSERT INTO studentWorkExp (workExpTitle, workExpDesc, userID)  VALUES(?,?,?)",
-                     [stdtattrib.workexp.title, stdtattrib.workexp.description, stdtattrib.userID], (err, res) => {
+                     [stdtattrib.workTitle, stdtattrib.workDescription, stdtattrib.userID], (err, res) => {
          if(err) {
              console.log(err);
              results(err, null);
@@ -216,7 +219,8 @@ StudentModel.updateProfile = (stdtattrib, results) => {
 // retrieve a student profile
 StudentModel.findProfile = (userid, result) => {
   console.log(userid);
-  db.query("SELECT * FROM user us, userAttributes ua, studentDemo sd, studentCoursework scw, studentSkills ss, studentWorkExp swe WHERE  us.userID = ua.userID AND us.userID = sd.userID AND us.userID = scw.userID AND us.userID = ss.userID AND us.userID = swe.userID AND us.userID = ?",
+  //  db.query("SELECT * FROM user us, userAttributes ua, studentDemo sd, studentCoursework scw, studentSkills ss, studentWorkExp swe WHERE  us.userID = ua.userID AND us.userID = sd.userID AND us.userID = scw.userID AND us.userID = ss.userID AND us.userID = swe.userID AND us.userID = ?",
+  db.query("SELECT * FROM user us WHERE us.userID = ?",
       [userid], (err, res) => {
          if(err) {
              console.log(err);
@@ -229,7 +233,7 @@ StudentModel.findProfile = (userid, result) => {
              return;
          }
      })
-     // console.log(result);
+     console.log(result);
      return;
 };
 

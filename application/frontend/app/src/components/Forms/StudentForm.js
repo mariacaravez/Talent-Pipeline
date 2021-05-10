@@ -1,7 +1,8 @@
 import React from "react";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import Axios from "axios";
-import { Link, Route } from 'react-router-dom';
+import { Link, Route } from "react-router-dom";
 import CreatableSelect from "react-select/creatable";
 
 import {
@@ -65,6 +66,8 @@ const races = [
 ];
 
 const StudentForm = () => {
+  const userID = useSelector((state) => state.auth.userID);
+
   // Student Info
   const [graduationDate, setGraduationDate] = useState("");
   const [major, setMajor] = useState("");
@@ -93,7 +96,7 @@ const StudentForm = () => {
   const [about, setAbout] = useState("");
 
   const profile = {
-    userID: 169,
+    userID: userID,
     major: major,
     academicStanding: academicYear,
     graduationDate: graduationDate,
@@ -103,9 +106,12 @@ const StudentForm = () => {
     veteran: veteran,
     militaryCode: militaryCode,
     ethnicity: ethnicity,
-    skills: skills,
-    coursework: {coursework: courseWork, courseworkRating: courseRating},
-    workexp: workExperience,
+    userskill: skills,
+    skillRating: 0,
+    courseWork: "coursework",
+    courseWorkRating: 0,
+    workTitle: workExperience.title,
+    workDescription: workExperience.description,
     jobapps: 0,
     // resume: resume,
   };
@@ -172,10 +178,7 @@ const StudentForm = () => {
   };
 
   const addWork = () => {
-    setWorkExperience([
-      ...workExperience,
-      { title: "", description: "" },
-    ]);
+    setWorkExperience([...workExperience, { title: "", description: "" }]);
   };
 
   const createProfile = () => {
@@ -282,7 +285,11 @@ const StudentForm = () => {
                   position="right center"
                   content="Demographics can be beneficial to both you and employers. However, we understand if you refrain from disclosing this information."
                   trigger={
-                    <Icon style={{color: "#1DA083"}} size="small" name="info circle" />
+                    <Icon
+                      style={{ color: "#1DA083" }}
+                      size="small"
+                      name="info circle"
+                    />
                   }
                 />
               </Header.Content>
