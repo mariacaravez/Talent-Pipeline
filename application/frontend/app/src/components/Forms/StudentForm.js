@@ -72,8 +72,8 @@ const StudentForm = () => {
   const [graduationDate, setGraduationDate] = useState("");
   const [major, setMajor] = useState("");
   const [academicYear, setAcademicYear] = useState("");
-  // const [course, setCourse] = useState("");
-  const {courseWork, setCourseWork}= useState({});
+
+  const [coursework, setCoursework] = useState([]);
   const [courses, setCourses] = useState([
     { key: "math1", text: "MATH 227", value: "MATH 227" },
     { key: "physics1", text: "PHYS 220", value: "PHYS 220" },
@@ -102,7 +102,6 @@ const StudentForm = () => {
   const [militaryCode, setMilitaryCode] = useState("");
 
   // Resume Information
-  // const [skill, setSkill] = useState("");
   const [userskill, setUserskill] = useState([]);
   const [skills, setSkills] = useState([
     { key: "excel", text: "Microsoft Excel", value: "Microsoft Excel" },
@@ -110,9 +109,8 @@ const StudentForm = () => {
     { key: "s-force", text: "Salesforce", value: "Salesforce" },
   ]);
 
-  const [workExperience, setWorkExperience] = useState([
-    { title: " ", description: " " },
-  ]);
+  const [workExperience, setWorkExperience] = useState([{}]);
+
   const [about, setAbout] = useState("");
 
   const profile = {
@@ -128,76 +126,44 @@ const StudentForm = () => {
     ethnicity: ethnicity,
     userskill: userskill,
     skillRating: 0,
-    courseWork: courseWork,
+    courseWork: coursework,
     courseWorkRating: 0,
-    workTitle: workExperience[0].title,
-    workDescription: workExperience.description,
+    workexp: workExperience,
     jobapps: 0,
     // resume: resume,
   };
 
-  // Handling Creatable Select
-  // const addCourse = (e) => {
-  //   if (!course) return;
-
-  //   switch (e.key) {
-  //     case "Enter":
-  //     case "Tab":
-  //       setCourseWork([...courseWork, createOption(course)]);
-  //       setCourse("");
-  //       e.preventDefault();
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
+  const handleYear = (e, { value }) => {
+    setAcademicYear(value);
+  };
 
   const addCourse = (e, { value }) => {
     setCourses([...courses, { text: value, value }]);
-    setCourses([...courseWork])
+  };
+
+  const handleCourse = (e, { value }) => {
+    setCoursework(value);
   };
 
   const addGender = (e, { value }) => {
     setGenders([...genders, { text: value, value }]);
   };
 
+  const handleGender = (e, { value }) => {
+    setGender(value);
+  };
+
+  const handleVeteran = (e, { value }) => {
+    setVeteran(value);
+  };
+
   const addSkill = (e, { value }) => {
     setSkills([...skills, { text: value, value }]);
   };
 
-  // const addSkill = (e) => {
-  //   if (!skill) return;
-
-  //   switch (e.key) {
-  //     case "Enter":
-  //     case "Tab":
-  //       setSkills([...skills, createOption(skill)]);
-  //       setSkill("");
-  //       e.preventDefault();
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
-  // const handleChange = (field, value) => {
-  //   switch (field) {
-  //     case "skills":
-  //       setSkills(value);
-  //       break;
-  //   }
-  // };
-  // const handleInputChange = (field, value) => {
-  //   switch (field) {
-  //     case "skills":
-  //       setSkill(value);
-  //       break;
-  //   }
-  // };
-
-  // const createOption = (label) => ({
-  //   label,
-  //   value: label,
-  // });
+  const handleSkill = (e, { value }) => {
+    setUserskill(value);
+  };
 
   const handleWork = (index, e) => {
     const values = [...workExperience];
@@ -212,18 +178,27 @@ const StudentForm = () => {
   };
 
   const addWork = () => {
-    setWorkExperience([...workExperience, { title: "", description: "" }]);
+    setWorkExperience([...workExperience, {}]);
   };
 
+  // const createProfile = () => {
+  //   let config = {
+  //     method: "post",
+  //     url: "/newprofile",
+  //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  //     data: profile,
+  //   };
+  //   Axios(config).then((response) => {
+  //     console.log(response.data);
+  //   });
+  // };
+
   const createProfile = () => {
+    // console.log("Sending profile to backend: ", profile);
     Axios.post("http://localhost:6480/newprofile", { profile }).then(
       (response) => {
-        console.log(courseWork);
-        console.log(userskill);
-        console.log(gender);
-        // console.log(response.data);
-      }
-    );
+        console.log(response.data);
+      });
   };
 
   return (
@@ -237,12 +212,8 @@ const StudentForm = () => {
           Create Student Profile
         </Label>
         <Form onSubmit={createProfile}>
-          {/* <Grid divided> */}
-          {/* <Form> */}
-          {/* <Grid.Column stretched > */}
           <Header>Academic Information</Header>
           <Form.Field>
-            {/* <Form.Group widths="equal"> */}
             <Container style={container}>
               <Form.Input fluid>
                 <Input
@@ -266,12 +237,9 @@ const StudentForm = () => {
                   options={year}
                   item
                   value={academicYear}
-                  onChange={(e) => {
-                    setAcademicYear(e.target.value);
-                  }}
+                  onChange={handleYear}
                 />
               </Form.Input>
-              {/* </Form.Group> */}
               <Form.Input label="Graduation Date">
                 <Input
                   fluid
@@ -283,49 +251,36 @@ const StudentForm = () => {
                 />
               </Form.Input>
               <Form.Field>
-                <Header as="h5">
-                  Courses
-                  <Header.Content>
-                    <Popup
-                      wide
-                      position="right center"
-                      trigger={<Icon color="violet" name="info circle" />}
-                      icon="star"
-                    >
-                      <Rating defaultRating={5} maxRating={5} disabled />
-                      <p>
-                        Adding courses to your profile will allow you to request
-                        endorsements from professors!
-                      </p>
-                    </Popup>
-                  </Header.Content>
-                </Header>
-                {/* <CreatableSelect
-                isClearable
-                isMulti
-                components={{ DropdownIndicator: null }}
-                inputValue={course}
-                menuIsOpen={false}
-                onChange={(e) => setCourseWork(e)}
-                placeholder="Physics II, Calculus I . . ."
-                onKeyDown={addCourse}
-                onInputChange={(e) => setCourse(e)}
-                value={courseWork}
-              /> */}
+                <Popup
+                  wide
+                  position="left center"
+                  trigger={
+                    <label textAlign="left">
+                      Courses
+                      <Icon color="violet" name="info circle" />
+                    </label>
+                  }
+                  icon="star"
+                >
+                  <Rating defaultRating={5} maxRating={5} disabled />
+                  <p>
+                    Adding courses to your profile will allow you to request
+                    endorsements from professors!
+                  </p>
+                </Popup>
                 <Dropdown
                   options={courses}
                   placeholder="MATH 227, PHYS 220. . ."
+                  noResultsMessage="You can add your own courses."
                   search
                   clearable
                   selection
                   fluid
                   multiple
                   allowAdditions
-                  value={courseWork}
+                  value={coursework}
                   onAddItem={addCourse}
-                  onChange={(e) => {
-                    setCourseWork(e.target.value);
-                  }}
+                  onChange={handleCourse}
                 />
               </Form.Field>
             </Container>
@@ -347,8 +302,6 @@ const StudentForm = () => {
                 />
               </Header.Content>
             </Header>
-
-            {/* <Form.Group widths="equal"> */}
             <Container style={container}>
               <Form.Input>
                 <Input
@@ -377,7 +330,6 @@ const StudentForm = () => {
                   }}
                 />
               </Form.Input>
-              {/* </Form.Group> */}
               <Form.Group widths="equal">
                 <Form.Field>
                   <label>Age</label>
@@ -391,16 +343,6 @@ const StudentForm = () => {
                   />
                 </Form.Field>
                 <Form.Field>
-                  {/* <Input
-                  fluid
-                  label={{ basic: true, content: "Gender" }}
-                  type="text"
-                  labelPosition="left"
-                  value={gender}
-                  onChange={(e) => {
-                    setGender(e.target.value);
-                  }}
-                /> */}
                   <label>Gender</label>
                   <Dropdown
                     options={genders}
@@ -412,9 +354,7 @@ const StudentForm = () => {
                     allowAdditions
                     value={gender}
                     onAddItem={addGender}
-                    onChange={(e) => {
-                      setGender(e.target.value);
-                    }}
+                    onChange={handleGender}
                   />
                 </Form.Field>
               </Form.Group>
@@ -429,9 +369,7 @@ const StudentForm = () => {
                     item
                     placeholder="Select Military Branch "
                     value={veteran}
-                    onChange={(e) => {
-                      setVeteran(e.target.value);
-                    }}
+                    onChange={handleVeteran}
                   />
                 </Form.Field>
                 <Form.Field>
@@ -439,7 +377,6 @@ const StudentForm = () => {
                   <Input
                     fluid
                     placeholder="Enter Code"
-                    type="text"
                     value={militaryCode}
                     onChange={(e) => {
                       setMilitaryCode(e.target.value);
@@ -449,9 +386,6 @@ const StudentForm = () => {
               </Form.Group>
             </Container>
           </Form.Field>
-          {/* </Grid.Column> */}
-          {/* <Divider horizontal/> */}
-          {/* <Grid.Column stretched > */}
           <Divider />
           <Header>Resume</Header>
           <Container style={container}>
@@ -467,21 +401,7 @@ const StudentForm = () => {
             <Header.Subheader>
               <b>Skills</b>
             </Header.Subheader>
-            {/* <Header as="h5">Skills</Header> */}
-
             <Form.Field>
-              {/* <CreatableSelect
-                isClearable
-                isMulti
-                components={{ DropdownIndicator: null }}
-                inputValue={skill}
-                menuIsOpen={false}
-                onChange={(value) => handleChange("skills", value)}
-                placeholder="Google Suite, Salesforce . . ."
-                onKeyDown={addSkill}
-                onInputChange={(value) => handleInputChange("skills", value)}
-                value={skills}
-              /> */}
               <Dropdown
                 options={skills}
                 placeholder="Select or Add Skill"
@@ -494,9 +414,7 @@ const StudentForm = () => {
                 allowAdditions
                 value={userskill}
                 onAddItem={addSkill}
-                onChange={(e) => {
-                  setUserskill(e.target.value);
-                }}
+                onChange={handleSkill}
               />
             </Form.Field>
           </Container>
@@ -542,8 +460,6 @@ const StudentForm = () => {
           </Container>
           {/* <Form.Input label='Resume Upload' type='file' name='resume' file outline/> */}
           {/* </Grid.Column> */}
-          {/* </Form> */}
-          {/* </Grid> */}
           <Form.Field className="responsive" style={{ paddingTop: "5%" }}>
             <Button
               style={{ color: "white", backgroundColor: "#A73349" }}

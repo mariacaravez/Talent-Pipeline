@@ -62,7 +62,6 @@ const Register = () => {
     Axios.post("http://localhost:6480/newuser", { user }).then((response) => {
       console.log("Insert ID should be: ", response.data.insertId);
       setUserID(response.data.insertId);
-      
     });
   };
 
