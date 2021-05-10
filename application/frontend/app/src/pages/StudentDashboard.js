@@ -71,8 +71,7 @@ const StudentDashboard = () => {
     Axios.get("http://localhost:6480/student/profile", {
       params: { userID: id }
     }).then((response) => {
-      console.log("Server Responded With: " + response.data);
-      //console.log(response.body.user.firstName);
+      console.log("Server Responded With: " + response);
     })
     
   }, []);

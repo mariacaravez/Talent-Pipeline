@@ -20,7 +20,6 @@ const JobModel = require("../models/jobposting.js");
 
 // search student controls
 exports.findStudents = (req, res) => {
-  //console.log("I'M IN CONTROLLER");
   StudentModel.find(req.query.textValue, req.query.optionsValue)
     .then((results) => {
       //console.log(results);
@@ -79,7 +78,7 @@ console.log("CONTROLLER: About to create student object with: ", req.body)
 
 // retrieve student profile for display
 exports.findStudentProfile = (req, res) => {
-  StudentModel.findProfile(req.body.userID, (err, data) => {
+  StudentModel.findProfile(req.query.userID, (err, data) => {
     if (err)
       res
         .status(500)
@@ -89,6 +88,19 @@ exports.findStudentProfile = (req, res) => {
         });
     else res.send(data);
   });
+  // StudentModel.findProfile(req.query.userID)
+  //   .then((results) => {
+  //     //console.log(results);
+  //     res.send(results);
+  //   })
+  //   .catch((err) => {
+  //     res
+  //       .status(500)
+  //       .send({
+  //         message:
+  //           err.message || "Some error occurred while retrieving student information.",
+  //       });
+  //   });
 };
 
 

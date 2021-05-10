@@ -101,135 +101,192 @@ StudentModel.find = (textValue, optionsValue) => {
 
 // create a new student profile - registration
 StudentModel.createProfile = (stdtattrib, results) => {
-    // console.log(stdtattrib);
-    db.query("INSERT INTO userAttributes (gradDate, academicStanding, major, userID, resume)  VALUES(?,?,?,?,?)",
-      [stdtattrib.graduationDate, stdtattrib.academicStanding, stdtattrib.major, stdtattrib.userID, stdtattrib.resume], (err, res) => {
-         if(err) {
-             console.log(err);
-             results(err, null);
-             return;
-         }
-         else {
-             console.log(res);
-             results(null, res);
-             // return;   // we cannot return yet, more inserts happening below.
-         }
-     })
-     // console.log(results);
+  // console.log(stdtattrib);
+  db.query("INSERT INTO userAttributes (gradDate, academicStanding, major, userID, resume)  VALUES(?,?,?,?,?)",
+    [stdtattrib.graduationDate, stdtattrib.academicStanding, stdtattrib.major, stdtattrib.userID, stdtattrib.resume], (err, res) => {
+      if (err) {
+        console.log(err);
+        results(err, null);
+        return;
+      }
+      else {
+        console.log(res);
+        results(null, res);
+        // return;   // we cannot return yet, more inserts happening below.
+      }
+    })
+  // console.log(results);
 
-      // insert student demo data
-      db.query("INSERT INTO studentDemo (userID, gender, age, race, ethnicity, veteran, militaryCode)  VALUES(?,?,?,?,?,?,?)",
-          [stdtattrib.userID, stdtattrib.gender, stdtattrib.age, stdtattrib.race, stdtattrib.ethnicity, stdtattrib.veteran, stdtattrib.militaryCode], (err, res) => {
-         if(err) {
-             console.log(err);
-             results(err, null);
-             return;
-         }
-         else {
-             console.log(res);
-             results(...results, {...res}); 
-         }
-     })
-     // console.log(results);
+  // insert student demo data
+  db.query("INSERT INTO studentDemo (userID, gender, age, race, ethnicity, veteran, militaryCode)  VALUES(?,?,?,?,?,?,?)",
+    [stdtattrib.userID, stdtattrib.gender, stdtattrib.age, stdtattrib.race, stdtattrib.ethnicity, stdtattrib.veteran, stdtattrib.militaryCode], (err, res) => {
+      if (err) {
+        console.log(err);
+        results(err, null);
+        return;
+      }
+      else {
+        console.log(res);
+        results(...results, { ...res });
+      }
+    })
+  // console.log(results);
 
-     // insert course work
-     db.query("INSERT INTO studentCoursework (coursework, corseworkRating, userID)  VALUES(?,?,?,?,?,?)",
-              [stdtattrib.courseWork.coursework, stdtattrib.coursework.rating, stdtattrib.userID], (err, res) => {
-         if(err) {
-             console.log(err);
-             results(err, null);
-             return;
-         }
-         else {
-             console.log(res);
-             results(...results, {...res});
-         }
-     })
-     // console.log(results);
+  // insert course work
+  db.query("INSERT INTO studentCoursework (coursework, corseworkRating, userID)  VALUES(?,?,?,?,?,?)",
+    [stdtattrib.courseWork.coursework, stdtattrib.coursework.rating, stdtattrib.userID], (err, res) => {
+      if (err) {
+        console.log(err);
+        results(err, null);
+        return;
+      }
+      else {
+        console.log(res);
+        results(...results, { ...res });
+      }
+    })
+  // console.log(results);
 
-     // insert student skills
-     db.query("INSERT INTO studentSkills (userSkill, userSkillRating, userID)  VALUES(?,?,?)",
-                  [stdtattrib.skills.userskill, stdtattrib.skills.rating, stdtattrib.userID], (err, res) => {
-         if(err) {
-             console.log(err);
-             results(err, null);
-             return;
-         }
-         else {
-             console.log(res);
-             results(...results, {...res});
-         }
-     })
-     // console.log(results);
+  // insert student skills
+  db.query("INSERT INTO studentSkills (userSkill, userSkillRating, userID)  VALUES(?,?,?)",
+    [stdtattrib.skills.userskill, stdtattrib.skills.rating, stdtattrib.userID], (err, res) => {
+      if (err) {
+        console.log(err);
+        results(err, null);
+        return;
+      }
+      else {
+        console.log(res);
+        results(...results, { ...res });
+      }
+    })
+  // console.log(results);
 
-     // insert student work experience
-     db.query("INSERT INTO studentWorkExp (workExpTitle, workExpDesc, userID)  VALUES(?,?,?)",
-                     [stdtattrib.workexp.title, stdtattrib.workexp.description, stdtattrib.userID], (err, res) => {
-         if(err) {
-             console.log(err);
-             results(err, null);
-             return;
-         }
-         else {
-             console.log(res[0]);
-             results(...results, {...res});
-             return;
-         }
-     })
-     // console.log(results);
+  // insert student work experience
+  db.query("INSERT INTO studentWorkExp (workExpTitle, workExpDesc, userID)  VALUES(?,?,?)",
+    [stdtattrib.workexp.title, stdtattrib.workexp.description, stdtattrib.userID], (err, res) => {
+      if (err) {
+        console.log(err);
+        results(err, null);
+        return;
+      }
+      else {
+        console.log(res[0]);
+        results(...results, { ...res });
+        return;
+      }
+    })
+  // console.log(results);
 };
 
 // update an existing student's profile
 StudentModel.updateProfile = (stdtattrib, results) => {
   console.log(stdtattrib);
   db.query("UPDATE userAttributes SET academicStanding = ?, resume = ? where userID = ?)",
-      [stdtattrib.academicStanding, stdtattrib.resume, stdtattrib.userID], (err, res) => {
-         if(err) {
-             console.log(err);
-             results(err, null);
-             return;
-         }
-         else {
-             console.log(res);
-             results(null, res);
-         }
-     })
-     // console.log(results);
+    [stdtattrib.academicStanding, stdtattrib.resume, stdtattrib.userID], (err, res) => {
+      if (err) {
+        console.log(err);
+        results(err, null);
+        return;
+      }
+      else {
+        console.log(res);
+        results(null, res);
+      }
+    })
+  // console.log(results);
 
-     // update student demo data
-     db.query("UPDATE studentDemo SET gender = ?, age = ?, race = ?, ethnicity = ?, veteran = ?, militaryCode = ? WHERE userID = ?)",
-          [stdtattrib.gender, stdtattrib.age, stdtattrib.race, stdtattrib.ethnicity, stdtattrib.veteran, stdtattrib.militaryCode, stdtattrib.userID], (err, res) => {
-         if(err) {
-             console.log(err);
-             results(err, null);
-             return;
-         }
-         else {
-             console.log(res[0]);
-             results(...results, {...res});
-             return;
-         }
-     })
-     // console.log(results);
+  // update student demo data
+  db.query("UPDATE studentDemo SET gender = ?, age = ?, race = ?, ethnicity = ?, veteran = ?, militaryCode = ? WHERE userID = ?)",
+    [stdtattrib.gender, stdtattrib.age, stdtattrib.race, stdtattrib.ethnicity, stdtattrib.veteran, stdtattrib.militaryCode, stdtattrib.userID], (err, res) => {
+      if (err) {
+        console.log(err);
+        results(err, null);
+        return;
+      }
+      else {
+        console.log(res[0]);
+        results(...results, { ...res });
+        return;
+      }
+    })
+  // console.log(results);
 };
 
 // retrieve a student profile
 StudentModel.findProfile = (userid, result) => {
-  console.log(userid);
-  db.query("SELECT * FROM user us, userAttributes ua, studentDemo sd, studentCoursework scw, studentSkills ss, studentWorkExp swe WHERE  us.userID = ua.userID AND us.userID = sd.userID AND us.userID = scw.userID AND us.userID = ss.userID AND us.userID = swe.userID AND us.userID = ?",
-      [userid], (err, res) => {
-         if(err) {
-             console.log(err);
-             result(err, null);
-             return;
-         }
-         else {
-             console.log(res);
-             result(null, res);
-             return;
-         }
-     })
-     // console.log(result);
-};
+  console.log("Looking for user with user id: " + userid);
+    // db.query("SELECT * FROM user us, userAttributes ua, studentDemo sd, studentCoursework scw, studentSkills ss, studentWorkExp swe WHERE  us.userID = ua.userID AND us.userID = sd.userID AND us.userID = scw.userID AND us.userID = ss.userID AND us.userID = swe.userID AND us.userID = ?",
+    //     [userid], (err, res) => {
+    //        if(err) {
+    //            console.log(err);
+    //            result(err, null);
+    //            return;
+    //        }
+    //        else {
+    //            console.log(res);
+    //            result(null, res);
+    //            return;
+    //        }
+    //    })
+       // console.log(result);
+  const studentObj = {}
+  db.query("SELECT * FROM user us WHERE us.userID = ?",
+    [userid],
+    (err, res) => {
+      if (err) {
+        console.log(err);
+      } else {
+        studentObj["user"] = res[0];
+      }
+    });
+  db.query("SELECT * FROM userAttributes ua WHERE ua.userID = ?",
+    [userid],
+    (err, res) => {
+      if (err) {
+        console.log(err);
+      } else {
+        studentObj["userAttributes"] = res[0];
+      }
+    });
+  db.query("SELECT * FROM studentDemo sd WHERE sd.userID = ?",
+    [userid],
+    (err, res) => {
+      if (err) {
+        console.log(err);
+      } else {
+        studentObj["studentDemo"] = res[0];
+      }
+    });
+    db.query("SELECT * FROM studentCoursework scw WHERE scw.userID = ?",
+    [userid],
+    (err, res) => {
+      if (err) {
+        console.log(err);
+      } else {
+        studentObj["studentCoursework"] = res[0];
+      }
+    });
+    db.query("SELECT * FROM studentSkills ss WHERE ss.userID = ?",
+    [userid],
+    (err, res) => {
+      if (err) {
+        console.log(err);
+      } else {
+        studentObj["studentSkills"] = res[0];
+      }
+    });
+    db.query("SELECT * FROM studentWorkExp swe WHERE swe.userID = ?",
+    [userid],
+    (err, res) => {
+      if (err) {
+        console.log(err);
+      } else {
+        studentObj["studentWorkExp"] = res[0];
+      }
+    });
+  result(null, "meme");
+  return;
+}
 
 module.exports = StudentModel;
