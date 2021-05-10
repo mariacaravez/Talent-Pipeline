@@ -230,6 +230,7 @@ StudentModel.findProfile = (userid, result) => {
          }
      })
      // console.log(result);
+     return;
 };
 
 module.exports = StudentModel;

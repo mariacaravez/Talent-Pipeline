@@ -16,16 +16,13 @@ import {
 import Axios from "axios";
 import "../App.css";
 
-//TODO: IMPLEMENT THE JOB SEARCH
-
-import StudentForm from "../components/Register/StudentForm";
+import StudentForm from "./Forms/StudentForm";
 import SearchJobs from "../components/SearchJobs";
-import JobPosting from "../components/Register/JobPostingForm";
-import EndorsementForm from "../components/Register/EndorsementForm";
+import JobPosting from "./Forms/JobPostingForm";
+import EndorsementForm from "./Forms/EndorsementForm";
 import LandingSearchStudent from "../components/LandingSearchStudent";
 
 //Styling
-
 const segment = {
   paddingTop: "20%",
   paddingBottom: "20%",
@@ -44,13 +41,9 @@ const Landing = () => {
     >
       <Container fluid>
         <Grid
-          // verticalAlign="middle"
           padded
-          // centered
           columns={3}
-          // columns="equal"
           stackable
-          // stretched
         >
           <Grid.Column width={6} stretched>
             <Segment stackable textAlign="center" style={segment}>

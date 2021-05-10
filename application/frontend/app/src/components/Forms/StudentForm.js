@@ -110,7 +110,7 @@ const StudentForm = () => {
     // resume: resume,
   };
 
-  // Handling Creatable Select for Courses
+  // Handling Creatable Select
   const addCourse = (e) => {
     if (!course) return;
 
@@ -282,7 +282,7 @@ const StudentForm = () => {
                   position="right center"
                   content="Demographics can be beneficial to both you and employers. However, we understand if you refrain from disclosing this information."
                   trigger={
-                    <Icon color="orange" size="small" name="info circle" />
+                    <Icon style={{color: "#1DA083"}} size="small" name="info circle" />
                   }
                 />
               </Header.Content>
@@ -421,7 +421,7 @@ const StudentForm = () => {
                     fluid
                     name="workExpTitle"
                     label="Title"
-                    value={workExperience.workExpTitle}
+                    value={workExperience.title}
                     placeholder="Administrative Clerk"
                     onChange={(e) => handleWork(index, e)}
                   ></Form.Input>
@@ -429,7 +429,7 @@ const StudentForm = () => {
                     fluid
                     name="workExpDesc"
                     label=" Description"
-                    value={workExperience.workExpDesc}
+                    value={workExperience.description}
                     placeholder="Performed clerical duties, scheduled events. . ."
                     onChange={(e) => handleWork(index, e)}
                   ></Form.TextArea>
