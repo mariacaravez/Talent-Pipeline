@@ -19,6 +19,7 @@ import {
   Input,
   Header,
   Button,
+  Dropdown,
 } from "semantic-ui-react";
 import "../App.css";
 
@@ -26,37 +27,100 @@ import RateRequest from "../components/RateRequest";
 
 import bera from "../images/bera.jpg";
 
-const StudentDashboard = () => {
-  let { id } = useParams()
+// Styles
 
-  const studentStyle = {
-    color: "white",
-    backgroundColor: "#9c88b3",
-  };
+const segment = {
+  paddingTop: "8%",
+  borderRadius: "10px",
+};
+
+const studentStyle = {
+  color: "white",
+  backgroundColor: "#87AFA6",
+  // borderRadius: "10px 10px 0 0",
+};
+
+const container = {
+  padding: "5%",
+  backgroundColor: "#fafafa",
+  borderRadius: "15px",
+};
+
+
+// Academic Standing
+const year = [
+  { key: 1, text: "Freshman", value: "freshman" },
+  { key: 2, text: "Sophomore", value: "sophomore" },
+  { key: 3, text: "Junior", value: "junior" },
+  { key: 4, text: "Senior", value: "senior" },
+];
+// Veteran
+const branches = [
+  { key: 1, text: "Army", value: "army" },
+  { key: 2, text: "Navy", value: "navy" },
+  { key: 3, text: "Marine Corps", value: "marines" },
+  { key: 4, text: "Air Force", value: "air-force" },
+  { key: 5, text: "Coast Guard", value: "coast-guard" },
+  { key: 6, text: "Space Force", value: "space" },
+];
+// Race
+const races = [
+  { key: 1, text: "White", value: "white" },
+  { key: 2, text: "White Non-Hispanic", value: "w-non" },
+  { key: 3, text: "Hispanic or Latinx", value: "latinx" },
+  { key: 4, text: "Black or African American", value: "black" },
+  { key: 5, text: "American Indian or Alaska Native", value: "native" },
+  { key: 6, text: "Asian", value: "asian" },
+  { key: 7, text: "Native Hawaiian or Pacific Islander", value: "nh-pi" },
+  { key: 8, text: "Two or More Races", value: "multi" },
+  { key: 9, text: "", value: "multi" },
+];
+
+const StudentDashboard = () => {
+  let { id } = useParams();
 
   const [openAbout, setOpenAbout] = useState(false);
   const [openSkills, setOpenSkills] = useState(false);
   const [openWork, setOpenWork] = useState(false);
   const [openRequest, setOpenRequest] = useState(false);
   const [openMedia, setOpenMedia] = useState(false);
+  const [openDemographics, setOpenDemographics] = useState(false);
 
+  // Student Information
+  const [graduationDate, setGraduationDate] = useState("");
+  const [major, setMajor] = useState("");
+  const [academicYear, setAcademicYear] = useState("");
   const [course, setCourse] = useState("");
   const [courseWork, setCourseWork] = useState("");
+  const courseRating = 0;
 
+  // Demographics
+  const [gender, setGender] = useState("");
+  const [age, setAge] = useState();
+  const [race, setRace] = useState("");
+  const [ethnicity, setEthnicity] = useState("");
+
+  // Veteran Status
+  const [veteran, setVeteran] = useState("");
+  const [militaryCode, setMilitaryCode] = useState("");
+
+  // Resume Information
+  const [about, setAbout] = useState("");
   const [skill, setSkill] = useState("");
   const [skills, setSkills] = useState("");
+  const [workExperience, setWorkExperience] = useState([
+    { title: "", description: "" },
+  ]);
 
-  const [experience, setExperience] = useState("");
-  const [workExperience, setWorkExperience] = useState("");
 
-  const createOption = label => ({
+  const createOption = (label) => ({
     label,
-    value: label
-  })
-  const work = "Work 1";
+    value: label,
+  });
+  // const work = "Work 1";
 
-  const about = "This is the description of about me.";
-  const skillsObj = "Skill 1, Skill 2, Skill 3";
+  // const about = "This is the description of about me.";
+  // const skillsObj = "Skill 1, Skill 2, Skill 3";
 
   const student = {
     firstName: "Bera",
@@ -69,12 +133,19 @@ const StudentDashboard = () => {
   useEffect(() => {
     // http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/student/profile
     Axios.get("http://localhost:6480/student/profile", {
-      params: { userID: id }
+      params: { userID: id },
     }).then((response) => {
       console.log("Server Responded With: ", response.data);
-    })
-    
+    });
   }, []);
+
+  // const submitSearch = () => {
+  //   Axios.get("http://localhost:6480/student/profile", {
+  //     params: { userID: id },
+  //   }).then((response) => {
+  //     console.log("Server Responded With: ", response);
+  //   });
+  // }
 
   const postMedia = () => {
     console.log("Media Posted");
@@ -84,34 +155,15 @@ const StudentDashboard = () => {
       case "skills":
         setSkills(value);
         break;
-      case "experience":
-        setWorkExperience(value);
-        break;
-    }
-  }
+  };
+};
 
   const handleInputChange = (field, value) => {
     switch (field) {
       case "skills":
         setSkill(value);
         break;
-      case "experience":
-        setExperience(value);
-        break;
-    }
-  }
-  const addWork = (e) => {
-    if (!experience) return;
 
-    switch (e.key) {
-      case 'Enter':
-      case 'Tab':
-        setWorkExperience([...workExperience, createOption(experience)])
-        setExperience("");
-        e.preventDefault();
-        break;
-      default:
-        break;
     }
   };
 
@@ -119,9 +171,9 @@ const StudentDashboard = () => {
     if (!skill) return;
 
     switch (e.key) {
-      case 'Enter':
-      case 'Tab':
-        setSkills([...skills, createOption(skill)])
+      case "Enter":
+      case "Tab":
+        setSkills([...skills, createOption(skill)]);
         setSkill("");
         e.preventDefault();
         break;
@@ -129,7 +181,24 @@ const StudentDashboard = () => {
         break;
     }
   };
+  const handleWork = (index, e) => {
+    const values = [...workExperience];
+    values[index][e.target.name] = e.target.value;
+    setWorkExperience(values);
+  };
 
+  const removeWork = (index) => {
+    const values = [...workExperience];
+    values.splice(index, 1);
+    setWorkExperience(values);
+  };
+
+  const addWork = () => {
+    setWorkExperience([
+      ...workExperience,
+      { title: "", description: "" },
+    ]);
+  };
 
   return (
     <div className="dashboard">
@@ -138,8 +207,10 @@ const StudentDashboard = () => {
         <Grid centered columns={3} stackable>
           <Grid.Column stretched width={3} className="responsive">
             <Card centered>
-              <Image src={bera} wrapped ui={false} />
               <Card.Content>
+                <div style={{ padding: "2vh" }}>
+                  <Image circular size="small" src={bera} />
+                </div>
                 <Card.Header>
                   {student.firstName} {student.middleName} {student.lastName}
                 </Card.Header>
@@ -153,8 +224,12 @@ const StudentDashboard = () => {
             </Card>
 
             <Grid.Row>
-              <Segment size="big" padded="very" textAlign="center">
-                <Label style={studentStyle} size="huge" attached="top">
+              <Segment size="big" textAlign="center" style={segment}>
+                <Label
+                  style={{ color: "white", backgroundColor: "#766495" }}
+                  size="huge"
+                  attached="top"
+                >
                   Coursework
                 </Label>
                 <List size="large" divided className="responsive">
@@ -204,40 +279,43 @@ const StudentDashboard = () => {
           </Grid.Column>
 
           <Grid.Column width={10}>
-            <Segment padded="very">
-              <Label attached="top" style={studentStyle} size="huge">
-                About Me
-              </Label>
-              <Segment padded="very">
-                {about}
-                <Modal
-                  basic
-                  dimmer="inverted"
-                  onClose={() => setOpenAbout(false)}
-                  onOpen={() => setOpenAbout(true)}
-                  open={openAbout}
-                  trigger={<Label as="a" corner="right" icon="edit"></Label>}
-                  size="tiny"
-                  className="responsive"
-                >
-                  <Segment>
-                    <Form>
-                      <Form.TextArea defaultValue={about}></Form.TextArea>
-                    </Form>
+            <Grid columns={3}>
+            <Grid.Column stretched>
+                <Segment style={segment}>
+                  <Label attached="top" style={studentStyle} size="huge">
+                    About Me
+                  </Label>
+                  <Segment padded>
+                    {about}
+                    <Modal
+                      basic
+                      dimmer="inverted"
+                      onClose={() => setOpenAbout(false)}
+                      onOpen={() => setOpenAbout(true)}
+                      open={openAbout}
+                      trigger={
+                        <Label as="a" corner="right" icon="edit"></Label>
+                      }
+                      size="tiny"
+                      className="responsive"
+                    >
+                      <Segment>
+                        <Form>
+                          <Form.TextArea defaultValue={about}></Form.TextArea>
+                        </Form>
+                      </Segment>
+                    </Modal>
                   </Segment>
-                </Modal>
-              </Segment>
-            </Segment>
-
-            <Grid columns={2} widths="equal" stretched>
+                </Segment>
+              </Grid.Column>
               <Grid.Column stretched>
-                <Segment padded="very">
+                <Segment padded="very" style={segment}>
                   <Label style={studentStyle} size="huge" attached="top">
                     skillsObj
                   </Label>
                   <Segment padded="very">
                     <Label as="a" corner="right" icon="edit"></Label>
-                    {skillsObj}
+                    {skills}
                     <Modal
                       basic
                       dimmer="inverted"
@@ -252,7 +330,9 @@ const StudentDashboard = () => {
                     >
                       <Segment>
                         <Form>
-                          <Form.TextArea defaultValue={skillsObj}></Form.TextArea>
+                          <Form.TextArea
+                            defaultValue={skills}
+                          ></Form.TextArea>
                         </Form>
                       </Segment>
                     </Modal>
@@ -260,13 +340,131 @@ const StudentDashboard = () => {
                 </Segment>
               </Grid.Column>
               <Grid.Column stretched>
-                <Segment padded="very">
+              <Segment style={segment}>
+                  <Label style={studentStyle} size="huge" attached="top">
+                    Demographics
+                  </Label>
+                  <Segment padded="very">
+                    <Label as="a" corner="right" icon="edit"></Label>
+                    {skills}
+                    <Modal
+                      basic
+                      dimmer="inverted"
+                      onClose={() => setOpenDemographics(false)}
+                      onOpen={() => setOpenDemographics(true)}
+                      open={openDemographics}
+                      trigger={
+                        <Label as="a" corner="right" icon="edit"></Label>
+                      }
+                      size="tiny"
+                      className="responsive"
+                    >
+                      <Segment>
+                        <Form>
+                        <Container style={container}>
+              <Form.Input>
+                <Input
+                  fluid
+                  label={{ basic: true, content: "Ethnicity" }}
+                  type="text"
+                  labelPosition="left"
+                  placeholder="Salvadorian. . ."
+                  value={ethnicity}
+                  onChange={(e) => {
+                    setEthnicity(e.target.value);
+                  }}
+                />
+              </Form.Input>
+              <Form.Input>
+                <Dropdown
+                  clearable
+                  fluid
+                  options={races}
+                  selection
+                  item
+                  placeholder="Select Race "
+                  value={race}
+                  onChange={(e) => {
+                    setRace(e.target.value);
+                  }}
+                />
+              </Form.Input>
+              {/* </Form.Group> */}
+              {/* <Form.Group widths="equal"> */}
+              <Form.Input>
+                <Input
+                  fluid
+                  label={{ basic: true, content: "Age" }}
+                  type="text"
+                  labelPosition="left"
+                  value={age}
+                  onChange={(e) => {
+                    setAge(e.target.value);
+                  }}
+                />
+              </Form.Input>
+              <Form.Input>
+                <Input
+                  fluid
+                  label={{ basic: true, content: "Gender" }}
+                  type="text"
+                  labelPosition="left"
+                  value={gender}
+                  onChange={(e) => {
+                    setGender(e.target.value);
+                  }}
+                />
+              </Form.Input>
+              {/* </Form.Group> */}
+              <Header as="h5">Veteran</Header>
+              {/* <Form.Group widths="equal"> */}
+              <Form.Input>
+                <Dropdown
+                  clearable
+                  fluid
+                  options={branches}
+                  selection
+                  item
+                  placeholder="Select Military Branch "
+                  value={veteran}
+                  onChange={(e) => {
+                    setVeteran(e.target.value);
+                  }}
+                />
+              </Form.Input>
+              <Form.Input>
+                <Input
+                  fluid
+                  label={{ basic: true, content: "Military Code" }}
+                  labelPosition="left"
+                  placeholder="Enter Code"
+                  type="text"
+                  value={militaryCode}
+                  onChange={(e) => {
+                    setMilitaryCode(e.target.value);
+                  }}
+                />
+              </Form.Input>
+              {/* </Form.Group> */}
+            </Container>
+                        </Form>
+                      </Segment>
+                    </Modal>
+                  </Segment>
+                </Segment>
+              </Grid.Column>
+
+            </Grid>
+
+            <Grid columns={2} widths="equal" stretched>
+              <Grid.Column stretched>
+                <Segment padded="very" style={segment}>
                   <Label style={studentStyle} size="huge" attached="top">
                     Work Experience
                   </Label>
                   <Segment padded="very">
                     <Label as="a" corner="right" icon="edit"></Label>
-                    {work}
+                    {workExperience.workExpTitle}
                     <Modal
                       basic
                       dimmer="inverted"
@@ -279,7 +477,7 @@ const StudentDashboard = () => {
                       size="tiny"
                       className="responsive"
                     >
-                      <Segment>
+                      <Segment style={segment}>
                         <Form>
                           <CreatableSelect
                             isClearable
@@ -287,7 +485,9 @@ const StudentDashboard = () => {
                             components={{ DropdownIndicator: null }}
                             inputValue={workExperience}
                             menuIsOpen={false}
-                            onChange={(value) => handleChange("experience", value)}
+                            onChange={(value) =>
+                              handleChange("experience", value)
+                            }
                             placeholder="Physics II, Calculus I . . ."
                             onKeyDown={addWork}
                             onInputChange={(value) =>
@@ -301,8 +501,49 @@ const StudentDashboard = () => {
                   </Segment>
                 </Segment>
               </Grid.Column>
+              <Grid.Column stretched>
+              {workExperience.map((inputField, index) => (
+              <div style={{ padding: "1vh" }}>
+                <Segment>
+                  <Form.Input
+                    fluid
+                    name="workExpTitle"
+                    label="Title"
+                    value={workExperience.workExpTitle}
+                    placeholder="Administrative Clerk"
+                    onChange={(e) => handleWork(index, e)}
+                  ></Form.Input>
+                  <Form.TextArea
+                    fluid
+                    name="workExpDesc"
+                    label=" Description"
+                    value={workExperience.workExpDesc}
+                    placeholder="Performed clerical duties, scheduled events. . ."
+                    onChange={(e) => handleWork(index, e)}
+                  ></Form.TextArea>
+                  <div className="responsive">
+                    <Label
+                      as="a"
+                      size="mini"
+                      icon="remove"
+                      corner="right"
+                      onClick={() => removeWork(index)}
+                    />
+                  </div>
+                </Segment>
+              </div>
+            ))}
+            <div className="responsive" style={{ padding: "2vh" }}>
+              <Label icon="add" as="a" onClick={addWork}>
+                Add Work
+              </Label>
+            </div>
+              </Grid.Column>
             </Grid>
-            <Segment padded="very" style={{ textAlign: "center" }}>
+            <Segment
+              padded="very"
+              style={{ textAlign: "center", borderRadius: "10px" }}
+            >
               <Modal
                 basic
                 dimmer="inverted"
@@ -346,7 +587,7 @@ const StudentDashboard = () => {
             </Segment>
           </Grid.Column>
           <Grid.Column width={2} stretched>
-            <Segment padded="very">
+            <Segment style={segment}>
               <Label style={studentStyle} size="huge" attached="top">
                 Job Applications
               </Label>

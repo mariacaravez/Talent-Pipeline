@@ -26,10 +26,11 @@ const SearchPanel = (props) => {
     }
 
     useEffect(() => {
-        setTextValue(textInput)
+        setTextValue(textInput);
+        // submitSearchHandler();
     }, []);
     useEffect(() => {
-        submitSearchHandler()
+        submitSearchHandler();
     }, [textInput]);
 
     const submitSearchHandler = () => {

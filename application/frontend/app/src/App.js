@@ -6,6 +6,8 @@ import { Fragment } from 'react';
 //TODO: CLEAN IT UP
 
 import Landing from './components/Landing';
+import EditProfile from './components/EditProfile';
+
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import StudentDashboard from './pages/StudentDashboard';
@@ -17,7 +19,7 @@ import SearchStudents from './components/Search/Students/SearchStudents';
 const App = () => {
 
   return (
-    <Fragment >
+    <Fragment>
       <Route path="/">
       <NavBar />
       </Route>
@@ -38,6 +40,9 @@ const App = () => {
         <Route path='/headhunter-page'>
           <HeadhunterDashboard/>
           <Footer />
+        </Route>
+        <Route path="/student-dashboard">
+          <StudentDashboard/>
         </Route>
     </Fragment>
 

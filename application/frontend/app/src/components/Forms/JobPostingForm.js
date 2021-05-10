@@ -1,4 +1,5 @@
 import React from "react";
+import Axios from "axios";
 import {
   Grid,
   Image,
@@ -23,16 +24,41 @@ const options = [
 ];
 
 const JobPosting = () => {
+  const [location, setLocation] = useState("");
+  const [jobPostTitle, setJobPostTitle] = useState("");
+  const [salary, setSalary] = useState("");
+  const [company, setCompany] = useState("");
+  const [description, setDescription] = useState("");
+  const [jobPosterID, setJobPosterID] = useState("");
+  const [workType, setWorkType] = useState("");
+  const [gradRangeStart, setGradRangeStart] = useState("");
+  const [gradRangeEnd, setGradRangeEnd] = useState("");
+
   const [course, setCourse] = useState("");
-  const [courseWork, setCourseWork] = useState("");
+  const [coursework, setCoursework] = useState("");
 
   const [skill, setSkill] = useState("");
   const [skills, setSkills] = useState("");
 
+  // Object to send in request body
+  const jobPost = {
+    location: location,
+    jobPostTitle: jobPostTitle,
+    salary: salary,
+    company: company,
+    description: description,
+    jobPosterID: jobPosterID,
+    workType: workType,
+    gradRangeStart: gradRangeStart,
+    gradRangeEnd: gradRangeEnd,
+    coursework: coursework,
+    skills: skills,
+  };
+
   const handleChange = (field, value) => {
     switch (field) {
       case "courses":
-        setCourseWork(value);
+        setCoursework(value);
         break;
       case "skills":
         setSkills(value);
@@ -57,7 +83,7 @@ const JobPosting = () => {
     switch (e.key) {
       case "Enter":
       case "Tab":
-        setCourseWork([...courseWork, createOption(course)]);
+        setCoursework([...coursework, createOption(course)]);
         setCourse("");
         e.preventDefault();
         break;
@@ -83,9 +109,15 @@ const JobPosting = () => {
     label,
     value: label,
   });
+
   const submitJobPost = () => {
-    //TODO
-  };
+    Axios.post("http://localhost:6480/newjobpost", { jobPost }).then(
+      (response) => {
+        console.log("FRONTEND FORM - Job Post to create: ", jobPost);
+        console.log(response.data);
+      }
+    );  };
+
   return (
     <div className="responsive">
       <Grid padded="very">
@@ -98,31 +130,55 @@ const JobPosting = () => {
             Create Job Post
           </Label>
           <Form onSubmit={submitJobPost} classname="responsive">
-            <Form.Field required>
+            <Form.Field
+              required
+              value={jobPostTitle}
+              onChange={(e) => {
+                setJobPostTitle(e.target.value);
+              }}
+            >
               <label>Title</label>
               <input />
             </Form.Field>
-            <Form.Group  widths="equal">
+            <Form.Group widths="equal">
               <Form.Select
+                value={workType}
                 required
                 label="Type"
                 placeholder="Full-time/Part-Time"
                 default={options[0]}
                 options={options}
+                onChange={(e) => {
+                  setWorkType(e.target.value);
+                }}
               ></Form.Select>
               <Form.Input
-                 placeholder="$80,000"
+                value={salary}
+                onChange={(e) => {
+                  setSalary(e.target.value);
+                }}
+                placeholder="$80,000"
                 label="Salary"
               />
             </Form.Group>
 
             <Form.TextArea inline required label="Description"></Form.TextArea>
             <Form.Group widths="equal">
-              <Form.Field required>
+              <Form.Field
+                required
+                value={description}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
+              >
                 <label>Company</label>
-                <input placeholder="Google Inc." type="text" />
+                <input placeholder="Google Inc." type="text" value={company}                 onChange={(e) => {
+                  setCompany(e.target.value);
+                }}/>
               </Form.Field>
-              <Form.Field required>
+              <Form.Field required value={location}                 onChange={(e) => {
+                  setLocation(e.target.value);
+                }}>
                 <label>Location</label>
                 <input placeholder="Mountain View, CA" type="text" />
               </Form.Field>
@@ -141,7 +197,7 @@ const JobPosting = () => {
                 placeholder="Physics II, Calculus I . . ."
                 onKeyDown={addCourse}
                 onInputChange={(value) => handleInputChange("courses", value)}
-                value={courseWork}
+                value={coursework}
               />
             </Segment>
             <Segment padded="very">
@@ -166,11 +222,11 @@ const JobPosting = () => {
                 Graduation Date Range
               </Label>
               <Form.Group inline widths="equal">
-                <Form.Field inline>
+                <Form.Field inline value={gradRangeStart} onChange={(e) => {setGradRangeStart(e.target.value)}}>
                   <label>From</label>
                   <input type="date" />
                 </Form.Field>
-                <Form.Field inline>
+                <Form.Field inline value={gradRangeEnd} onChange={(e) => {setGradRangeEnd(e.target.value)}}>
                   <label>To</label>
                   <input type="date" />
                 </Form.Field>

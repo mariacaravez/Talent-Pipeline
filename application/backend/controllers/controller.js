@@ -26,12 +26,10 @@ exports.findStudents = (req, res) => {
       res.send(results);
     })
     .catch((err) => {
-      res
-        .status(500)
-        .send({
-          message:
-            err.message || "Some error occurred while retrieving students.",
-        });
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving students.",
+      });
     });
 };
 
@@ -40,37 +38,39 @@ exports.newStudentProfile = (req, res) => {
   if (!req.body) {
     res.status(400).send({ message: "Content can not be empty!" });
   }
-  console.log("CONTROLLER: About to create student object with: ", req.body)
+  console.log("CONTROLLER: About to create student object with: ", req.body);
 
   // student data object
   const student = new StudentModel({
-    userID: req.body.userID,
-    major: req.body.major,
-    academicStanding: req.body.academicStanding,
-    graduationDate: req.body.graduationDate,
-    gender: req.body.gender,
-    age: req.body.age,
-    race: req.body.race,
-    veteran: req.body.veteran,
-    militaryCode: req.body.militaryCode,
-    ethnicity: req.body.ethnicity,
-    skills: req.body.skills,
-    courseWork: req.body.courseWork,
-    workexp: req.body.workexp,
-    jobapps: req.body.jobapps,
-    resume: req.body.resume,
+    userID: req.body.profile.userID,
+    major: req.body.profile.major,
+    academicStanding: req.body.profile.academicStanding,
+    graduationDate: req.body.profile.graduationDate,
+    gender: req.body.profile.gender,
+    age: req.body.profile.age,
+    race: req.body.profile.race,
+    veteran: req.body.profile.veteran,
+    militaryCode: req.body.profile.militaryCode,
+    ethnicity: req.body.profile.ethnicity,
+    userskill: req.body.profile.userskill,
+    skillRating: req.body.profile.skillRating,
+    courseWork: req.body.profile.courseWork,
+    courseWorkRating: req.body.profile.courseWorkRating,
+    workTitle: req.body.profile.workTitle,
+    workDescription: req.body.profile.workDescription,
+    jobapps: req.body.profile.jobapps,
+    resume: req.body.profile.resume,
   });
+  console.log("After object creation in controller: ", student);
 
   // save profile data
   StudentModel.createProfile(student, (err, data) => {
-    if (err)
-      res
-        .status(500)
-        .send({
-          message:
-            err.message || "error occured while creating student profile.",
-        });
-    else res.send(data);
+    console.log("In Controller - going into studentModel: ", student);
+    if (err) {
+      res.status(500).send({
+        message: err.message || "error occured while creating student profile.",
+      });
+    } else res.send(data);
   });
 
   // console.log("IN CONTROLLER.NEWSTUDENTPROFILE:", student);
@@ -79,17 +79,16 @@ exports.newStudentProfile = (req, res) => {
 // retrieve student profile for display
 exports.findStudentProfile = (req, res) => {
   StudentModel.findProfile(req.query.userID, (err, data) => {
-    if (err)
-      res
-        .status(500)
-        .send({
-          message:
-            err.message || "error occured while retrieving student profile.",
-        });
-    else {
-      console.log("data before send: " + data);
+    if (err) {
+      console.log("there was an error in findStudentProfile");
+      res.status(500).send({
+        message:
+          err.message || "error occured while retrieving student profile.",
+      });
+    } else {
+      console.log("In controller findStudentProfile: ", data);
       res.send(data);
-      console.log("data after send: " + data);
+      console.log("In controller after res.send: ", data);
     }
   });
   // StudentModel.findProfile(req.query.userID)
@@ -106,7 +105,6 @@ exports.findStudentProfile = (req, res) => {
   //       });
   //   });
 };
-
 
 // save changes to student profile
 exports.changeStudentProfile = (req, res) => {
@@ -132,12 +130,9 @@ exports.changeStudentProfile = (req, res) => {
   // save updated data
   StudentModel.updateProfile(student, (err, data) => {
     if (err)
-      res
-        .status(500)
-        .send({
-          message:
-            err.message || "error occured while updating student profile.",
-        });
+      res.status(500).send({
+        message: err.message || "error occured while updating student profile.",
+      });
     else res.send(data);
   });
 };
@@ -169,11 +164,9 @@ exports.newuser = (req, res) => {
   // save new user record
   UserModel.create(User, (err, data) => {
     if (err) {
-      res
-        .status(500)
-        .send({
-          message: err.message || "error occured while registering user.",
-        });
+      res.status(500).send({
+        message: err.message || "error occured while registering user.",
+      });
     } else {
       console.log("CONTROLLER: userModel.create: ", data);
       res.send(data);
@@ -210,8 +203,8 @@ exports.userLogin = (req, res) => {
 
   // check for valid user
   UserAccount.verify(creds, (err, data) => {
-    console.log("IN CONTROLLER: looking for data");
-    console.log(data);
+    console.log("CONTROLLER - data: ", data);
+    console.log("CONTROLLER - creds: ", creds);
     if (err)
       res
         .status(500)
@@ -252,17 +245,16 @@ exports.findJob = (req, res) => {
       res.send(results);
     })
     .catch((err) => {
-      res
-        .status(500)
-        .send({
-          message:
-            err.message || " some error occured while retrieving job postings.",
-        });
+      res.status(500).send({
+        message:
+          err.message || " some error occured while retrieving job postings.",
+      });
     });
 };
 
 // post a new job
 exports.postjob = (req, res) => {
+  console.log("CONTROLLER - request received: ", req);
   // validate request body
   if (!req.body) {
     res.status(400).send({ message: "Content can not be empty!" });
@@ -271,6 +263,7 @@ exports.postjob = (req, res) => {
   // create new jobposting object
   const job_obj = new JobpostObj({
     location: req.body.location,
+    jobPostTitle: req.body.jobPostTitle,
     salary: req.body.salary,
     company: req.body.company,
     description: req.body.description,
@@ -282,17 +275,17 @@ exports.postjob = (req, res) => {
     skills: req.body.skills,
   });
 
+  console.log("CONTROLLER - obj created: ", job_obj);
+
   // save the job posting
   JobModel.create(job_obj)
     .then(() => {
       res.send("job posted");
     })
     .catch((err) => {
-      res
-        .status(500)
-        .send({
-          message: err.message || " error occured while posting this job.",
-        });
+      res.status(500).send({
+        message: err.message || " error occured while posting this job.",
+      });
     });
 };
 
@@ -303,12 +296,10 @@ exports.myJobs = (req, res) => {
       res.send(results);
     })
     .catch((err) => {
-      res
-        .status(500)
-        .send({
-          message:
-            err.message ||
-            " some error occured while retrieving user job postings.",
-        });
+      res.status(500).send({
+        message:
+          err.message ||
+          " some error occured while retrieving user job postings.",
+      });
     });
 };

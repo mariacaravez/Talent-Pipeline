@@ -17,15 +17,13 @@ const Login = () => {
     password: password
   }
 
-
-  // TODO: SET UP APPROPRIATE ROUTE
   const submitLogin = () =>{
     Axios.post("http://localhost:6480/login", { user }).then(
       (response) => {
         console.log(response);
         console.log(response.data.userID);
         if(response.data.userID){
-          dispatch(authActions.login());
+          dispatch(authActions.login({userID: response.data.userID}));
         }
       }
     );

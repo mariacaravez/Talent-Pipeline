@@ -8,7 +8,7 @@ const db = require('./dbaccess.js');
 // jobpost constructor
 const JobPostObj = function (jobpost) {
     this.location = jobpost.location;
-    this.title = jobpost.title;
+    this.jobPostTitle = jobpost.jobPostTitle;
     this.salary = jobpost.salary;
     this.company = jobpost.company;
     this.description = jobpost.description;
@@ -54,8 +54,9 @@ JobPostObj.find = (jobId, jobDesc, results) => {
 
 // create a new job posting
 JobPostObj.create = (newjob, result) => {
-    db.query("INSERT INTO jobPostings (title, location, salary, description, workType,gradRangeStar, gradRangeEnd, company, jobPosterID) VALUES(?,?,?,?,?,?,?,?,?)",
-        [newjob.title, newjob.location, newjob.salary, newjob.description, newjob.workType, newjob.gradRangeStart, newjob.gradRangeEnd, newjob.company, newjob.jobPosterID], (err, res) => {
+    console.log("JOB MODEL has: ", newjob);
+    db.query("INSERT INTO jobPostings (jobPostTitle, location, salary, description, workType, gradRangeStart, gradRangeEnd, company, jobPosterID) VALUES(?,?,?,?,?,?,?,?,?)",
+        [newjob.jobPostTitle, newjob.location, newjob.salary, newjob.description, newjob.workType, newjob.gradRangeStart, newjob.gradRangeEnd, newjob.company, newjob.jobPosterID], (err, res) => {
             if (err) {
                 console.log(err);
                 result(err, null);
