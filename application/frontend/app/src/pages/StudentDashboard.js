@@ -127,11 +127,12 @@ const StudentDashboard = () => {
 
   useEffect(() => {
     // http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/student/profile
-    Axios.get("http://localhost:6480/student/profile", {
+    // http://localhost:6480/student/profile
+    Axios.get("http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/student/profile", {
       params: { userID: id },
     }).then((response) => {
       console.log("Server Responded With: ", response.data);
-      // from user tabel: 
+      // from user table: 
       setFirstName(response.data.user[0].firstName);
       setMiddleName(response.data.user[0].middleName);
       setLastName(response.data.user[0].lastName);

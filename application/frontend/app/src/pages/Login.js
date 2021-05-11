@@ -18,7 +18,9 @@ const Login = () => {
   }
 
   const submitLogin = () =>{
-    Axios.post("http://localhost:6480/login", { user }).then(
+    // http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/login
+    // http://localhost:6480/login
+    Axios.post("http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/login", { user }).then(
       (response) => {
         console.log(response);
         console.log(response.data.userID);
