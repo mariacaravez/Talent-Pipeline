@@ -21,38 +21,26 @@ const JobModel = function (jobpost) {
 };
 
 // find all job postings
-JobModel.find = (jobId, jobDesc, results) => {
-  if (jobId == "" && jobDesc == "") {
-    db.query(
-      "SELECT * FROM jobPostings jp, jobReq jr WHERE jp.postID = jr.jobPostingID",
-      (err, res) => {
-        if (err) {
-          console.log(err);
-          results(err, null);
-          return;
-        } else {
-          console.log(res);
-          results(null, res);
-          return;
-        }
-      }
-    );
-  } else {
-    db.query(
-      "SELECT * from jobPostings jp, jobReqs jr where jp.postID = jr.jobPostingID AND jp.postID = ? or jp.description like ?",
-      [jobId, "%" + jobDesc + "%"],
-      (err, res) => {
-        if (err) {
-          console.log(err);
-          results(err, null);
-          return;
-        } else {
-          console.log(res);
-          results(null, res);
-          return;
-        }
-      }
-    );
+JobModel.find = (jobDesc, results) => {
+  try {
+    if (jobDesc == "") {
+      return db.promise().query(
+        "SELECT * FROM jobPostings jp",
+      ).then(([results, fields]) => {
+        return Promise.resolve(results);
+      }).catch((err) => Promise.reject(err));
+    } else {
+       return db.promise().query(
+        "SELECT * from jobPostings jp, jobReqs jr where jp.description like ?",
+        ["%" + jobDesc + "%"]
+      ).then(([results, fields]) => {
+        return Promise.resolve(results);
+      })
+      .catch((err) => Promise.reject(err));
+    }
+  } catch (err) {
+    console.log(err);
+    return err;
   }
 };
 

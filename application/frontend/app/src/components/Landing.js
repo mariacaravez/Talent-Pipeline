@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import {
   Dropdown,
   Input,
@@ -12,6 +12,7 @@ import {
   Label,
   Header,
   Modal,
+  
 } from "semantic-ui-react";
 import Axios from "axios";
 import "../App.css";
@@ -46,11 +47,8 @@ const handleOpenCallback = (modal) => {
   setOpenEndorse(modal);
 }
   return (
-    <div
-      className="landing"
-      style={{ padding:"10%"}}
-    >
-      <Container fluid>
+    // <Fragment>
+      <Container fluid style={{padding: "20vh", paddingLeft: "10%", paddingRight: "10%"}}>
         <Grid
           padded
           columns={3}
@@ -76,15 +74,15 @@ const handleOpenCallback = (modal) => {
                 className="responsive"
               >
                 <StudentForm dataCallback={handleProfileCallback}/>
-                {/* <Modal.Actions className="responsive">
+                <Modal.Actions className="responsive">
                   <Button
                     color="black"
                     size="tiny"
-                    onClick={() => setOpenRegister(false)}
+                    onClick={() => setOpenCreateProfile(false)}
                   >
                     Cancel
                   </Button>
-                </Modal.Actions> */}
+                </Modal.Actions>
               </Modal>
               <div style={{ paddingTop: "10vh" }}>
                 <Header as="h4" textAlign="center" style={{ color: "#696969" }}>
@@ -97,7 +95,6 @@ const handleOpenCallback = (modal) => {
             </Segment>
           </Grid.Column>
           <Grid.Column stretched width={10}>
-            {/* verticalAlign="middle" */}
             <Grid stretched columns="equal">
               <Grid.Row>
                 <Grid.Column>
@@ -122,7 +119,7 @@ const handleOpenCallback = (modal) => {
                       className="responsive"
                     >
                       <JobPosting dataCallback={handleJobCallback}/>
-                      {/* <Modal.Actions className="responsive">
+                      <Modal.Actions className="responsive">
                         <Button
                           color="black"
                           size="tiny"
@@ -130,7 +127,7 @@ const handleOpenCallback = (modal) => {
                         >
                           Cancel
                         </Button>
-                      </Modal.Actions> */}
+                      </Modal.Actions>
                     </Modal>
                   </Segment>
                 </Grid.Column>
@@ -156,7 +153,7 @@ const handleOpenCallback = (modal) => {
                       className="responsive"
                     >
                       <EndorsementForm />
-                      {/* <Modal.Actions className="responsive">
+                      <Modal.Actions className="responsive">
                         <Button
                           color="black"
                           size="tiny"
@@ -164,7 +161,7 @@ const handleOpenCallback = (modal) => {
                         >
                           Cancel
                         </Button>
-                      </Modal.Actions> */}
+                      </Modal.Actions>
                     </Modal>
                   </Segment>
                 </Grid.Column>
@@ -178,7 +175,7 @@ const handleOpenCallback = (modal) => {
           </Grid.Column>
         </Grid>
       </Container>
-    </div>
+    // </Fragment>
   );
 };
 

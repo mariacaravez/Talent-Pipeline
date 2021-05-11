@@ -11,6 +11,11 @@ const Login = () => {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [currentUser, setCurrentUser] = useState();
+  
+  if(currentUser){
+    return <div>{currentUser} is logged in</div>
+  }
 
   const user = {
     username: email,

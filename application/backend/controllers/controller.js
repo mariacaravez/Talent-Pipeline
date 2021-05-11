@@ -241,8 +241,10 @@ exports.passReset = (req, res) => {
 
 // search job postings
 exports.findJob = (req, res) => {
-  JobModel.find(req.query.jobID, req.query.jobdesc, req.query.optionValue)
+  // JobModel.find(req.query.jobID, req.query.jobdesc, req.query.optionValue)
+  JobModel.find(req.query.jobdesc)
     .then((results) => {
+      console.log("CONTROLLER: SENDING TO FE: ", results)
       res.send(results);
     })
     .catch((err) => {
