@@ -1,9 +1,84 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Jura:wght@300&display=swap');
+
+/* body{
+  font-family: urbane-rounded, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+} */
+
+
+.responsive {
+  /* text-align: center; */
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .search {
   padding: 20px;
 }
+
+.title{
+  font-family: Jura, sans-serif;
+  font-style: normal;
+}
+
+.header{
+  margin:0%;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.upload{
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.landing {
+  padding-top: 10%;
+  padding-bottom: 13%;
+}
+
+
+
+.dashboard {
+  padding-top: 10vh;
+  padding-bottom: 10vh;
+}
+.content {
+  text-align: center;
+}
+
+.editable {
+  border: 2px solid #E06F41;
+  border-radius: 4px;
+}
+
+.employer {
+  color: white;
+  background-color: #87AFA6;
+}
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+input[type="file"]{
+  display: none;
+}
+.custom-file-upload {
+  background-color: #FBBE74;
+  border-radius: 15px;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+/* 16698A */
