@@ -7,8 +7,22 @@
 
   // Home page
   router.get('/', (req, res) => {
-
-    console.log(path.join(__dirname, 'frontend/app/public/', 'index.html'));
+    // console.log(path.join(__dirname, 'frontend/app/public/', 'index.html'));
+    res.sendFile(path.join(__dirname, 'frontend/app/build/', 'index.html'));
+  });
+  router.get('/about', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend/app/build/', 'index.html'));
+  });
+  router.get('/student-page/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend/app/build/', 'index.html'));
+  });
+  router.get('/search/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend/app/build/', 'index.html'));
+  });
+  router.get('/headhunter-page', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend/app/build/', 'index.html'));
+  });
+  router.get('/student-dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend/app/build/', 'index.html'));
   });
 
