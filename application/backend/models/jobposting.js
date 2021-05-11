@@ -6,7 +6,7 @@
 const db = require('./dbaccess.js');
 
 // jobpost constructor
-const JobPostObj = function (jobpost) {
+const JobModel = function (jobpost) {
     this.location = jobpost.location;
     this.jobPostTitle = jobpost.jobPostTitle;
     this.salary = jobpost.salary;
@@ -21,7 +21,7 @@ const JobPostObj = function (jobpost) {
 };
 
 // find all job postings
-JobPostObj.find = (jobId, jobDesc, results) => {
+JobModel.find = (jobId, jobDesc, results) => {
     if (jobId == "" && jobDesc == "") {
         db.query("SELECT * FROM jobPostings jp, jobReq jr WHERE jp.postID = jr.jobPostingID", (err, res) => {
             if (err) {
@@ -53,7 +53,7 @@ JobPostObj.find = (jobId, jobDesc, results) => {
 };
 
 // create a new job posting
-JobPostObj.create = (newjob, result) => {
+JobModel.create = (newjob, result) => {
     console.log("JOB MODEL has: ", newjob);
     db.query("INSERT INTO jobPostings (jobPostTitle, location, salary, description, workType, gradRangeStart, gradRangeEnd, company, jobPosterID) VALUES(?,?,?,?,?,?,?,?,?)",
         [newjob.jobPostTitle, newjob.location, newjob.salary, newjob.description, newjob.workType, newjob.gradRangeStart, newjob.gradRangeEnd, newjob.company, newjob.jobPosterID], (err, res) => {
@@ -85,7 +85,7 @@ JobPostObj.create = (newjob, result) => {
 };
 
 // all jobs posted by session user
-JobPostObj.findMyJobs = (userid, result) => {
+JobModel.findMyJobs = (userid, result) => {
     db.query("SELECT * FROM jobPostings jp, jobReq jr WHERE jp.postID = jr.jobPostingID AND jobPosterID = ?", [userid], (err, res) => {
         if (err) {
             console.log(err);
@@ -100,4 +100,4 @@ JobPostObj.findMyJobs = (userid, result) => {
     })
 };
 
-module.exports = JobPostObj;
+module.exports = JobModel;

@@ -1,16 +1,10 @@
 import React from "react";
 import Axios from "axios";
-import {
-  Grid,
-  Segment,
-  Button,
-  Form,
-  Label,
-} from "semantic-ui-react";
+import { useSelector } from "react-redux";
+
+import { Grid, Segment, Button, Form, Label, Dropdown, Header } from "semantic-ui-react";
 
 import { useState } from "react";
-import CreatableSelect from "react-select/creatable";
-
 const options = [
   { key: "full-time", value: "full-time", text: "Full-time" },
   { key: "part-time", value: "part-time", text: "Part-time" },
@@ -20,21 +14,41 @@ const options = [
 ];
 
 const JobPosting = () => {
+  const jobPosterID = useSelector((state) => state.auth.userID);
+
   const [location, setLocation] = useState("");
   const [jobPostTitle, setJobPostTitle] = useState("");
   const [salary, setSalary] = useState("");
   const [company, setCompany] = useState("");
   const [description, setDescription] = useState("");
-  const [jobPosterID, setJobPosterID] = useState("");
   const [workType, setWorkType] = useState("");
   const [gradRangeStart, setGradRangeStart] = useState("");
   const [gradRangeEnd, setGradRangeEnd] = useState("");
 
-  const [course, setCourse] = useState("");
-  const [coursework, setCoursework] = useState("");
+  // const [course, setCourse] = useState("");
+  // const [coursework, setCoursework] = useState("");
 
-  const [skill, setSkill] = useState("");
-  const [skills, setSkills] = useState("");
+  const [coursework, setCoursework] = useState([]);
+  const [courses, setCourses] = useState([
+    { key: "math1", text: "MATH 227", value: "MATH 227" },
+    { key: "physics1", text: "PHYS 220", value: "PHYS 220" },
+    { key: "english1", text: "ENG 104/105", value: "ENG 104/105" },
+    { key: "english2", text: "ENG 114", value: "ENG 114" },
+  ]);
+
+  // const [skill, setSkill] = useState("");
+  // const [skills, setSkills] = useState("");
+
+  // Resume Information
+  const [userskill, setUserskill] = useState([]);
+  const [skills, setSkills] = useState([
+    { key: "excel", text: "Microsoft Excel", value: "Microsoft Excel" },
+    { key: "g-suite", text: "Google Suite", value: "Google Suite" },
+    { key: "s-force", text: "Salesforce", value: "Salesforce" },
+  ]);
+
+  const courseReq = JSON.stringify(coursework);
+  const skillReq = JSON.stringify(skills);
 
   // Object to send in request body
   const jobPost = {
@@ -47,64 +61,80 @@ const JobPosting = () => {
     workType: workType,
     gradRangeStart: gradRangeStart,
     gradRangeEnd: gradRangeEnd,
-    coursework: coursework,
-    skills: skills,
+    coursework: courseReq,
+    skills: skillReq,
   };
 
-  const handleChange = (field, value) => {
-    switch (field) {
-      case "courses":
-        setCoursework(value);
-        break;
-      case "skills":
-        setSkills(value);
-        break;
-    }
+  const addCourse = (e, { value }) => {
+    setCourses([...courses, { text: value, value }]);
   };
 
-  const handleInputChange = (field, value) => {
-    switch (field) {
-      case "courses":
-        setCourse(value);
-        break;
-      case "skills":
-        setSkill(value);
-        break;
-    }
+  const handleCourse = (e, { value }) => {
+    setCoursework(value);
   };
 
-  const addCourse = (e) => {
-    if (!course) return;
-
-    switch (e.key) {
-      case "Enter":
-      case "Tab":
-        setCoursework([...coursework, createOption(course)]);
-        setCourse("");
-        e.preventDefault();
-        break;
-      default:
-        break;
-    }
+  const addSkill = (e, { value }) => {
+    setSkills([...skills, { text: value, value }]);
   };
-  const addSkill = (e) => {
-    if (!skill) return;
 
-    switch (e.key) {
-      case "Enter":
-      case "Tab":
-        setSkills([...skills, createOption(skill)]);
-        setSkill("");
-        e.preventDefault();
-        break;
-      default:
-        break;
-    }
+  const handleSkill = (e, { value }) => {
+    setUserskill(value);
   };
-  const createOption = (label) => ({
-    label,
-    value: label,
-  });
+
+  // const handleChange = (field, value) => {
+  //   switch (field) {
+  //     case "courses":
+  //       setCoursework(value);
+  //       break;
+  //     case "skills":
+  //       setSkills(value);
+  //       break;
+  //   }
+  // };
+
+  // const handleInputChange = (field, value) => {
+  //   switch (field) {
+  //     case "courses":
+  //       setCourse(value);
+  //       break;
+  //     case "skills":
+  //       setSkill(value);
+  //       break;
+  //   }
+  // };
+
+  // const addCourse = (e) => {
+  //   if (!course) return;
+
+  //   switch (e.key) {
+  //     case "Enter":
+  //     case "Tab":
+  //       setCoursework([...coursework, createOption(course)]);
+  //       setCourse("");
+  //       e.preventDefault();
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
+  // const addSkill = (e) => {
+  //   if (!skill) return;
+
+  //   switch (e.key) {
+  //     case "Enter":
+  //     case "Tab":
+  //       setSkills([...skills, createOption(skill)]);
+  //       setSkill("");
+  //       e.preventDefault();
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
+  // const createOption = (label) => ({
+  //   label,
+  //   value: label,
+  // });
 
   const submitJobPost = () => {
     Axios.post("http://localhost:6480/newjobpost", { jobPost }).then(
@@ -189,7 +219,7 @@ const JobPosting = () => {
                 <input placeholder="Mountain View, CA" type="text" />
               </Form.Field>
             </Form.Group>
-            <Segment padded="very">
+            {/* <Segment padded="very">
               <Label basic size="large" attached="top">
                 Coursework
               </Label>
@@ -204,9 +234,26 @@ const JobPosting = () => {
                 onKeyDown={addCourse}
                 onInputChange={(value) => handleInputChange("courses", value)}
                 value={coursework}
+              /> */}
+              <Form.Field>
+              <Dropdown
+                options={courses}
+                placeholder="MATH 227, PHYS 220. . ."
+                noResultsMessage="You can add your own courses."
+                search
+                clearable
+                selection
+                fluid
+                multiple
+                allowAdditions
+                value={coursework}
+                onAddItem={addCourse}
+                onChange={handleCourse}
               />
-            </Segment>
-            <Segment padded="very">
+              </Form.Field>
+
+            {/* </Segment> */}
+            {/* <Segment padded="very">
               <Label basic size="large" attached="top">
                 Skills
               </Label>
@@ -222,7 +269,27 @@ const JobPosting = () => {
                 onInputChange={(value) => handleInputChange("skills", value)}
                 value={skills}
               />
-            </Segment>
+            </Segment> */}
+            <Form.Field>
+            <Header.Subheader>
+              <b>Skills</b>
+            </Header.Subheader>
+            <Form.Field>
+              <Dropdown
+                options={skills}
+                placeholder="Select or Add Skill"
+                noResultsMessage="You can add your own skills."
+                search
+                clearable
+                selection
+                fluid
+                multiple
+                allowAdditions
+                value={userskill}
+                onAddItem={addSkill}
+                onChange={handleSkill}
+              />
+            </Form.Field>
             <Segment className="responsive" padded="very">
               <Label basic size="large" attached="top">
                 Graduation Date Range
@@ -258,6 +325,7 @@ const JobPosting = () => {
               >
                 Post Job
               </Button>
+            </Form.Field>
             </Form.Field>
           </Form>
         </Segment>

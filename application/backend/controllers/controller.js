@@ -255,14 +255,14 @@ exports.findJob = (req, res) => {
 
 // post a new job
 exports.postjob = (req, res) => {
-  console.log("CONTROLLER - request received: ", req);
+  console.log("CONTROLLER - request received: ", req.body);
   // validate request body
   if (!req.body) {
     res.status(400).send({ message: "Content can not be empty!" });
   }
 
   // create new jobposting object
-  const job_obj = new JobpostObj({
+  const job_obj = new JobModel({
     location: req.body.location,
     jobPostTitle: req.body.jobPostTitle,
     salary: req.body.salary,
