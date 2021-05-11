@@ -105,42 +105,78 @@ StudentModel.find = (textValue, optionsValue) => {
 StudentModel.createProfile = (stdtattrib, results) => {
   console.log("Inside StudentModel: ", stdtattrib);
   console.log("STUDENT - WORK EXP: ", stdtattrib.workexp);
-  
+
   // build inser arrays/sql statements
   // for skills
-    var skillrec = [[],[]];
-    var sqlstm = " ";
-    for (let i = 0; i < stdtattrib.userskill.length; i++) {
-          skillrec[i] = [stdtattrib.userskill[i], stdtattrib.userID];
-          sqlstm = sqlstm + " INSERT INTO studentSkills (userSkill, userID)  VALUES(" + stdtattrib.userskill[i] + ", " + stdtattrib.userID + "); "
-    }
-    console.log("skill record is: ", skillrec);
-    console.log("sql statement for skills is: ",  sqlstm);
+  var skillrec = [[], []];
+  var sqlstm = " ";
+  for (let i = 0; i < stdtattrib.userskill.length; i++) {
+    skillrec[i] = [stdtattrib.userskill[i], stdtattrib.userID];
+    sqlstm =
+      sqlstm +
+      " INSERT INTO studentSkills (userSkill, userID)  VALUES(" +
+      stdtattrib.userskill[i] +
+      ", " +
+      stdtattrib.userID +
+      "); ";
+  }
+  console.log("skill record is: ", skillrec);
+  console.log("sql statement for skills is: ", sqlstm);
 
-    // for coursework
-    var courserec = [[],[]];
-    var sqlstmc = " ";
-    for (let i = 0; i < stdtattrib.courseWork.length; i++) {
-          courserec[i] = [stdtattrib.courseWork[i], stdtattrib.userID];
-          sqlstmc = sqlstmc + " INSERT INTO studentCoursework (coursework,  userID)  VALUES(" + stdtattrib.courseWork[i] + ", " + stdtattrib.userID + "); "
-    }
-    console.log("course record is: ", courserec);
-    console.log("sql statement for courses is: ",  sqlstmc);
+  // for coursework
+  var courserec = [[], []];
+  var sqlstmc = " ";
+  for (let i = 0; i < stdtattrib.courseWork.length; i++) {
+    courserec[i] = [stdtattrib.courseWork[i], stdtattrib.userID];
+    sqlstmc =
+      sqlstmc +
+      " INSERT INTO studentCoursework (coursework,  userID)  VALUES(" +
+      stdtattrib.courseWork[i] +
+      ", " +
+      stdtattrib.userID +
+      "); ";
+  }
+  console.log("course record is: ", courserec);
+  console.log("sql statement for courses is: ", sqlstmc);
 
-    // for workexperience
-    var workrec = [[],[]];
-    var sqlstmw = " ";
-    for (let i = 0; i < stdtattrib.workexp.length; i++) {
-      console.log("STD MODEL: WORK EXP: ", stdtattrib.workexp[i].title, stdtattrib.workexp[i].description)
-          workrec[i] = [stdtattrib.workexp[i].title, stdtattrib.workexp[i].description, stdtattrib.userID];
-          sqlstmw = sqlstmw + " INSERT INTO studentWorkExp (workExpTitle, workExpDesc, userID)   VALUES(" + stdtattrib.workexp[i].title + ", " +  stdtattrib.workexp[i].description + ", " + stdtattrib.userID + "); "
-    }
-    console.log("work record is: ", workrec);
-    console.log("sql statement for work exp is: ", sqlstmw);
+  // for workexperience
+  var workrec = [[], []];
+  var sqlstmw = " ";
+  for (let i = 0; i < stdtattrib.workexp.length; i++) {
+    console.log(
+      "STD MODEL: WORK EXP: ",
+      stdtattrib.workexp[i].title,
+      stdtattrib.workexp[i].description
+    );
+    workrec[i] = [
+      stdtattrib.workexp[i].title,
+      stdtattrib.workexp[i].description,
+      stdtattrib.userID,
+    ];
+    sqlstmw =
+      sqlstmw +
+      " INSERT INTO studentWorkExp (workExpTitle, workExpDesc, userID)   VALUES(" +
+      stdtattrib.workexp[i].title +
+      ", " +
+      stdtattrib.workexp[i].description +
+      ", " +
+      stdtattrib.userID +
+      "); ";
+  }
+  console.log("work record is: ", workrec);
+  console.log("sql statement for work exp is: ", sqlstmw);
 
-// start inserts 
-  db.query("INSERT INTO userAttributes (gradDate, academicStanding, major, userID, resume)  VALUES(?,?,?,?,?)",
-                   [stdtattrib.graduationDate,  stdtattrib.academicStanding, stdtattrib.major, stdtattrib.userID,  stdtattrib.resume], (err, res) => {
+  // start inserts
+  db.query(
+    "INSERT INTO userAttributes (gradDate, academicStanding, major, userID, resume)  VALUES(?,?,?,?,?)",
+    [
+      stdtattrib.graduationDate,
+      stdtattrib.academicStanding,
+      stdtattrib.major,
+      stdtattrib.userID,
+      stdtattrib.resume,
+    ],
+    (err, res) => {
       if (err) {
         console.log(err);
         results(err, null);
@@ -155,8 +191,18 @@ StudentModel.createProfile = (stdtattrib, results) => {
   // console.log(results);
 
   // insert student demo data
-  db.query("INSERT INTO studentDemo (userID, gender, age, race, ethnicity, veteran, militaryCode)  VALUES(?,?,?,?,?,?,?)",
-                  [stdtattrib.userID, stdtattrib.gender, stdtattrib.age, stdtattrib.race, stdtattrib.ethnicity, stdtattrib.veteran, stdtattrib.militaryCode], (err, res) => {
+  db.query(
+    "INSERT INTO studentDemo (userID, gender, age, race, ethnicity, veteran, militaryCode)  VALUES(?,?,?,?,?,?,?)",
+    [
+      stdtattrib.userID,
+      stdtattrib.gender,
+      stdtattrib.age,
+      stdtattrib.race,
+      stdtattrib.ethnicity,
+      stdtattrib.veteran,
+      stdtattrib.militaryCode,
+    ],
+    (err, res) => {
       if (err) {
         console.log(err);
         results(err, null);
@@ -172,9 +218,12 @@ StudentModel.createProfile = (stdtattrib, results) => {
   // insert course work
   // db.query("INSERT INTO studentCoursework (coursework, userID)  VALUES(?,?)", [stdtattrib.coursework, stdtattrib.userID], (err, res) => {
 
-// new form of query
+  // new form of query
   //db.query(sqlstmc, (err, res) => {
-  db.query("INSERT INTO studentCoursework (coursework, userID)  VALUES ?", [courserec], (err, res) => {
+  db.query(
+    "INSERT INTO studentCoursework (coursework, userID)  VALUES ?",
+    [courserec],
+    (err, res) => {
       if (err) {
         console.log(err);
         results(err, null);
@@ -189,10 +238,13 @@ StudentModel.createProfile = (stdtattrib, results) => {
 
   // insert student skills
   //db.query("INSERT INTO studentSkills (userSkill, userID)  VALUES(?,?)", [stdtattrib.userskill, stdtattrib.userID], (err, res) => {
-      
-// new query form
+
+  // new query form
   //db.query(sqlstm, (err, res) => {
-  db.query("INSERT INTO studentSkills (userSkill, userID)  VALUES ? ", [skillrec], (err, res) => {
+  db.query(
+    "INSERT INTO studentSkills (userSkill, userID)  VALUES ? ",
+    [skillrec],
+    (err, res) => {
       if (err) {
         console.log(err);
         results(err, null);
@@ -207,10 +259,13 @@ StudentModel.createProfile = (stdtattrib, results) => {
 
   // insert student work experience
   // db.query("INSERT INTO studentWorkExp (workExpTitle, workExpDesc, userID) VALUES(?,?,?)",
-                  // [stdtattrib.workexp.workExpTitle, stdtattrib.workexp.workExpDesc, stdtattrib.userID], (err, res) => {
- // new for of query
-  //db.query(sqlstmw, (err, res) => { 
-  db.query("INSERT INTO studentWorkExp (workExpTitle, workExpDesc, userID) VALUES ?", [workrec], (err, res) => {
+  // [stdtattrib.workexp.workExpTitle, stdtattrib.workexp.workExpDesc, stdtattrib.userID], (err, res) => {
+  // new for of query
+  //db.query(sqlstmw, (err, res) => {
+  db.query(
+    "INSERT INTO studentWorkExp (workExpTitle, workExpDesc, userID) VALUES ?",
+    [workrec],
+    (err, res) => {
       if (err) {
         console.log(err);
         results(err, null);
@@ -220,7 +275,8 @@ StudentModel.createProfile = (stdtattrib, results) => {
         // results(...results, { ...res });
         return;
       }
-    });
+    }
+  );
   console.log(results);
 };
 

@@ -263,17 +263,17 @@ exports.postjob = (req, res) => {
 
   // create new jobposting object
   const job_obj = new JobModel({
-    location: req.body.location,
-    jobPostTitle: req.body.jobPostTitle,
-    salary: req.body.salary,
-    company: req.body.company,
-    description: req.body.description,
-    jobPosterID: req.body.jobPosterID,
-    workType: req.body.workType,
-    gradRangeStart: req.body.gradRangeStart,
-    gradRangeEnd: req.body.gradRangeEnd,
-    coursework: req.body.coursework,
-    skills: req.body.skills,
+    location: req.body.jobPost.location,
+    jobPostTitle: req.body.jobPost.jobPostTitle,
+    salary: req.body.jobPost.salary,
+    company: req.body.jobPost.company,
+    description: req.body.jobPost.description,
+    jobPosterID: req.body.jobPost.jobPosterID,
+    workType: req.body.jobPost.workType,
+    gradRangeStart: req.body.jobPost.gradRangeStart,
+    gradRangeEnd: req.body.jobPost.gradRangeEnd,
+    coursework: req.body.jobPost.coursework,
+    skills: req.body.jobPost.skills,
   });
 
   console.log("CONTROLLER - obj created: ", job_obj);

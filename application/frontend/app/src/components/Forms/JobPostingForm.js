@@ -2,7 +2,15 @@ import React from "react";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 
-import { Grid, Segment, Button, Form, Label, Dropdown, Header } from "semantic-ui-react";
+import {
+  Grid,
+  Segment,
+  Button,
+  Form,
+  Label,
+  Dropdown,
+  Header,
+} from "semantic-ui-react";
 
 import { useState } from "react";
 const options = [
@@ -13,7 +21,8 @@ const options = [
   { key: "contract", value: "contract", text: "Contract" },
 ];
 
-const JobPosting = () => {
+const JobPosting = (props) => {
+  const { dataCallback } = props;
   const jobPosterID = useSelector((state) => state.auth.userID);
 
   const [location, setLocation] = useState("");
@@ -25,9 +34,6 @@ const JobPosting = () => {
   const [gradRangeStart, setGradRangeStart] = useState("");
   const [gradRangeEnd, setGradRangeEnd] = useState("");
 
-  // const [course, setCourse] = useState("");
-  // const [coursework, setCoursework] = useState("");
-
   const [coursework, setCoursework] = useState([]);
   const [courses, setCourses] = useState([
     { key: "math1", text: "MATH 227", value: "MATH 227" },
@@ -36,9 +42,6 @@ const JobPosting = () => {
     { key: "english2", text: "ENG 114", value: "ENG 114" },
   ]);
 
-  // const [skill, setSkill] = useState("");
-  // const [skills, setSkills] = useState("");
-
   // Resume Information
   const [userskill, setUserskill] = useState([]);
   const [skills, setSkills] = useState([
@@ -46,9 +49,6 @@ const JobPosting = () => {
     { key: "g-suite", text: "Google Suite", value: "Google Suite" },
     { key: "s-force", text: "Salesforce", value: "Salesforce" },
   ]);
-
-  const courseReq = JSON.stringify(coursework);
-  const skillReq = JSON.stringify(skills);
 
   // Object to send in request body
   const jobPost = {
@@ -61,8 +61,8 @@ const JobPosting = () => {
     workType: workType,
     gradRangeStart: gradRangeStart,
     gradRangeEnd: gradRangeEnd,
-    coursework: courseReq,
-    skills: skillReq,
+    coursework: coursework.toString(),
+    skills: userskill.toString(),
   };
 
   const addCourse = (e, { value }) => {
@@ -81,68 +81,19 @@ const JobPosting = () => {
     setUserskill(value);
   };
 
-  // const handleChange = (field, value) => {
-  //   switch (field) {
-  //     case "courses":
-  //       setCoursework(value);
-  //       break;
-  //     case "skills":
-  //       setSkills(value);
-  //       break;
-  //   }
-  // };
-
-  // const handleInputChange = (field, value) => {
-  //   switch (field) {
-  //     case "courses":
-  //       setCourse(value);
-  //       break;
-  //     case "skills":
-  //       setSkill(value);
-  //       break;
-  //   }
-  // };
-
-  // const addCourse = (e) => {
-  //   if (!course) return;
-
-  //   switch (e.key) {
-  //     case "Enter":
-  //     case "Tab":
-  //       setCoursework([...coursework, createOption(course)]);
-  //       setCourse("");
-  //       e.preventDefault();
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
-  // const addSkill = (e) => {
-  //   if (!skill) return;
-
-  //   switch (e.key) {
-  //     case "Enter":
-  //     case "Tab":
-  //       setSkills([...skills, createOption(skill)]);
-  //       setSkill("");
-  //       e.preventDefault();
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
-  // const createOption = (label) => ({
-  //   label,
-  //   value: label,
-  // });
+  const handleWorkType = (e, { value }) => {
+    setWorkType(value);
+  };
 
   const submitJobPost = () => {
+    console.log("FE jobPost Object to send: ", jobPost);
     Axios.post("http://localhost:6480/newjobpost", { jobPost }).then(
       (response) => {
         console.log("FRONTEND FORM - Job Post to create: ", jobPost);
         console.log(response.data);
       }
     );
+    dataCallback(false);
   };
 
   return (
@@ -175,9 +126,7 @@ const JobPosting = () => {
                 placeholder="Full-time/Part-Time"
                 default={options[0]}
                 options={options}
-                onChange={(e) => {
-                  setWorkType(e.target.value);
-                }}
+                onChange={handleWorkType}
               ></Form.Select>
               <Form.Input
                 value={salary}
@@ -219,23 +168,8 @@ const JobPosting = () => {
                 <input placeholder="Mountain View, CA" type="text" />
               </Form.Field>
             </Form.Group>
-            {/* <Segment padded="very">
-              <Label basic size="large" attached="top">
-                Coursework
-              </Label>
-              <CreatableSelect
-                isClearable
-                isMulti
-                components={{ DropdownIndicator: null }}
-                inputValue={course}
-                menuIsOpen={false}
-                onChange={(value) => handleChange("courses", value)}
-                placeholder="Physics II, Calculus I . . ."
-                onKeyDown={addCourse}
-                onInputChange={(value) => handleInputChange("courses", value)}
-                value={coursework}
-              /> */}
-              <Form.Field>
+            <Form.Field>
+              <label>Courses</label>
               <Dropdown
                 options={courses}
                 placeholder="MATH 227, PHYS 220. . ."
@@ -250,82 +184,63 @@ const JobPosting = () => {
                 onAddItem={addCourse}
                 onChange={handleCourse}
               />
+            </Form.Field>
+            <Form.Field>
+              <Header.Subheader>
+                <b>Skills</b>
+              </Header.Subheader>
+              <Form.Field>
+                <Dropdown
+                  options={skills}
+                  placeholder="Select or Add Skill"
+                  noResultsMessage="You can add your own skills."
+                  search
+                  clearable
+                  selection
+                  fluid
+                  multiple
+                  allowAdditions
+                  value={userskill}
+                  onAddItem={addSkill}
+                  onChange={handleSkill}
+                />
               </Form.Field>
+              <Segment className="responsive" padded="very">
+                <Label basic size="large" attached="top">
+                  Graduation Date Range
+                </Label>
+                <Form.Group inline widths="equal">
+                  <Form.Field
+                    inline
+                    value={gradRangeStart}
+                    onChange={(e) => {
+                      setGradRangeStart(e.target.value);
+                    }}
+                  >
+                    <label>From</label>
+                    <input type="date" />
+                  </Form.Field>
+                  <Form.Field
+                    inline
+                    value={gradRangeEnd}
+                    onChange={(e) => {
+                      setGradRangeEnd(e.target.value);
+                    }}
+                  >
+                    <label>To</label>
+                    <input type="date" />
+                  </Form.Field>
+                </Form.Group>
+              </Segment>
 
-            {/* </Segment> */}
-            {/* <Segment padded="very">
-              <Label basic size="large" attached="top">
-                Skills
-              </Label>
-              <CreatableSelect
-                isClearable
-                isMulti
-                components={{ DropdownIndicator: null }}
-                inputValue={skill}
-                menuIsOpen={false}
-                onChange={(value) => handleChange("skills", value)}
-                placeholder="Google Suite, Salesforce . . ."
-                onKeyDown={addSkill}
-                onInputChange={(value) => handleInputChange("skills", value)}
-                value={skills}
-              />
-            </Segment> */}
-            <Form.Field>
-            <Header.Subheader>
-              <b>Skills</b>
-            </Header.Subheader>
-            <Form.Field>
-              <Dropdown
-                options={skills}
-                placeholder="Select or Add Skill"
-                noResultsMessage="You can add your own skills."
-                search
-                clearable
-                selection
-                fluid
-                multiple
-                allowAdditions
-                value={userskill}
-                onAddItem={addSkill}
-                onChange={handleSkill}
-              />
-            </Form.Field>
-            <Segment className="responsive" padded="very">
-              <Label basic size="large" attached="top">
-                Graduation Date Range
-              </Label>
-              <Form.Group inline widths="equal">
-                <Form.Field
-                  inline
-                  value={gradRangeStart}
-                  onChange={(e) => {
-                    setGradRangeStart(e.target.value);
-                  }}
+              <Form.Field className="responsive">
+                <Button
+                  style={{ color: "white", backgroundColor: "#87AFA6" }}
+                  type="submit"
                 >
-                  <label>From</label>
-                  <input type="date" />
-                </Form.Field>
-                <Form.Field
-                  inline
-                  value={gradRangeEnd}
-                  onChange={(e) => {
-                    setGradRangeEnd(e.target.value);
-                  }}
-                >
-                  <label>To</label>
-                  <input type="date" />
-                </Form.Field>
-              </Form.Group>
-            </Segment>
-
-            <Form.Field className="responsive">
-              <Button
-                style={{ color: "white", backgroundColor: "#87AFA6" }}
-                type="submit"
-              >
-                Post Job
-              </Button>
-            </Form.Field>
+                  Post Job
+                </Button>
+              </Form.Field>
             </Form.Field>
           </Form>
         </Segment>

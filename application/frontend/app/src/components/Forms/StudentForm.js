@@ -65,7 +65,8 @@ const races = [
   { key: 19, text: "", value: "multi" },
 ];
 
-const StudentForm = () => {
+const StudentForm = (props) => {
+  const { dataCallback } = props;
   const userID = useSelector((state) => state.auth.userID);
 
   // Student Info
@@ -185,27 +186,12 @@ const StudentForm = () => {
     setWorkExperience([...workExperience, {}]);
   };
 
-  // const createProfile = () => {
-  //   let config = {
-  //     method: "post",
-  //     url: "/newprofile",
-  //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-  //     data: profile,
-  //   };
-  //   Axios(config).then((response) => {
-  //     console.log(response.data);
-  //   });
-  // };
-
   const createProfile = () => {
-    // console.log("Sending profile to backend: ", profile);
-    console.log("FRONTEND: race: ", profile.race);
-    console.log("FRONTEND: Work: ", profile.workexp);
-
     Axios.post("http://localhost:6480/newprofile", { profile }).then(
       (response) => {
         console.log(response.data);
       });
+    dataCallback(false);
   };
 
   return (
