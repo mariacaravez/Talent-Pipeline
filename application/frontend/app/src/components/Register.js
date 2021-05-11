@@ -19,7 +19,7 @@ const options = [
 
 const Register = () => {
   const [optionsValue, setOptionsValue] = useState("student");
-  const [userTypeID, setUserTypeID] = useState();
+  const [userTypeID, setUserTypeID] = useState(1);
 
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");

@@ -10,14 +10,16 @@ import {
   Header,
 } from "semantic-ui-react";
 
-const EndorsementForm = () => {
+const EndorsementForm = (props) => {
+  const { dataCallback } = props;
+
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
     <div className="responsive">
-      {/* <Grid padded="very"> */}
         <Segment padded="very"  size="massive">
           <div className="responsive">
             <Label
@@ -30,7 +32,6 @@ const EndorsementForm = () => {
             {isLoggedIn && (
               <Header as="h3">Endorse [Course Name] for [Student Name]</Header>
             )}
-
             {isLoggedIn && (
               <div>
                 <Button
@@ -46,7 +47,6 @@ const EndorsementForm = () => {
               </div>
             )}
           </div>
-
           <Form>
             {!isLoggedIn && (
               <Form.Group widths="equal" style={{ paddingTop: "2vh" }}>
@@ -85,7 +85,6 @@ const EndorsementForm = () => {
                   <input type="text" />
                 </Form.Field>
               )}
-
               <Form.Field>
                 <label>Rating</label>
                 <Rating
@@ -108,7 +107,6 @@ const EndorsementForm = () => {
             </Form.Field>
           </Form>
         </Segment>
-      {/* </Grid> */}
     </div>
   );
 };

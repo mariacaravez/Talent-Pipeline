@@ -1,20 +1,18 @@
 import React from "react";
 import Axios from "axios";
+import { useSelector } from "react-redux";
+
 import {
   Grid,
-  Image,
   Segment,
-  List,
-  Container,
   Button,
   Form,
   Label,
+  Dropdown,
   Header,
 } from "semantic-ui-react";
 
 import { useState } from "react";
-import CreatableSelect from "react-select/creatable";
-
 const options = [
   { key: "full-time", value: "full-time", text: "Full-time" },
   { key: "part-time", value: "part-time", text: "Part-time" },
@@ -23,22 +21,34 @@ const options = [
   { key: "contract", value: "contract", text: "Contract" },
 ];
 
-const JobPosting = () => {
+const JobPosting = (props) => {
+  const { dataCallback } = props;
+  const jobPosterID = useSelector((state) => state.auth.userID);
+
   const [location, setLocation] = useState("");
   const [jobPostTitle, setJobPostTitle] = useState("");
   const [salary, setSalary] = useState("");
   const [company, setCompany] = useState("");
   const [description, setDescription] = useState("");
-  const [jobPosterID, setJobPosterID] = useState("");
   const [workType, setWorkType] = useState("");
   const [gradRangeStart, setGradRangeStart] = useState("");
   const [gradRangeEnd, setGradRangeEnd] = useState("");
 
-  const [course, setCourse] = useState("");
-  const [coursework, setCoursework] = useState("");
+  const [coursework, setCoursework] = useState([]);
+  const [courses, setCourses] = useState([
+    { key: "math1", text: "MATH 227", value: "MATH 227" },
+    { key: "physics1", text: "PHYS 220", value: "PHYS 220" },
+    { key: "english1", text: "ENG 104/105", value: "ENG 104/105" },
+    { key: "english2", text: "ENG 114", value: "ENG 114" },
+  ]);
 
-  const [skill, setSkill] = useState("");
-  const [skills, setSkills] = useState("");
+  // Resume Information
+  const [userskill, setUserskill] = useState([]);
+  const [skills, setSkills] = useState([
+    { key: "excel", text: "Microsoft Excel", value: "Microsoft Excel" },
+    { key: "g-suite", text: "Google Suite", value: "Google Suite" },
+    { key: "s-force", text: "Salesforce", value: "Salesforce" },
+  ]);
 
   // Object to send in request body
   const jobPost = {
@@ -51,72 +61,40 @@ const JobPosting = () => {
     workType: workType,
     gradRangeStart: gradRangeStart,
     gradRangeEnd: gradRangeEnd,
-    coursework: coursework,
-    skills: skills,
+    coursework: coursework.toString(),
+    skills: userskill.toString(),
   };
 
-  const handleChange = (field, value) => {
-    switch (field) {
-      case "courses":
-        setCoursework(value);
-        break;
-      case "skills":
-        setSkills(value);
-        break;
-    }
+  const addCourse = (e, { value }) => {
+    setCourses([...courses, { text: value, value }]);
   };
 
-  const handleInputChange = (field, value) => {
-    switch (field) {
-      case "courses":
-        setCourse(value);
-        break;
-      case "skills":
-        setSkill(value);
-        break;
-    }
+  const handleCourse = (e, { value }) => {
+    setCoursework(value);
   };
 
-  const addCourse = (e) => {
-    if (!course) return;
-
-    switch (e.key) {
-      case "Enter":
-      case "Tab":
-        setCoursework([...coursework, createOption(course)]);
-        setCourse("");
-        e.preventDefault();
-        break;
-      default:
-        break;
-    }
+  const addSkill = (e, { value }) => {
+    setSkills([...skills, { text: value, value }]);
   };
-  const addSkill = (e) => {
-    if (!skill) return;
 
-    switch (e.key) {
-      case "Enter":
-      case "Tab":
-        setSkills([...skills, createOption(skill)]);
-        setSkill("");
-        e.preventDefault();
-        break;
-      default:
-        break;
-    }
+  const handleSkill = (e, { value }) => {
+    setUserskill(value);
   };
-  const createOption = (label) => ({
-    label,
-    value: label,
-  });
+
+  const handleWorkType = (e, { value }) => {
+    setWorkType(value);
+  };
 
   const submitJobPost = () => {
+    console.log("FE jobPost Object to send: ", jobPost);
     Axios.post("http://localhost:6480/newjobpost", { jobPost }).then(
       (response) => {
         console.log("FRONTEND FORM - Job Post to create: ", jobPost);
         console.log(response.data);
       }
-    );  };
+    );
+    dataCallback(false);
+  };
 
   return (
     <div className="responsive">
@@ -148,9 +126,7 @@ const JobPosting = () => {
                 placeholder="Full-time/Part-Time"
                 default={options[0]}
                 options={options}
-                onChange={(e) => {
-                  setWorkType(e.target.value);
-                }}
+                onChange={handleWorkType}
               ></Form.Select>
               <Form.Input
                 value={salary}
@@ -172,74 +148,99 @@ const JobPosting = () => {
                 }}
               >
                 <label>Company</label>
-                <input placeholder="Google Inc." type="text" value={company}                 onChange={(e) => {
-                  setCompany(e.target.value);
-                }}/>
+                <input
+                  placeholder="Google Inc."
+                  type="text"
+                  value={company}
+                  onChange={(e) => {
+                    setCompany(e.target.value);
+                  }}
+                />
               </Form.Field>
-              <Form.Field required value={location}                 onChange={(e) => {
+              <Form.Field
+                required
+                value={location}
+                onChange={(e) => {
                   setLocation(e.target.value);
-                }}>
+                }}
+              >
                 <label>Location</label>
                 <input placeholder="Mountain View, CA" type="text" />
               </Form.Field>
             </Form.Group>
-            <Segment padded="very">
-              <Label basic size="large" attached="top">
-                Coursework
-              </Label>
-              <CreatableSelect
-                isClearable
-                isMulti
-                components={{ DropdownIndicator: null }}
-                inputValue={course}
-                menuIsOpen={false}
-                onChange={(value) => handleChange("courses", value)}
-                placeholder="Physics II, Calculus I . . ."
-                onKeyDown={addCourse}
-                onInputChange={(value) => handleInputChange("courses", value)}
+            <Form.Field>
+              <label>Courses</label>
+              <Dropdown
+                options={courses}
+                placeholder="MATH 227, PHYS 220. . ."
+                noResultsMessage="You can add your own courses."
+                search
+                clearable
+                selection
+                fluid
+                multiple
+                allowAdditions
                 value={coursework}
+                onAddItem={addCourse}
+                onChange={handleCourse}
               />
-            </Segment>
-            <Segment padded="very">
-              <Label basic size="large" attached="top">
-                Skills
-              </Label>
-              <CreatableSelect
-                isClearable
-                isMulti
-                components={{ DropdownIndicator: null }}
-                inputValue={skill}
-                menuIsOpen={false}
-                onChange={(value) => handleChange("skills", value)}
-                placeholder="Google Suite, Salesforce . . ."
-                onKeyDown={addSkill}
-                onInputChange={(value) => handleInputChange("skills", value)}
-                value={skills}
-              />
-            </Segment>
-            <Segment className="responsive" padded="very">
-              <Label basic size="large" attached="top">
-                Graduation Date Range
-              </Label>
-              <Form.Group inline widths="equal">
-                <Form.Field inline value={gradRangeStart} onChange={(e) => {setGradRangeStart(e.target.value)}}>
-                  <label>From</label>
-                  <input type="date" />
-                </Form.Field>
-                <Form.Field inline value={gradRangeEnd} onChange={(e) => {setGradRangeEnd(e.target.value)}}>
-                  <label>To</label>
-                  <input type="date" />
-                </Form.Field>
-              </Form.Group>
-            </Segment>
+            </Form.Field>
+            <Form.Field>
+              <Header.Subheader>
+                <b>Skills</b>
+              </Header.Subheader>
+              <Form.Field>
+                <Dropdown
+                  options={skills}
+                  placeholder="Select or Add Skill"
+                  noResultsMessage="You can add your own skills."
+                  search
+                  clearable
+                  selection
+                  fluid
+                  multiple
+                  allowAdditions
+                  value={userskill}
+                  onAddItem={addSkill}
+                  onChange={handleSkill}
+                />
+              </Form.Field>
+              <Segment className="responsive" padded="very">
+                <Label basic size="large" attached="top">
+                  Graduation Date Range
+                </Label>
+                <Form.Group inline widths="equal">
+                  <Form.Field
+                    inline
+                    value={gradRangeStart}
+                    onChange={(e) => {
+                      setGradRangeStart(e.target.value);
+                    }}
+                  >
+                    <label>From</label>
+                    <input type="date" />
+                  </Form.Field>
+                  <Form.Field
+                    inline
+                    value={gradRangeEnd}
+                    onChange={(e) => {
+                      setGradRangeEnd(e.target.value);
+                    }}
+                  >
+                    <label>To</label>
+                    <input type="date" />
+                  </Form.Field>
+                </Form.Group>
+              </Segment>
 
-            <Form.Field className="responsive">
-              <Button
-                style={{ color: "white", backgroundColor: "#87AFA6" }}
-                type="submit"
-              >
-                Post Job
-              </Button>
+              <Form.Field className="responsive">
+                <Button
+                  style={{ color: "white", backgroundColor: "#87AFA6" }}
+                  type="submit"
+                >
+                  Post Job
+                </Button>
+              </Form.Field>
             </Form.Field>
           </Form>
         </Segment>

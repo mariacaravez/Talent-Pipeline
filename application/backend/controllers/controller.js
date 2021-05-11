@@ -39,6 +39,7 @@ exports.newStudentProfile = (req, res) => {
     res.status(400).send({ message: "Content can not be empty!" });
   }
   console.log("CONTROLLER: About to create student object with: ", req.body);
+  console.log("Work exp request: ", req.body.profile.workexp[0].title, req.body.profile.workexp[0].description)
 
   // student data object
   const student = new StudentModel({
@@ -53,12 +54,13 @@ exports.newStudentProfile = (req, res) => {
     militaryCode: req.body.profile.militaryCode,
     ethnicity: req.body.profile.ethnicity,
     userskill: req.body.profile.userskill,
-    skillRating: req.body.profile.skillRating,
+    //skillRating: req.body.profile.skillRating,
     courseWork: req.body.profile.courseWork,
-    courseWorkRating: req.body.profile.courseWorkRating,
-    workTitle: req.body.profile.workTitle,
-    workDescription: req.body.profile.workDescription,
-    jobapps: req.body.profile.jobapps,
+    //courseWorkRating: req.body.profile.courseWorkRating,
+    workexp: req.body.profile.workexp,
+    //workTitle: req.body.profile.workTitle,
+    //workDescription: req.body.profile.workDescription,
+    //jobapps: req.body.profile.jobapps,
     resume: req.body.profile.resume,
   });
   console.log("After object creation in controller: ", student);
@@ -67,9 +69,8 @@ exports.newStudentProfile = (req, res) => {
   StudentModel.createProfile(student, (err, data) => {
     console.log("In Controller - going into studentModel: ", student);
     if (err) {
-      res.status(500).send({
-        message: err.message || "error occured while creating student profile.",
-      });
+      //res.status(500).send({ message: err.message || "error occured while creating student profile.", });
+      console.log("error occured while creating student profile.", err.message)
     } else res.send(data);
   });
 
@@ -254,25 +255,25 @@ exports.findJob = (req, res) => {
 
 // post a new job
 exports.postjob = (req, res) => {
-  console.log("CONTROLLER - request received: ", req);
+  console.log("CONTROLLER - request received: ", req.body);
   // validate request body
   if (!req.body) {
     res.status(400).send({ message: "Content can not be empty!" });
   }
 
   // create new jobposting object
-  const job_obj = new JobpostObj({
-    location: req.body.location,
-    jobPostTitle: req.body.jobPostTitle,
-    salary: req.body.salary,
-    company: req.body.company,
-    description: req.body.description,
-    jobPosterID: req.body.jobPosterID,
-    workType: req.body.workType,
-    gradRangeStart: req.body.gradRangeStart,
-    gradRangeEnd: req.body.gradRangeEnd,
-    coursework: req.body.coursework,
-    skills: req.body.skills,
+  const job_obj = new JobModel({
+    location: req.body.jobPost.location,
+    jobPostTitle: req.body.jobPost.jobPostTitle,
+    salary: req.body.jobPost.salary,
+    company: req.body.jobPost.company,
+    description: req.body.jobPost.description,
+    jobPosterID: req.body.jobPost.jobPosterID,
+    workType: req.body.jobPost.workType,
+    gradRangeStart: req.body.jobPost.gradRangeStart,
+    gradRangeEnd: req.body.jobPost.gradRangeEnd,
+    coursework: req.body.jobPost.coursework,
+    skills: req.body.jobPost.skills,
   });
 
   console.log("CONTROLLER - obj created: ", job_obj);

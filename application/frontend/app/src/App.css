@@ -6,6 +6,7 @@
   font-style: normal;
 } */
 
+
 .responsive {
   /* text-align: center; */
   display: flex;
@@ -40,7 +41,6 @@
 .landing {
   padding-top: 10%;
   padding-bottom: 13%;
-  background-color: #F2E8E1;
 }
 
 

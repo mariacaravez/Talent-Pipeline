@@ -30,14 +30,25 @@ const segment = {
 };
 
 const Landing = () => {
-  const [openRegister, setOpenRegister] = useState(false);
+  const [openCreateProfile, setOpenCreateProfile] = useState(false);
   const [openCreateJob, setOpenCreateJob] = useState(false);
   const [openEndorse, setOpenEndorse] = useState(false);
 
+  const handleProfileCallback = (modal) => {
+    setOpenCreateProfile(modal);
+}
+
+const handleJobCallback = (modal) => {
+  setOpenCreateJob(modal);
+}
+
+const handleOpenCallback = (modal) => {
+  setOpenEndorse(modal);
+}
   return (
     <div
       className="landing"
-      style={{ paddingLeft: "10%", paddingRight: "10%" }}
+      style={{ padding:"10%"}}
     >
       <Container fluid>
         <Grid
@@ -51,9 +62,9 @@ const Landing = () => {
               <Modal
                 basic
                 dimmer="inverted"
-                onClose={() => setOpenRegister(false)}
-                onOpen={() => setOpenRegister(true)}
-                open={openRegister}
+                onClose={() => setOpenCreateProfile(false)}
+                onOpen={() => setOpenCreateProfile(true)}
+                open={openCreateProfile}
                 trigger={
                   <Button
                     style={{ color: "white", backgroundColor: "#A73349" }}
@@ -64,7 +75,7 @@ const Landing = () => {
                 size="tiny"
                 className="responsive"
               >
-                <StudentForm />
+                <StudentForm dataCallback={handleProfileCallback}/>
                 {/* <Modal.Actions className="responsive">
                   <Button
                     color="black"
@@ -110,7 +121,7 @@ const Landing = () => {
                       size="tiny"
                       className="responsive"
                     >
-                      <JobPosting />
+                      <JobPosting dataCallback={handleJobCallback}/>
                       {/* <Modal.Actions className="responsive">
                         <Button
                           color="black"
