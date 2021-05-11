@@ -129,12 +129,16 @@ const StudentForm = () => {
     courseWork: coursework,
     courseWorkRating: 0,
     workexp: workExperience,
-    jobapps: 0,
+    // jobapps: 0,
     // resume: resume,
   };
 
   const handleYear = (e, { value }) => {
     setAcademicYear(value);
+  };
+
+  const handleRace = (e, { value }) => {
+    setRace(value);
   };
 
   const addCourse = (e, { value }) => {
@@ -195,6 +199,9 @@ const StudentForm = () => {
 
   const createProfile = () => {
     // console.log("Sending profile to backend: ", profile);
+    console.log("FRONTEND: race: ", profile.race);
+    console.log("FRONTEND: Work: ", profile.workexp);
+
     Axios.post("http://localhost:6480/newprofile", { profile }).then(
       (response) => {
         console.log(response.data);
@@ -319,15 +326,13 @@ const StudentForm = () => {
               <Form.Input>
                 <Dropdown
                   clearable
-                  fluid
-                  options={races}
-                  selection
-                  item
                   placeholder="Select Race "
+                  fluid
+                  selection
+                  options={races}
+                  item
                   value={race}
-                  onChange={(e) => {
-                    setRace(e.target.value);
-                  }}
+                  onChange={handleRace}
                 />
               </Form.Input>
               <Form.Group widths="equal">
@@ -426,7 +431,7 @@ const StudentForm = () => {
                 <Segment>
                   <Form.Input
                     fluid
-                    name="workExpTitle"
+                    name="title"
                     label="Title"
                     value={workExperience.title}
                     placeholder="Administrative Clerk"
@@ -434,7 +439,7 @@ const StudentForm = () => {
                   ></Form.Input>
                   <Form.TextArea
                     fluid
-                    name="workExpDesc"
+                    name="description"
                     label=" Description"
                     value={workExperience.description}
                     placeholder="Performed clerical duties, scheduled events. . ."

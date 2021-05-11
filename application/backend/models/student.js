@@ -104,34 +104,36 @@ StudentModel.find = (textValue, optionsValue) => {
 // create a new student profile - registration
 StudentModel.createProfile = (stdtattrib, results) => {
   console.log("Inside StudentModel: ", stdtattrib);
+  console.log("STUDENT - WORK EXP: ", stdtattrib.workexp);
   
   // build inser arrays/sql statements
   // for skills
-    var skillrec = [][];
+    var skillrec = [[],[]];
     var sqlstm = " ";
-    for (let i = 0; i < studentattrib.userskill.length, i++) {
-          skillrec[i] = [studentattrib.userskill[i], studentattrib.userID];
-          sqlstm = sqlstm + " INSERT INTO studentSkills (userSkill, userID)  VALUES(" + studentattrib.userskill[i] ", " + studentattrib.userID + "); "
+    for (let i = 0; i < stdtattrib.userskill.length; i++) {
+          skillrec[i] = [stdtattrib.userskill[i], stdtattrib.userID];
+          sqlstm = sqlstm + " INSERT INTO studentSkills (userSkill, userID)  VALUES(" + stdtattrib.userskill[i] + ", " + stdtattrib.userID + "); "
     }
     console.log("skill record is: ", skillrec);
     console.log("sql statement for skills is: ",  sqlstm);
 
     // for coursework
-    var courserec = [][];
+    var courserec = [[],[]];
     var sqlstmc = " ";
-    for (let i = 0; i < studentattrib.courseWork.length, i++) {
-          courserec[i] = [studentattrib.courseWork[i], studentattrib.userID];
-          sqlstmc = sqlstmc + " INSERT INTO studentCoursework (coursework,  userID)  VALUES(" + studentattrib.courseWork[i] ", " + studentattrib.userID + "); "
+    for (let i = 0; i < stdtattrib.courseWork.length; i++) {
+          courserec[i] = [stdtattrib.courseWork[i], stdtattrib.userID];
+          sqlstmc = sqlstmc + " INSERT INTO studentCoursework (coursework,  userID)  VALUES(" + stdtattrib.courseWork[i] + ", " + stdtattrib.userID + "); "
     }
     console.log("course record is: ", courserec);
     console.log("sql statement for courses is: ",  sqlstmc);
 
     // for workexperience
-    var workrec = [][];
+    var workrec = [[],[]];
     var sqlstmw = " ";
-    for (let i = 0; i < studentattrib.workexp.length, i++) {
-          courserec[i] = [studentattrib.workexp[i].title, stdtattrib.workexp[i].description, studentattrib.userID];
-          sqlstmw = sqlstmw + " INSERT INTO studentWorkExp (workExpTitle, workExpDesc, userID)   VALUES(" + studentattrib.workexp[i].title ", " +  stdtattrib.workexp[i].description + ", " studentattrib.userID + "); "
+    for (let i = 0; i < stdtattrib.workexp.length; i++) {
+      console.log("STD MODEL: WORK EXP: ", stdtattrib.workexp[i].title, stdtattrib.workexp[i].description)
+          workrec[i] = [stdtattrib.workexp[i].title, stdtattrib.workexp[i].description, stdtattrib.userID];
+          sqlstmw = sqlstmw + " INSERT INTO studentWorkExp (workExpTitle, workExpDesc, userID)   VALUES(" + stdtattrib.workexp[i].title + ", " +  stdtattrib.workexp[i].description + ", " + stdtattrib.userID + "); "
     }
     console.log("work record is: ", workrec);
     console.log("sql statement for work exp is: ", sqlstmw);
@@ -161,7 +163,7 @@ StudentModel.createProfile = (stdtattrib, results) => {
         return;
       } else {
         console.log(res);
-        results(...results, { ...res });
+        // results(...results, { ...res });
       }
     }
   );
@@ -179,7 +181,7 @@ StudentModel.createProfile = (stdtattrib, results) => {
         return;
       } else {
         console.log(res);
-        results(...results, { ...res });
+        // results(...results, { ...res });
       }
     }
   );
@@ -197,7 +199,7 @@ StudentModel.createProfile = (stdtattrib, results) => {
         return;
       } else {
         console.log(res);
-        results(...results, { ...res });
+        // results(...results, { ...res });
       }
     }
   );
@@ -215,11 +217,10 @@ StudentModel.createProfile = (stdtattrib, results) => {
         return;
       } else {
         console.log(res[0]);
-        results(...results, { ...res });
+        // results(...results, { ...res });
         return;
       }
-    }
-  );
+    });
   console.log(results);
 };
 
@@ -261,7 +262,7 @@ StudentModel.updateProfile = (stdtattrib, results) => {
         return;
       } else {
         console.log(res[0]);
-        results(...results, { ...res });
+        // results(...results, { ...res });
         return;
       }
     }

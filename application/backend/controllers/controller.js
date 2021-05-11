@@ -39,6 +39,7 @@ exports.newStudentProfile = (req, res) => {
     res.status(400).send({ message: "Content can not be empty!" });
   }
   console.log("CONTROLLER: About to create student object with: ", req.body);
+  console.log("Work exp request: ", req.body.profile.workexp[0].title, req.body.profile.workexp[0].description)
 
   // student data object
   const student = new StudentModel({
@@ -56,7 +57,7 @@ exports.newStudentProfile = (req, res) => {
     //skillRating: req.body.profile.skillRating,
     courseWork: req.body.profile.courseWork,
     //courseWorkRating: req.body.profile.courseWorkRating,
-    workexp: req.body.profile.workTitle,
+    workexp: req.body.profile.workexp,
     //workTitle: req.body.profile.workTitle,
     //workDescription: req.body.profile.workDescription,
     //jobapps: req.body.profile.jobapps,
