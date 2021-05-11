@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import CreatableSelect from "react-select/creatable";
 import { useParams } from "react-router-dom";
 import Axios from "axios";
@@ -87,12 +87,15 @@ const StudentDashboard = () => {
   const [openDemographics, setOpenDemographics] = useState(false);
 
   // Student Information
-  const [graduationDate, setGraduationDate] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("")
+  const [lastName, setLastName] = useState("");
+  const [gradDate, setGradDate] = useState("");
   const [major, setMajor] = useState("");
-  const [academicYear, setAcademicYear] = useState("");
-  const [course, setCourse] = useState("");
-  const [courseWork, setCourseWork] = useState("");
-  const courseRating = 0;
+  const [academicStanding, setAcademicStanding] = useState("");
+  // courseWork contains an array of all courseWork objects formatted as {corseworkRating, coursework, studentCwId, userID}
+  const [courseWork, setCourseWork] = useState([]);
+  const [aboutMe, setAboutMe] = useState(null);
 
   // Demographics
   const [gender, setGender] = useState("");
@@ -101,16 +104,16 @@ const StudentDashboard = () => {
   const [ethnicity, setEthnicity] = useState("");
 
   // Veteran Status
-  const [veteran, setVeteran] = useState("");
-  const [militaryCode, setMilitaryCode] = useState("");
+  const [veteran, setVeteran] = useState(null);
+  const [militaryCode, setMilitaryCode] = useState(null);
 
   // Resume Information
   const [about, setAbout] = useState("");
   const [skill, setSkill] = useState("");
-  const [skills, setSkills] = useState("");
-  const [workExperience, setWorkExperience] = useState([
-    { title: "", description: "" },
-  ]);
+  // skills contains an array of all skill objects formatted as {studentSkillID, userID, userSkill, userSkillRating}
+  const [skills, setSkills] = useState([]);
+  // workExperience contains an array of all work experiences formatted as {workExpTitle, workExpDesc}
+  const [workExperience, setWorkExperience] = useState([]);
 
 
   const createOption = (label) => ({
@@ -122,20 +125,34 @@ const StudentDashboard = () => {
   // const about = "This is the description of about me.";
   // const skillsObj = "Skill 1, Skill 2, Skill 3";
 
-  const student = {
-    firstName: "Bera",
-    middleName: "Hasan",
-    lastName: "Coskun",
-    major: "Computer Science",
-    academicStanding: "Junior",
-  };
-
   useEffect(() => {
     // http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/student/profile
     Axios.get("http://localhost:6480/student/profile", {
       params: { userID: id },
     }).then((response) => {
       console.log("Server Responded With: ", response.data);
+      // from user tabel: 
+      setFirstName(response.data.user[0].firstName);
+      setMiddleName(response.data.user[0].middleName);
+      setLastName(response.data.user[0].lastName);
+      // from userAttributes table: 
+      setGradDate(response.data.userAttributes[0].gradDate);
+      setAcademicStanding(response.data.userAttributes[0].academicStanding);
+      setMajor(response.data.userAttributes[0].major);
+      setAboutMe(response.data.userAttributes[0].aboutMe);
+      // from studentCoursework table:
+      setCourseWork(response.data.studentCoursework);
+      // from studentSkills table:
+      setSkills(response.data.studentSkills);
+      // from studentDemo table:
+      setGender(response.data.studentDemo[0].gender);
+      setAge(response.data.studentDemo[0].age);
+      setRace(response.data.studentDemo[0].race);
+      setEthnicity(response.data.studentDemo[0].ethnicity);
+      setVeteran(response.data.studentDemo[0].veteran);
+      setMilitaryCode(response.data.studentDemo[0].militaryCode);
+      // from studentWorkExp table:
+      setWorkExperience(response.data.studentWorkExp);
     });
   }, []);
 
@@ -150,41 +167,41 @@ const StudentDashboard = () => {
   const postMedia = () => {
     console.log("Media Posted");
   };
-  const handleChange = (field, value) => {
-    switch (field) {
-      case "skills":
-        setSkills(value);
-        break;
-  };
-};
+  // const handleChange = (field, value) => {
+  //   switch (field) {
+  //     case "skills":
+  //       setSkills(value);
+  //       break;
+  //   };
+  // };
 
-  const handleInputChange = (field, value) => {
-    switch (field) {
-      case "skills":
-        setSkill(value);
-        break;
+  // const handleInputChange = (field, value) => {
+  //   switch (field) {
+  //     case "skills":
+  //       setSkill(value);
+  //       break;
 
-    }
-  };
+  //   }
+  // };
 
-  const addSkill = (e) => {
-    if (!skill) return;
+  // const addSkill = (e) => {
+  //   if (!skill) return;
 
-    switch (e.key) {
-      case "Enter":
-      case "Tab":
-        setSkills([...skills, createOption(skill)]);
-        setSkill("");
-        e.preventDefault();
-        break;
-      default:
-        break;
-    }
-  };
-  const handleWork = (index, e) => {
+  //   switch (e.key) {
+  //     case "Enter":
+  //     case "Tab":
+  //       setSkills([...skills, createOption(skill)]);
+  //       setSkill("");
+  //       e.preventDefault();
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
+  const handleWork = (e) => {
     const values = [...workExperience];
-    values[index][e.target.name] = e.target.value;
-    setWorkExperience(values);
+    // values[index][e.target.name] = e.target.value;
+    // setWorkExperience(values);
   };
 
   const removeWork = (index) => {
@@ -212,42 +229,38 @@ const StudentDashboard = () => {
                   <Image circular size="small" src={bera} />
                 </div>
                 <Card.Header>
-                  {student.firstName} {student.middleName} {student.lastName}
+                  {firstName} {middleName} {lastName}
                 </Card.Header>
-                <Card.Meta>{student.major}</Card.Meta>
-                <Card.Description>{student.graduationDate}</Card.Description>
+                <Card.Meta>{major}</Card.Meta>
+                <Card.Description>{gradDate}</Card.Description>
               </Card.Content>
               <Card.Content extra>
                 <Icon name="graduation cap" />
-                {student.academicStanding}
+                {academicStanding}
               </Card.Content>
             </Card>
 
             <Grid.Row>
-              <Segment size="big" textAlign="center" style={segment}>
-                <Label
+              <Segment textAlign="center" style={segment}>
+                {/* <Label
                   style={{ color: "white", backgroundColor: "#766495" }}
-                  size="huge"
+                  size="big"
                   attached="top"
                 >
                   Coursework
-                </Label>
+                </Label> */}
+                <Header as='h2' size="large" textAlign="center">
+                  CourseWork
+                  <Icon ></Icon>
+                </Header>
                 <List size="large" divided className="responsive">
-                  <List.Item>
-                    <a>
-                      Course 1 <Rating default={0} maxRating={5} disabled />
-                    </a>
-                  </List.Item>
-                  <List.Item>
-                    <a>
-                      Course 2 <Rating default={0} maxRating={5} disabled />
-                    </a>
-                  </List.Item>
-                  <List.Item>
-                    <a>
-                      Course 3 <Rating default={0} maxRating={5} disabled />
-                    </a>
-                  </List.Item>
+                  {courseWork.map(item => (
+                    <List.Item>
+                      <a>
+                        {item.coursework} <Rating defaultRating={item.corseworkRating} maxRating={5} disabled />
+                      </a>
+                    </List.Item>
+                  ))}
                 </List>
                 <Modal
                   basic
@@ -280,177 +293,186 @@ const StudentDashboard = () => {
 
           <Grid.Column width={10}>
             <Grid columns={3}>
-            <Grid.Column stretched>
+              <Grid.Column stretched>
                 <Segment style={segment}>
-                  <Label attached="top" style={studentStyle} size="huge">
+                  {/* <Label attached="top" style={studentStyle} size="huge">
                     About Me
-                  </Label>
-                  <Segment padded>
-                    {about}
-                    <Modal
-                      basic
-                      dimmer="inverted"
-                      onClose={() => setOpenAbout(false)}
-                      onOpen={() => setOpenAbout(true)}
-                      open={openAbout}
-                      trigger={
-                        <Label as="a" corner="right" icon="edit"></Label>
-                      }
-                      size="tiny"
-                      className="responsive"
-                    >
-                      <Segment>
-                        <Form>
-                          <Form.TextArea defaultValue={about}></Form.TextArea>
-                        </Form>
-                      </Segment>
-                    </Modal>
-                  </Segment>
+                  </Label> */}
+                  <Header as='h2' size="large" textAlign="center">
+                    About Me
+                  </Header>
+                  {aboutMe}
+                  <Modal
+                    basic
+                    dimmer="inverted"
+                    onClose={() => setOpenAbout(false)}
+                    onOpen={() => setOpenAbout(true)}
+                    open={openAbout}
+                    trigger={
+                      <Label as="a" corner="right" icon="edit"></Label>
+                    }
+                    size="tiny"
+                    className="responsive"
+                  >
+                    <Segment>
+                      <Form>
+                        <Form.TextArea defaultValue={about}></Form.TextArea>
+                      </Form>
+                    </Segment>
+                  </Modal>
                 </Segment>
               </Grid.Column>
               <Grid.Column stretched>
-                <Segment padded="very" style={segment}>
-                  <Label style={studentStyle} size="huge" attached="top">
-                    skillsObj
-                  </Label>
-                  <Segment padded="very">
-                    <Label as="a" corner="right" icon="edit"></Label>
-                    {skills}
-                    <Modal
-                      basic
-                      dimmer="inverted"
-                      onClose={() => setOpenSkills(false)}
-                      onOpen={() => setOpenSkills(true)}
-                      open={openSkills}
-                      trigger={
-                        <Label as="a" corner="right" icon="edit"></Label>
-                      }
-                      size="tiny"
-                      className="responsive"
-                    >
-                      <Segment>
-                        <Form>
-                          <Form.TextArea
-                            defaultValue={skills}
-                          ></Form.TextArea>
-                        </Form>
-                      </Segment>
-                    </Modal>
-                  </Segment>
+                <Segment padded="very" style={segment} textAlign="center">
+                  {/* <Label style={studentStyle} size="huge" attached="top">
+                    Skills
+                  </Label> */}
+                  <Header as='h2' size="large" textAlign="center">
+                    Skills
+                  </Header>
+                  <List divided vertical size="large">
+                    {skills.map(item => (
+                      <List.Item>
+                        {item.userSkill} <Rating defaultRating={3} maxRating={5} disabled />
+                      </List.Item>
+                    ))}
+                  </List>
                 </Segment>
               </Grid.Column>
               <Grid.Column stretched>
-              <Segment style={segment}>
-                  <Label style={studentStyle} size="huge" attached="top">
+                <Segment style={segment} textAlign="center">
+                  {/* <Label style={studentStyle} size="huge" attached="top">
                     Demographics
-                  </Label>
-                  <Segment padded="very">
-                    <Label as="a" corner="right" icon="edit"></Label>
-                    {skills}
-                    <Modal
-                      basic
-                      dimmer="inverted"
-                      onClose={() => setOpenDemographics(false)}
-                      onOpen={() => setOpenDemographics(true)}
-                      open={openDemographics}
-                      trigger={
-                        <Label as="a" corner="right" icon="edit"></Label>
-                      }
-                      size="tiny"
-                      className="responsive"
-                    >
-                      <Segment>
-                        <Form>
+                  </Label> */}
+                  <Header as='h2' size="large" textAlign="center">
+                    Demographics
+                  </Header>
+                  {/* <Segment padded="very"> */}
+                  {/* <Label as="a" corner="right" icon="edit"></Label> */}
+                  <List divided vertical size="large">
+                    {gender != "" && <List.Item>
+                      <b>Gender: </b> {gender}
+                    </List.Item>}
+                    {age && <List.Item>
+                      <b>Age: </b> {age}
+                    </List.Item>}
+                    {race != "" && <List.Item>
+                      <b>Race: </b> {race}
+                    </List.Item>}
+                    {ethnicity != "" && <List.Item>
+                      <b>Ethnicity: </b> {ethnicity}
+                    </List.Item>}
+                    {veteran != null && <List.Item>
+                      <b>Veteran: </b> {veteran}
+                    </List.Item>}
+                    {militaryCode != null && <List.Item>
+                      <b>Military Code: </b> {militaryCode}
+                    </List.Item>}
+                  </List>
+                  <Modal
+                    basic
+                    dimmer="inverted"
+                    onClose={() => setOpenDemographics(false)}
+                    onOpen={() => setOpenDemographics(true)}
+                    open={openDemographics}
+                    trigger={
+                      <Label as="a" corner="right" icon="edit"></Label>
+                    }
+                    size="tiny"
+                    className="responsive"
+                  >
+                    <Segment>
+                      <Form>
                         <Container style={container}>
-              <Form.Input>
-                <Input
-                  fluid
-                  label={{ basic: true, content: "Ethnicity" }}
-                  type="text"
-                  labelPosition="left"
-                  placeholder="Salvadorian. . ."
-                  value={ethnicity}
-                  onChange={(e) => {
-                    setEthnicity(e.target.value);
-                  }}
-                />
-              </Form.Input>
-              <Form.Input>
-                <Dropdown
-                  clearable
-                  fluid
-                  options={races}
-                  selection
-                  item
-                  placeholder="Select Race "
-                  value={race}
-                  onChange={(e) => {
-                    setRace(e.target.value);
-                  }}
-                />
-              </Form.Input>
-              {/* </Form.Group> */}
-              {/* <Form.Group widths="equal"> */}
-              <Form.Input>
-                <Input
-                  fluid
-                  label={{ basic: true, content: "Age" }}
-                  type="text"
-                  labelPosition="left"
-                  value={age}
-                  onChange={(e) => {
-                    setAge(e.target.value);
-                  }}
-                />
-              </Form.Input>
-              <Form.Input>
-                <Input
-                  fluid
-                  label={{ basic: true, content: "Gender" }}
-                  type="text"
-                  labelPosition="left"
-                  value={gender}
-                  onChange={(e) => {
-                    setGender(e.target.value);
-                  }}
-                />
-              </Form.Input>
-              {/* </Form.Group> */}
-              <Header as="h5">Veteran</Header>
-              {/* <Form.Group widths="equal"> */}
-              <Form.Input>
-                <Dropdown
-                  clearable
-                  fluid
-                  options={branches}
-                  selection
-                  item
-                  placeholder="Select Military Branch "
-                  value={veteran}
-                  onChange={(e) => {
-                    setVeteran(e.target.value);
-                  }}
-                />
-              </Form.Input>
-              <Form.Input>
-                <Input
-                  fluid
-                  label={{ basic: true, content: "Military Code" }}
-                  labelPosition="left"
-                  placeholder="Enter Code"
-                  type="text"
-                  value={militaryCode}
-                  onChange={(e) => {
-                    setMilitaryCode(e.target.value);
-                  }}
-                />
-              </Form.Input>
-              {/* </Form.Group> */}
-            </Container>
-                        </Form>
-                      </Segment>
-                    </Modal>
-                  </Segment>
+                          <Form.Input>
+                            <Input
+                              fluid
+                              label={{ basic: true, content: "Ethnicity" }}
+                              type="text"
+                              labelPosition="left"
+                              placeholder="Salvadorian. . ."
+                              value={ethnicity}
+                              onChange={(e) => {
+                                setEthnicity(e.target.value);
+                              }}
+                            />
+                          </Form.Input>
+                          <Form.Input>
+                            <Dropdown
+                              clearable
+                              fluid
+                              options={races}
+                              selection
+                              item
+                              placeholder="Select Race "
+                              value={race}
+                              onChange={(e) => {
+                                setRace(e.target.value);
+                              }}
+                            />
+                          </Form.Input>
+                          {/* </Form.Group> */}
+                          {/* <Form.Group widths="equal"> */}
+                          <Form.Input>
+                            <Input
+                              fluid
+                              label={{ basic: true, content: "Age" }}
+                              type="text"
+                              labelPosition="left"
+                              value={age}
+                              onChange={(e) => {
+                                setAge(e.target.value);
+                              }}
+                            />
+                          </Form.Input>
+                          <Form.Input>
+                            <Input
+                              fluid
+                              label={{ basic: true, content: "Gender" }}
+                              type="text"
+                              labelPosition="left"
+                              value={gender}
+                              onChange={(e) => {
+                                setGender(e.target.value);
+                              }}
+                            />
+                          </Form.Input>
+                          {/* </Form.Group> */}
+                          <Header as="h5">Veteran</Header>
+                          {/* <Form.Group widths="equal"> */}
+                          <Form.Input>
+                            <Dropdown
+                              clearable
+                              fluid
+                              options={branches}
+                              selection
+                              item
+                              placeholder="Select Military Branch "
+                              value={veteran}
+                              onChange={(e) => {
+                                setVeteran(e.target.value);
+                              }}
+                            />
+                          </Form.Input>
+                          <Form.Input>
+                            <Input
+                              fluid
+                              label={{ basic: true, content: "Military Code" }}
+                              labelPosition="left"
+                              placeholder="Enter Code"
+                              type="text"
+                              value={militaryCode}
+                              onChange={(e) => {
+                                setMilitaryCode(e.target.value);
+                              }}
+                            />
+                          </Form.Input>
+                          {/* </Form.Group> */}
+                        </Container>
+                      </Form>
+                    </Segment>
+                  </Modal>
+                  {/* </Segment> */}
                 </Segment>
               </Grid.Column>
 
@@ -459,85 +481,98 @@ const StudentDashboard = () => {
             <Grid columns={2} widths="equal" stretched>
               <Grid.Column stretched>
                 <Segment padded="very" style={segment}>
-                  <Label style={studentStyle} size="huge" attached="top">
+                  {/* <Label style={studentStyle} size="huge" attached="top">
                     Work Experience
-                  </Label>
-                  <Segment padded="very">
-                    <Label as="a" corner="right" icon="edit"></Label>
-                    {workExperience.workExpTitle}
-                    <Modal
-                      basic
-                      dimmer="inverted"
-                      onClose={() => setOpenWork(false)}
-                      onOpen={() => setOpenWork(true)}
-                      open={openWork}
-                      trigger={
-                        <Label as="a" corner="right" icon="edit"></Label>
-                      }
-                      size="tiny"
-                      className="responsive"
-                    >
-                      <Segment style={segment}>
-                        <Form>
-                          <CreatableSelect
-                            isClearable
-                            isMulti
-                            components={{ DropdownIndicator: null }}
-                            inputValue={workExperience}
-                            menuIsOpen={false}
-                            onChange={(value) =>
-                              handleChange("experience", value)
-                            }
-                            placeholder="Physics II, Calculus I . . ."
-                            onKeyDown={addWork}
-                            onInputChange={(value) =>
-                              handleInputChange("experience", value)
-                            }
-                            value={workExperience}
-                          />
-                        </Form>
+                  </Label> */}
+                  <Header as='h2' size="large" textAlign="center">
+                    Work Experience
+                  </Header>
+                  <Card.Group centered>
+                    {workExperience.map(item => (
+                      <Card header={item.workExpTitle} description={item.workExpDesc} />
+                    ))}
+                  </Card.Group>
+                  <Label as="a" corner="right" icon="edit"></Label>
+                  {workExperience.workExpTitle}
+                  <Modal
+                    basic
+                    dimmer="inverted"
+                    onClose={() => setOpenWork(false)}
+                    onOpen={() => setOpenWork(true)}
+                    open={openWork}
+                    trigger={
+                      <Label as="a" corner="right" icon="edit"></Label>
+                    }
+                    size="tiny"
+                    className="responsive"
+                  >
+                    <div style={{ padding: "1vh" }}>
+                      <Segment>
+                        <Card.Group centered>
+                          {workExperience.map((item, index) => (
+                              <Card>
+                                <Card.Header>
+                                  <Header>{item.workExpTitle}</Header>
+                                </Card.Header>
+                                <Card.Description>
+                                  {item.workExpDesc}
+                                </Card.Description>
+                                <Card.Content extra>
+                                  <Button basic color="red" onClick={() => removeWork(index)}>
+                                    Remove
+                                  </Button>
+                                </Card.Content>
+                              </Card>
+                          ))}
+                        </Card.Group>
+                        <Form.Input
+                          fluid
+                          name="workExpTitle"
+                          label="Title"
+                          value=""
+                          placeholder="Administrative Clerk"
+                          onChange={(e) => handleWork(e)}
+                        ></Form.Input>
+                        <Form.TextArea
+                          fluid
+                          name="workExpDesc"
+                          label=" Description"
+                          value=""
+                          placeholder="Performed clerical duties, scheduled events. . ."
+                          onChange={(e) => handleWork(e)}
+                        ></Form.TextArea>
+                        <div className="responsive">
+                        </div>
+                        <div className="responsive" style={{ padding: "2vh" }}>
+                          <Label icon="add" as="a" onClick={addWork}>
+                            Add Work
+                      </Label>
+                        </div>
                       </Segment>
-                    </Modal>
-                  </Segment>
+                    </div>
+
+                    {/* <Segment style={segment}>
+                      <Form>
+                        <CreatableSelect
+                          isClearable
+                          isMulti
+                          components={{ DropdownIndicator: null }}
+                          inputValue={workExperience}
+                          menuIsOpen={false}
+                          // onChange={(value) =>
+                          //   handleChange("experience", value)
+                          // }
+                          placeholder="Physics II, Calculus I . . ."
+                          onKeyDown={addWork}
+                          // onInputChange={(value) =>
+                          //   handleInputChange("experience", value)
+                          // }
+                          value={workExperience}
+                        />
+                      </Form>
+                    </Segment> */}
+                  </Modal>
                 </Segment>
-              </Grid.Column>
-              <Grid.Column stretched>
-              {workExperience.map((inputField, index) => (
-              <div style={{ padding: "1vh" }}>
-                <Segment>
-                  <Form.Input
-                    fluid
-                    name="workExpTitle"
-                    label="Title"
-                    value={workExperience.workExpTitle}
-                    placeholder="Administrative Clerk"
-                    onChange={(e) => handleWork(index, e)}
-                  ></Form.Input>
-                  <Form.TextArea
-                    fluid
-                    name="workExpDesc"
-                    label=" Description"
-                    value={workExperience.workExpDesc}
-                    placeholder="Performed clerical duties, scheduled events. . ."
-                    onChange={(e) => handleWork(index, e)}
-                  ></Form.TextArea>
-                  <div className="responsive">
-                    <Label
-                      as="a"
-                      size="mini"
-                      icon="remove"
-                      corner="right"
-                      onClick={() => removeWork(index)}
-                    />
-                  </div>
-                </Segment>
-              </div>
-            ))}
-            <div className="responsive" style={{ padding: "2vh" }}>
-              <Label icon="add" as="a" onClick={addWork}>
-                Add Work
-              </Label>
-            </div>
               </Grid.Column>
             </Grid>
             <Segment

@@ -10,8 +10,8 @@ const SearchPanel = (props) => {
     
     const { dataCallback } = props;
     // The following states only store values inputed into the text boxes.
-    const [majorValue, setMajorValue] = useState();
-    const [textValue, setTextValue] = useState();
+    const [majorValue, setMajorValue] = useState("");
+    const [textValue, setTextValue] = useState("");
 
     // Selectors:
     const majorItems = useSelector(state => state.searchStudent.majors);
