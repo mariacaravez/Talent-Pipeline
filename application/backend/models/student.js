@@ -18,9 +18,9 @@ const StudentModel = function (attribValues) {
   this.militaryCode = attribValues.militaryCode;
   this.ethnicity = attribValues.ethnicity;
   this.userskill = attribValues.userskill;
-  this.skillRating = attribValues.skillRating;
+  //this.skillRating = attribValues.skillRating;
   this.courseWork = attribValues.courseWork;
-  this.courseWorkRating = attribValues.courseWorkRating;
+  //this.courseWorkRating = attribValues.courseWorkRating;
   this.workexp = attribValues.workexp;
   this.resume = attribValues.resume;
 };
@@ -104,16 +104,41 @@ StudentModel.find = (textValue, optionsValue) => {
 // create a new student profile - registration
 StudentModel.createProfile = (stdtattrib, results) => {
   console.log("Inside StudentModel: ", stdtattrib);
-  db.query(
-    "INSERT INTO userAttributes (gradDate, academicStanding, major, userID, resume)  VALUES(?,?,?,?,?)",
-    [
-      stdtattrib.graduationDate,
-      stdtattrib.academicStanding,
-      stdtattrib.major,
-      stdtattrib.userID,
-      stdtattrib.resume,
-    ],
-    (err, res) => {
+  
+  // build inser arrays/sql statements
+  // for skills
+    var skillrec = [][];
+    var sqlstm = " ";
+    for (let i = 0; i < studentattrib.userskill.length, i++) {
+          skillrec[i] = [studentattrib.userskill[i], studentattrib.userID];
+          sqlstm = sqlstm + " INSERT INTO studentSkills (userSkill, userID)  VALUES(" + studentattrib.userskill[i] ", " + studentattrib.userID + "); "
+    }
+    console.log("skill record is: ", skillrec);
+    console.log("sql statement for skills is: ",  sqlstm);
+
+    // for coursework
+    var courserec = [][];
+    var sqlstmc = " ";
+    for (let i = 0; i < studentattrib.courseWork.length, i++) {
+          courserec[i] = [studentattrib.courseWork[i], studentattrib.userID];
+          sqlstmc = sqlstmc + " INSERT INTO studentCoursework (coursework,  userID)  VALUES(" + studentattrib.courseWork[i] ", " + studentattrib.userID + "); "
+    }
+    console.log("course record is: ", courserec);
+    console.log("sql statement for courses is: ",  sqlstmc);
+
+    // for workexperience
+    var workrec = [][];
+    var sqlstmw = " ";
+    for (let i = 0; i < studentattrib.workexp.length, i++) {
+          courserec[i] = [studentattrib.workexp[i].title, stdtattrib.workexp[i].description, studentattrib.userID];
+          sqlstmw = sqlstmw + " INSERT INTO studentWorkExp (workExpTitle, workExpDesc, userID)   VALUES(" + studentattrib.workexp[i].title ", " +  stdtattrib.workexp[i].description + ", " studentattrib.userID + "); "
+    }
+    console.log("work record is: ", workrec);
+    console.log("sql statement for work exp is: ", sqlstmw);
+
+// start inserts 
+  db.query("INSERT INTO userAttributes (gradDate, academicStanding, major, userID, resume)  VALUES(?,?,?,?,?)",
+                   [stdtattrib.graduationDate,  stdtattrib.academicStanding, stdtattrib.major, stdtattrib.userID,  stdtattrib.resume], (err, res) => {
       if (err) {
         console.log(err);
         results(err, null);
@@ -128,18 +153,8 @@ StudentModel.createProfile = (stdtattrib, results) => {
   // console.log(results);
 
   // insert student demo data
-  db.query(
-    "INSERT INTO studentDemo (userID, gender, age, race, ethnicity, veteran, militaryCode)  VALUES(?,?,?,?,?,?,?)",
-    [
-      stdtattrib.userID,
-      stdtattrib.gender,
-      stdtattrib.age,
-      stdtattrib.race,
-      stdtattrib.ethnicity,
-      stdtattrib.veteran,
-      stdtattrib.militaryCode,
-    ],
-    (err, res) => {
+  db.query("INSERT INTO studentDemo (userID, gender, age, race, ethnicity, veteran, militaryCode)  VALUES(?,?,?,?,?,?,?)",
+                  [stdtattrib.userID, stdtattrib.gender, stdtattrib.age, stdtattrib.race, stdtattrib.ethnicity, stdtattrib.veteran, stdtattrib.militaryCode], (err, res) => {
       if (err) {
         console.log(err);
         results(err, null);
@@ -153,10 +168,11 @@ StudentModel.createProfile = (stdtattrib, results) => {
   // console.log(results);
 
   // insert course work
-  db.query(
-    "INSERT INTO studentCoursework (coursework, courseworkRating, userID)  VALUES(?,?,?,?,?,?)",
-    [stdtattrib.coursework, stdtattrib.courseworkRating, stdtattrib.userID],
-    (err, res) => {
+  // db.query("INSERT INTO studentCoursework (coursework, userID)  VALUES(?,?)", [stdtattrib.coursework, stdtattrib.userID], (err, res) => {
+
+// new form of query
+  //db.query(sqlstmc, (err, res) => {
+  db.query("INSERT INTO studentCoursework (coursework, userID)  VALUES ?", [courserec], (err, res) => {
       if (err) {
         console.log(err);
         results(err, null);
@@ -170,10 +186,11 @@ StudentModel.createProfile = (stdtattrib, results) => {
   // console.log(results);
 
   // insert student skills
-  db.query(
-    "INSERT INTO studentSkills (userSkill, userSkillRating, userID)  VALUES(?,?,?)",
-    [stdtattrib.userskill, stdtattrib.skillRating, stdtattrib.userID],
-    (err, res) => {
+  //db.query("INSERT INTO studentSkills (userSkill, userID)  VALUES(?,?)", [stdtattrib.userskill, stdtattrib.userID], (err, res) => {
+      
+// new query form
+  //db.query(sqlstm, (err, res) => {
+  db.query("INSERT INTO studentSkills (userSkill, userID)  VALUES ? ", [skillrec], (err, res) => {
       if (err) {
         console.log(err);
         results(err, null);
@@ -187,10 +204,11 @@ StudentModel.createProfile = (stdtattrib, results) => {
   // console.log(results);
 
   // insert student work experience
-  db.query(
-    "INSERT INTO studentWorkExp (workExpTitle, workExpDesc, userID) VALUES(?,?,?)",
-    [stdtattrib.workexp.workExpTitle, stdtattrib.workexp.workExpDesc, stdtattrib.userID],
-    (err, res) => {
+  // db.query("INSERT INTO studentWorkExp (workExpTitle, workExpDesc, userID) VALUES(?,?,?)",
+                  // [stdtattrib.workexp.workExpTitle, stdtattrib.workexp.workExpDesc, stdtattrib.userID], (err, res) => {
+ // new for of query
+  //db.query(sqlstmw, (err, res) => { 
+  db.query("INSERT INTO studentWorkExp (workExpTitle, workExpDesc, userID) VALUES ?", [workrec], (err, res) => {
       if (err) {
         console.log(err);
         results(err, null);

@@ -53,12 +53,13 @@ exports.newStudentProfile = (req, res) => {
     militaryCode: req.body.profile.militaryCode,
     ethnicity: req.body.profile.ethnicity,
     userskill: req.body.profile.userskill,
-    skillRating: req.body.profile.skillRating,
+    //skillRating: req.body.profile.skillRating,
     courseWork: req.body.profile.courseWork,
-    courseWorkRating: req.body.profile.courseWorkRating,
-    workTitle: req.body.profile.workTitle,
-    workDescription: req.body.profile.workDescription,
-    jobapps: req.body.profile.jobapps,
+    //courseWorkRating: req.body.profile.courseWorkRating,
+    workexp: req.body.profile.workTitle,
+    //workTitle: req.body.profile.workTitle,
+    //workDescription: req.body.profile.workDescription,
+    //jobapps: req.body.profile.jobapps,
     resume: req.body.profile.resume,
   });
   console.log("After object creation in controller: ", student);
@@ -67,9 +68,8 @@ exports.newStudentProfile = (req, res) => {
   StudentModel.createProfile(student, (err, data) => {
     console.log("In Controller - going into studentModel: ", student);
     if (err) {
-      res.status(500).send({
-        message: err.message || "error occured while creating student profile.",
-      });
+      //res.status(500).send({ message: err.message || "error occured while creating student profile.", });
+      console.log("error occured while creating student profile.", err.message)
     } else res.send(data);
   });
 
