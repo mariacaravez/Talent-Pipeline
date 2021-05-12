@@ -15,7 +15,7 @@ import {
 
 import maria from "../images/maria.jpg";
 import bera from "../images/bera.jpg";
-// import peter from "../images/bera.jpg";
+import peter from "../images/peter.JPG"
 import jeffrey from "../images/jeffrey.jpg";
 import jooyoung from "../images/jooyoung.jpg";
 
@@ -46,6 +46,18 @@ const OurTeam = () => {
               </div>
               <Card.Header as="h3">Bera Coskun</Card.Header>
               <Card.Meta>Front End Lead</Card.Meta>
+              <Card.Description>
+
+              </Card.Description>
+            </Card.Content>
+          </Card>
+          <Card>
+            <Card.Content>
+              <div style={{ padding: "2vh" }}>
+                <Image circular size="small" src={peter} />
+              </div>
+              <Card.Header as="h3">Peter Ijeoma</Card.Header>
+              <Card.Meta>Back End Lead</Card.Meta>
               <Card.Description>
 
               </Card.Description>

@@ -189,7 +189,7 @@ const StudentForm = (props) => {
   const createProfile = () => {
     // http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/newprofile
     // http://localhost:6480/newprofile
-    Axios.post("http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/newprofile", { profile }).then(
+    Axios.post("http://localhost:6480/newprofile", { profile }).then(
       (response) => {
         console.log(response.data);
       });

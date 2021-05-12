@@ -1,4 +1,5 @@
 import React from "react";
+import { Fragment } from "react";
 import {
   Grid,
   Image,
@@ -37,9 +38,9 @@ const panes = [
 
 const About = () => {
   return (
-    <div style={{ padding: "8vh" }}>
-      <Tab menu={{ color: "#E0B09D", secondary: true}} panes={panes} />
-    </div>
+    <Fragment>
+      <Tab style={{padding: "10vh"}} menu={{ color: "#E0B09D", secondary: true}} panes={panes} />
+    </Fragment>
   );
 };
 

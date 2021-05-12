@@ -19,14 +19,9 @@ function Search() {
   const [openSearchResults, setOpenSearchResults] = useState(false);
 
   const getSearch = () => {
-<<<<<<< HEAD
-    //http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/search/jobs
-    //http://localhost:6480/search/jobs
-=======
     // http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/search/jobs
     // http://localhost:6480/search/jobs
->>>>>>> ea4b6ac36c718bfd8cf8a96c67fb6e96a673a9a7
-    Axios.get("http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/search/jobs", {
+    Axios.get("http://localhost:6480/search/jobs", {
       params: { jobdesc: textValue },
     }).then((response) => {
       console.log(response.data);

@@ -30,7 +30,7 @@ import bera from "../images/bera.jpg";
 // Styles
 
 const segment = {
-  paddingTop: "8%",
+  paddingTop: "5%",
   borderRadius: "10px",
 };
 
@@ -128,7 +128,7 @@ const StudentDashboard = () => {
   useEffect(() => {
     // http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/student/profile
     // http://localhost:6480/student/profile
-    Axios.get("http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/student/profile", {
+    Axios.get("http://localhost:6480/student/profile", {
       params: { userID: id },
     }).then((response) => {
       console.log("Server Responded With: ", response.data);
@@ -224,6 +224,8 @@ const StudentDashboard = () => {
       <Container fluid className="responsive">
         <Grid centered columns={3} stackable>
           <Grid.Column stretched width={3} className="responsive">
+            <Grid.Row>
+
             <Card centered>
               <Card.Content>
                 <div style={{ padding: "2vh" }}>
@@ -240,8 +242,9 @@ const StudentDashboard = () => {
                 {academicStanding}
               </Card.Content>
             </Card>
+            </Grid.Row>
 
-            <Grid.Row>
+            {/* <Grid.Row stretched> */}
               <Segment textAlign="center" style={segment}>
                 {/* <Label
                   style={{ color: "white", backgroundColor: "#766495" }}
@@ -289,12 +292,12 @@ const StudentDashboard = () => {
                   </Modal.Actions>
                 </Modal>
               </Segment>
-            </Grid.Row>
+            {/* </Grid.Row> */}
           </Grid.Column>
 
           <Grid.Column width={10}>
-            <Grid columns={3}>
-              <Grid.Column stretched>
+            <Grid columns={2}>
+              <Grid.Column width={11} stretched>
                 <Segment style={segment}>
                   {/* <Label attached="top" style={studentStyle} size="huge">
                     About Me
@@ -302,7 +305,7 @@ const StudentDashboard = () => {
                   <Header as='h2' size="large" textAlign="center">
                     About Me
                   </Header>
-                  {aboutMe}
+                  <p style={{paddingLeft: "5%", paddingRight: "5%"}}>{aboutMe}</p>
                   <Modal
                     basic
                     dimmer="inverted"
@@ -323,24 +326,8 @@ const StudentDashboard = () => {
                   </Modal>
                 </Segment>
               </Grid.Column>
-              <Grid.Column stretched>
-                <Segment padded="very" style={segment} textAlign="center">
-                  {/* <Label style={studentStyle} size="huge" attached="top">
-                    Skills
-                  </Label> */}
-                  <Header as='h2' size="large" textAlign="center">
-                    Skills
-                  </Header>
-                  <List divided vertical size="large">
-                    {skills.map(item => (
-                      <List.Item>
-                        {item.userSkill} <Rating defaultRating={3} maxRating={5} disabled />
-                      </List.Item>
-                    ))}
-                  </List>
-                </Segment>
-              </Grid.Column>
-              <Grid.Column stretched>
+              <Grid.Column width={5} stretched>
+                
                 <Segment style={segment} textAlign="center">
                   {/* <Label style={studentStyle} size="huge" attached="top">
                     Demographics
@@ -479,8 +466,25 @@ const StudentDashboard = () => {
 
             </Grid>
 
-            <Grid columns={2} widths="equal" stretched>
-              <Grid.Column stretched>
+            <Grid columns={2}stretched>
+            <Grid.Column stretched width={5}>
+                <Segment padded="very" style={segment} textAlign="center">
+                  {/* <Label style={studentStyle} size="huge" attached="top">
+                    Skills
+                  </Label> */}
+                  <Header as='h2' size="large" textAlign="center">
+                    Skills
+                  </Header>
+                  <List divided vertical size="large">
+                    {skills.map(item => (
+                      <List.Item>
+                        {item.userSkill} <Rating defaultRating={3} maxRating={5} disabled />
+                      </List.Item>
+                    ))}
+                  </List>
+                </Segment>
+              </Grid.Column>
+              <Grid.Column stretched width={11}>
                 <Segment padded="very" style={segment}>
                   {/* <Label style={studentStyle} size="huge" attached="top">
                     Work Experience
@@ -623,21 +627,11 @@ const StudentDashboard = () => {
             </Segment>
           </Grid.Column>
           <Grid.Column width={2} stretched>
-            <Segment style={segment}>
-              <Label style={studentStyle} size="huge" attached="top">
-                Job Applications
-              </Label>
-              <List size="massive" divided className="responsive">
-                <List.Item>
-                  <a>Job 1</a>
-                </List.Item>
-                <List.Item>
-                  <a>Job 2</a>
-                </List.Item>
-                <List.Item>
-                  <a>Job 3</a>
-                </List.Item>
-              </List>
+            <Segment style={{padding: "10%", borderRadius:"10px"}}>
+            <Header as='h2' size="large" textAlign="center">
+                    Job Applications
+                  </Header>
+                  <Header.Content >Jobs you apply to will show here!</Header.Content>
             </Segment>
           </Grid.Column>
         </Grid>

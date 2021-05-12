@@ -6,17 +6,15 @@ import Axios from 'axios';
 import { authActions } from '../components/store/auth-slice';
 import { useDispatch } from 'react-redux';
 
-const Login = () => {
+const Login = (props) => {
+
+  const {studentUserID} = props;
+
   const dispatch = useDispatch();
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [currentUser, setCurrentUser] = useState();
   
-  if(currentUser){
-    return <div>{currentUser} is logged in</div>
-  }
-
   const user = {
     username: email,
     password: password
@@ -25,12 +23,14 @@ const Login = () => {
   const submitLogin = () =>{
     // http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/login
     // http://localhost:6480/login
-    Axios.post("http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/login", { user }).then(
+    Axios.post("http://localhost:6480/login", { user }).then(
       (response) => {
         console.log(response);
         console.log(response.data.userID);
         if(response.data.userID){
           dispatch(authActions.login({userID: response.data.userID}));
+          dispatch(authActions.login({userTypeID: response.data.userTypeID}));
+          dispatch(authActions.login({userName: response.data.email}))
         }
       }
     );
@@ -45,7 +45,7 @@ const Login = () => {
           </Label>
           <Form onSubmit={submitLogin}>
             <Form.Input>
-                <Input label={{basic: true, content: 'Email'}} type='email' labelPosition='left' placeholder='johndoe648@mail.sfsu.edu' value={email} onChange={(e) => {setEmail(e.target.value);}}/>  
+                <Input label={{basic: true, content: 'Username'}} type='email' labelPosition='left' value={email} placeholder="user@mail.com" onChange={(e) => {setEmail(e.target.value);}}/>  
               </Form.Input>
             <Form.Input >
                 <Input label={{basic: true, content: 'Password'}} type='password' labelPosition='left' value={password} onChange={(e) => {setPassword(e.target.value);}}/>  

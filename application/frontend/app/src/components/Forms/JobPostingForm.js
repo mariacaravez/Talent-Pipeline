@@ -88,7 +88,7 @@ const JobPosting = (props) => {
   const submitJobPost = () => {
     // http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/newjobpost
     // http://localhost:6480/newjobpost
-    Axios.post("http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/newjobpost", { jobPost }).then(
+    Axios.post("http://localhost:6480/newjobpost", { jobPost }).then(
       (response) => {
         console.log("FRONTEND FORM - Job Post to create: ", jobPost);
         console.log(response.data);

@@ -37,7 +37,7 @@ const SearchPanel = (props) => {
         const optionsValue = '*';
         // http://localhost:6480/search/student
         // http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/search/student
-        Axios.get("http://ec2-18-188-8-216.us-east-2.compute.amazonaws.com:6480/search/student", {
+        Axios.get("http://localhost:6480/search/student", {
             params: { textValue: textValue, optionsValue: optionsValue }
         }).then((response) => {
             dataCallback(response.data);
