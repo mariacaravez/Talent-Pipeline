@@ -25,7 +25,7 @@ import "../App.css";
 
 import RateRequest from "../components/RateRequest";
 
-import bera from "../images/bera.jpg";
+import bera from "../images/placeholderImage.png";
 
 // Styles
 
@@ -220,7 +220,7 @@ const StudentDashboard = () => {
 
   return (
     <div className="dashboard">
-      <p>This is the id: {id}</p>
+      {/* <p>This is the id: {id}</p> */}
       <Container fluid className="responsive">
         <Grid centered columns={3} stackable>
           <Grid.Column stretched width={3} className="responsive">
